@@ -1,5 +1,7 @@
 import React from "react";
-
+import "@fontsource/phudu";
+import "@fontsource/manrope";
+import "@fontsource/outfit";
 const Footer = () => {
   return (
     <div className="text-white bg-[#0E0E0E]  ">
@@ -8,13 +10,13 @@ const Footer = () => {
         <div className="flex flex-col lg:gap-10 lg:flex-row justify-between">
           {/* left side */}
           <div className="my-12 flex lg:w-[40%] flex-col gap-6 md:w[35%]  text-[#FFFFFF]">
-            <p className="text-[32px] font-semibold font-phudu">MAD Prints</p>
+            <p className="text-[32px] font-semibold font-phudu" style={{ fontFamily: "'Phudu', cursive" }}>MAD Prints</p>
             <div className="w-[55%] flex flex-col gap-6">
-              <p className="font-manrope text-md font-medium">
+              <p className="font-manrope text-md font-medium" style={{ fontFamily: "'Manrope', sans-serif" }}>
                 Unlock Your Business's Potential with Our Social Media Solutions
               </p>
             </div>
-            <div className="flex gap-3 font-manrope font-semibold flex-wrap">
+            <div className="flex gap-3 font-manrope font-semibold flex-wrap" style={{ fontFamily: "'Manrope', sans-serif" }}>
               <p>Overview</p>
               <p>Features</p>
               <p>Pricing</p>
@@ -39,9 +41,9 @@ const Footer = () => {
                 <input
                   type="text"
                   placeholder="Your Email"
-                  className="font-manrope rounded-md text-[#BCBBC9] p-4 "
+                  className="font-manrope rounded-md text-[#BCBBC9] p-4 " style={{ fontFamily: "'Manrope', sans-serif" }}
                 />
-                <button className="bg-[#FB5711] font-manrope font-bold rounded-md  py-6 px-10">
+                <button className="bg-[#FB5711] font-manrope font-bold rounded-md  py-6 px-10" style={{ fontFamily: "'Manrope', sans-serif" }}>
                   Subscribe
                 </button>
               </div>
@@ -53,7 +55,7 @@ const Footer = () => {
       <div className="bg-[#847E8C]  h-[0.5px] mx-auto w-10/12"></div>
 
       <div className="text-center bg-[#0E0E0E] py-[25px] pb-[25px] ">
-        <p className="text-[#F3EFEE] leading-6 text-sm font-semibold font-monrope">
+        <p className="text-[#F3EFEE] leading-6 text-sm font-semibold font-monrope" style={{ fontFamily: "'Manrope', sans-serif" }}>
           © 2024 MAD Prints. All rights reserved.
         </p>
       </div>

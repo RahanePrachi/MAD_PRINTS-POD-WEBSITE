@@ -1,4 +1,7 @@
 import React from "react";
+import "@fontsource/phudu";
+import "@fontsource/manrope";
+import "@fontsource/outfit";
 import svg from "../../../assets/SVG.png";
 const HomeHeroSection = () => {
   return (
@@ -7,15 +10,15 @@ const HomeHeroSection = () => {
       <div className="w-10/12 mx-auto flex flex-col lg:flex-row">
   {/* Left Part */}
   <div className="flex flex-col gap-5 lg:w-1/2">
-    <p className="text-[#0E0E0E] font-outfit font-semibold text-[32px] lg:text-[96px] w-full lg:w-[463px]">
+    <p className="text-[#0E0E0E] font-outfit font-semibold text-[32px] lg:text-[96px] w-full lg:w-[463px]" style={{ fontFamily: "'Outfit', sans-serif" }}>
       MAD Printing Solutions
     </p>
-    <p className="text-[#868686] font-manrope w-full lg:w-[463px]">
+    <p className="text-[#868686] font-manrope w-full lg:w-[463px]" style={{ fontFamily: "'Manrope', sans-serif" }}>
       Sociis varius nisl eu ipsum faucibus. Ac semper nisl turpis diam libero
       id ante nullam. Tellus.
     </p>
 
-    <button className="font-manrope font-bold text-md text-white bg-[#FB5711] w-full lg:w-[219px] py-3 lg:py-8 px-6 lg:px-18 rounded-lg mb-5">
+    <button className="font-manrope font-bold text-md text-white bg-[#FB5711] w-full lg:w-[219px] py-3 lg:py-8 px-6 lg:px-18 rounded-lg mb-5" style={{ fontFamily: "'Manrope', sans-serif" }}>
       Get Started
     </button>
   </div>
@@ -32,7 +35,7 @@ const HomeHeroSection = () => {
 
 
       {/* section 2 */}
-      <div className="w-10/12 mx-auto flex flex-col  py-6 gap-3">
+      <div className="w-10/12 mx-auto flex flex-col  py-6 gap-3" style={{ fontFamily: "'Manrope', sans-serif" }}>
         <h4 className="text-[#847E8C] font-bold font-manrope text-[32px]">
           Category
         </h4>

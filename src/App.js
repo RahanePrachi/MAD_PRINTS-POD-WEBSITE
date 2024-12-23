@@ -1,3 +1,6 @@
+import "@fontsource/phudu";
+import "@fontsource/manrope";
+import "@fontsource/outfit";
 
 import './App.css';
 import Header from './components/common_components/Header';
@@ -6,7 +9,7 @@ import Home from './components/main/Home';
 
 function App() {
   return (
-   <div>
+   <div className="">
       <Header/>
       <Home/>
       <Footer/>
