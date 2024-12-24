@@ -60,6 +60,8 @@ const HomeHeroSection = () => {
             BROCHURE & FLYER
           </div>
 
+         
+
           <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
             PACKAGING & BOOKLET
           </div>
