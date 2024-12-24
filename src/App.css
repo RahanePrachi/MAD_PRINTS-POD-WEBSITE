@@ -1,0 +1,28 @@
+/* General Layout */
+.drawer {
+  height: 100vh;
+  overflow-y: auto;
+  transition: width 0.3s ease-in-out;
+  border-right: 1px solid #dee2e6;
+}
+
+.drawer.expanded {
+  width: 250px;
+}
+
+.drawer.collapsed {
+  width: 80px;
+}
+
+.main-content {
+  flex-grow: 1;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Navbar Styling */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
