@@ -8,17 +8,20 @@ import { PiSelectionAllLight } from "react-icons/pi";
 import { FaAward } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 import Form from 'react-bootstrap/Form';
-
+import { useNavigate } from 'react-router-dom';
 
 const DashboardLayout = () => {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
   const [selectedIndex, setSelectedIndex] = useState(null); // To track selected item index
 
   const [activeKey, setActiveKey] = useState('/home'); // Track the active tab
 
   const toggleExpand = () => setExpanded(!expanded);
-
+  const routes=["/","/product","/","/","/","/","/","/","/","/"]
   const handleItemSelect = (index) => {
+    if(index==0 || index ==1)
+      navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };
 
@@ -266,8 +269,7 @@ const DashboardLayout = () => {
               </Tab.Content>
             </Tab.Container>
           </div>
-          <h1>Welcome to the Dashboard</h1>
-          <p>This is the main content area of the dashboard.</p>
+        
           <Container>
             <Row>
               <Col sm={4} md={4}>

@@ -6,16 +6,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from "@material-tailwind/react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import BrowserRouter from 'react-dom'
+import { BrowserRouter } from 'react-router'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
 
-      {/* <BrowserRouter> */}
+      <BrowserRouter>
     <ThemeProvider>
         <App />
     </ThemeProvider>
-      {/* </BrowserRouter> */}
+      </BrowserRouter>
   </React.StrictMode>
 );
 

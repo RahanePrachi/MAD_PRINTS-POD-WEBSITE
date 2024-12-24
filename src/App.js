@@ -3,34 +3,27 @@ import "@fontsource/manrope";
 import "@fontsource/outfit";
 
 import './App.css';
-<<<<<<< HEAD
 import Footer from './components/common_components/Footer';
 import Header from './components/common_components/Header';
 import ProductDrawerHeader from './components/product/product_navigation_component/ProductDrawerHeader';
+import Home from "./components/main/Home";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <>
-    <Header/>
-    
-    <ProductDrawerHeader/>
-    <Footer/>
-    
-    </>
-=======
-import Header from './components/common_components/Header';
-import Footer from './components/common_components/Footer';
-import Home from './components/main/Home';
+    <div>
+      {/* Common Header */}
+      <Header />
 
-function App() {
-  return (
-   <div className="">
-      <Header/>
-      <Home/>
-      <Footer/>
-      
-   </div>
->>>>>>> 50bfa9cb4f2b8e8a1504ffb606b73b1864811018
+      {/* Define Routes */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/product" element={<ProductDrawerHeader />} />
+      </Routes>
+
+      {/* Common Footer */}
+      <Footer />
+    </div>
   );
 }
 
