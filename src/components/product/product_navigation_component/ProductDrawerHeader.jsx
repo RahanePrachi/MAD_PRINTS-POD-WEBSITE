@@ -35,10 +35,10 @@ const DashboardLayout = () => {
     setIsDrawerActive(true)
     setExpanded(!expanded);
   }
-  const routes = ["/", "/product", "/", "/", "/", "/", "/", "/", "/", "/"]
 
+  const routes=["/","/product","/","/mystores","/","/","/","/","/","/"]
   const handleItemSelect = (index) => {
-    if (index == 0 || index == 1)
+    if(index==0 || index ==1 || index==3)
       navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };

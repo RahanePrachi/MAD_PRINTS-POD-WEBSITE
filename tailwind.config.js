@@ -3,9 +3,15 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html",],
   theme: {
     extend: {
-      phudu: ["Phudu", "cursive"],
+      fontFamily: {
+        segoe: ['"Segoe UI"', 'sans-serif'], 
+        phudu: ["Phudu", "cursive"],
         manrope: ["Manrope", "sans-serif"],
         outfit: ["Outfit", "sans-serif"],
+        poppins: ['Poppins', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
+     
     },
   },
   plugins: [],
