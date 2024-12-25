@@ -9,6 +9,7 @@ import Header from './components/common_components/Header';
 import ProductDrawerHeader from './components/product/product_navigation_component/ProductDrawerHeader';
 import Home from "./components/main/Home";
 import { Route, Routes } from "react-router-dom";
+import OrderProducts from "./components/addToOrder/OrderProducts";
 import MyStores from "./components/mystores/MyStores";
 import MyStoreSettings from "./components/mystores/MyStoreSettings";
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/mystores" element={<MyStores/>} />
         <Route path="/storeSetting" element={<MyStoreSettings/>}/>
         <Route path="/PStudio" element={<PStudio/>}/>
+        <Route path="addToOrder" element={<OrderProducts/>}/>
       </Routes>
 
       {/* Common Footer */}
