@@ -13,6 +13,9 @@
 .drawer.collapsed {
   width: 80px;
 }
+.drawer.hide {
+  width: 0px;
+}
 
 .main-content {
   flex-grow: 1;
@@ -26,3 +29,18 @@
   z-index: 1020;
 }
 
+.show-drawer {
+  display: block;
+  width: 250px; /* Customize as needed */
+  transition: width 0.3s ease;
+}
+
+.hide-drawer {
+  display: none;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
