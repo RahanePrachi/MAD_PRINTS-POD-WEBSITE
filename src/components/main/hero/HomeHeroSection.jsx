@@ -22,17 +22,22 @@ const HomeHeroSection = () => {
       {/* section 1 */}
       <div className="w-10/12 mx-auto flex flex-col lg:flex-row ">
         {/* Left Part */}
-        <div className="flex flex-col lg:w-1/2 space-y-2 lg:space-y-2 mt-24 w-50">
-          <p className="text-[#0E0E0E] font-outfit font-semibold text-[32px] text-8xl w-50 mb-3">
+        <div className="flex flex-col lg:w-1/2 space-y-4 mt-7 lg:px-0">
+          {/* Title */}
+          <p className="text-[#0E0E0E] font-outfit font-semibold text-[32px] sm:text-[48px] lg:text-[96px] w-full lg:w-[463px] mb-0">
             MAD Printing Solutions
           </p>
-          <p className="text-[#868686] font-manrope w-full lg:w-[463px] mb-1">
+
+          {/* Description */}
+          <p className="text-[#868686] font-manrope text-sm sm:text-base lg:text-lg w-full lg:w-[463px] mt-0">
             Sociis varius nisl eu ipsum faucibus. Ac semper nisl turpis diam
             libero id ante nullam. Tellus.
           </p>
+
+          {/* Button */}
           <button
             onClick={handleClick}
-            className="font-manrope font-bold text-md text-white bg-[#FB5711] w-full lg:w-[219px] py-4 lg:py-8 px-6 lg:px-18 rounded-lg"
+            className="font-manrope font-bold text-sm sm:text-base lg:text-md text-white bg-[#FB5711] w-full sm:w-auto lg:w-[219px] py-3 sm:py-4 lg:py-8 px-6 lg:px-10 rounded-lg"
           >
             Get Started
           </button>
