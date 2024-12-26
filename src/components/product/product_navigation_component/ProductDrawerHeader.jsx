@@ -26,6 +26,10 @@ import menscloth from '../assets/catalog/menscloth.png'
 import { MdDone } from "react-icons/md";
 import ProductDesignCreateProduct from '../create_product/ProductDesignCreateProduct';
 import { FaArrowLeft } from "react-icons/fa6";
+import Mockups from '../create_product/Mockups';
+import ProductDetails from '../create_product/ProductDetails';
+import ProductReview from '../create_product/ProductReview';
+import ProductPrices from '../create_product/ProductPrices';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -40,7 +44,7 @@ const DashboardLayout = () => {
 
   const routes = ["/", "/product", "/", "/mystores", "/", "/", "/", "/", "/", "/"]
   const handleItemSelect = (index) => {
-    if (index == 0 || index == 1 || index == 3)
+    if (index === 0 || index === 1 || index === 3)
       navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };
@@ -56,14 +60,15 @@ const DashboardLayout = () => {
   const [createDesigns, setCreateDesign] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   // create product steps
-  const steps = [
+
+  const [steps, setStep] = useState([
     { label: 'Product', isCompleted: true },
     { label: 'Design', isCompleted: false },
     { label: 'Mockups', isCompleted: false },
     { label: 'Details', isCompleted: false },
     { label: 'Prices', isCompleted: false },
     { label: 'Review', isCompleted: false },
-  ];
+  ]);
 
   const handleCreateProduct = () => {
     seIsCreateProduct(true)
@@ -73,25 +78,38 @@ const DashboardLayout = () => {
   }
 
   const handleNaviagteDesign = () => {
-    steps[1].isCompleted = true
+    // Create a new steps array with updated values
+    setStep(prevSteps => {
+      const updatedSteps = [...prevSteps];
+      updatedSteps[currentStep+1].isCompleted = true; // Set 'Design' step as completed
+      return updatedSteps;
+    });
+
     setCreateDesign(true)
-    setCurrentStep(1)
+    setCurrentStep(currentStep+1)
   }
 
   const HandleStepBack = () => {
     setCurrentStep((prev) => {
-      if(prev<0)
+      if (prev < 0)
         return 0
-      if (prev == 0) {
+      if (prev === 0) {
+
 
         setCreateDesign(false)
         return 0
       }
+      setStep(prevSteps => {
+        const updatedSteps = [...prevSteps];
+        updatedSteps[prev].isCompleted = false; // Set 'Design' step as completed
+        return updatedSteps;
+      });
       return prev - 1
     })
-    if (currentStep == 0) {
+    if (currentStep === 0) {
       setCreateDesign(false)
     }
+
 
   }
 
@@ -155,21 +173,16 @@ const DashboardLayout = () => {
           {/* Drawer Header */}
 
           <div className="drawer-header d-flex align-items-center p-3 border-bottom">
-            {createDesigns ?
-              <button onClick={HandleStepBack} className='d-flex align-items-center gap-2 p-4'>
-                <FaArrowLeft size={24} /> back
-              </button> :
-              <>
-                <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
-                  <FaBars />
-                </Button>
 
-                <Navbar.Brand onClick={() => navigate('/')}
-                  style={{ cursor: 'pointer' }} className="text-start flex-grow-1">
-                  {expanded && <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span>}
-                </Navbar.Brand>
-              </>
-            }
+            <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
+              <FaBars />
+            </Button>
+
+            <Navbar.Brand onClick={() => navigate('/')}
+              style={{ cursor: 'pointer' }} className="text-start flex-grow-1">
+              {expanded && <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span>}
+            </Navbar.Brand>
+
           </div>
 
           {/* Drawer Menu */}
@@ -333,7 +346,7 @@ const DashboardLayout = () => {
       <div className="main-content flex-grow-1">
         {/* Top Navbar */}
         <Navbar bg="light" variant="light" className="px-3 bg-white" style={{ height: "80px" }}>
-          {currentStep == 0 ? <>
+          {currentStep === 0 ? <>
             {!isDrawerActive && <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
               <FaBars />
             </Button>
@@ -349,53 +362,128 @@ const DashboardLayout = () => {
 
           {
             isCreateProduct ?
-              <Nav
-                className="ms-auto me-auto"
-                style={{
-                  gap: '10px',
+              <>
 
-                }}
-              >
-                {steps.map((step, index) => (
-                  <div
-                    key={index}
-                    className="d-flex flex-column align-items-center justify-content-center text-center pe-1"
-                    style={{
-                      borderTop: step.isCompleted ? '4px solid black' : '',
+                <Nav
+                  className="ms-auto "
+                  style={{
+                    gap: '10px',
 
-                    }}
-                  >
+                  }}
+                >
+                  {steps.map((step, index) => (
                     <div
-                      className="d-flex align-items-center justify-content-center mt-1"
+                      key={index}
+                      className="d-flex flex-column align-items-center  justify-content-center text-center pe-1"
                       style={{
-                        width: '35px',
-                        height: '35px',
-                        borderRadius: '50%',
-                        backgroundColor: step.isCompleted ? '#F4F6F8' : 'transparent',
-                        border: step.isCompleted
-                          ? '3px solid #000088'
-                          : '3px solid #8E8E8E',
-                      }}
-                    >
-                      <MdDone
-                        size="20px"
-                        color={step.isCompleted ? '#000088' : '#8E8E8E'}
-                      />
-                    </div>
-                    <p
-                      style={{
-                        fontSize: '10px',
-                        color: step.isCompleted ? '#000088' : '#8E8E8E',
-                        paddingTop: '6px',
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
+                        borderTop: step.isCompleted ? '4px solid black' : '',
 
-                ))}
-              </Nav>
+                      }}
+                    >
+                      <div
+                        className="d-flex align-items-center justify-content-center mt-1"
+                        style={{
+                          width: '35px',
+                          height: '35px',
+                          borderRadius: '50%',
+                          backgroundColor: step.isCompleted ? '#F4F6F8' : 'transparent',
+                          border: step.isCompleted
+                            ? '3px solid #000088'
+                            : '3px solid #8E8E8E',
+                        }}
+                      >
+                        <MdDone
+                          size="20px"
+                          color={step.isCompleted ? '#000088' : '#8E8E8E'}
+                        />
+                      </div>
+                      <p
+                        style={{
+                          fontSize: '10px',
+                          color: step.isCompleted ? '#000088' : '#8E8E8E',
+                          paddingTop: '6px',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {step.label}
+                      </p>
+                    </div>
+
+                  ))}
+
+                </Nav>
+                <Nav
+                  className="ms-auto "
+                  style={{
+                    gap: '10px',
+
+                  }}
+                >
+
+                  {currentStep ===1 &&<Button
+                    variant="primary"
+                    className='fw-bold'
+                    style={{
+                      backgroundColor: "#000088", // Background color
+                      color: "white", // Text color
+                      borderColor: "#000088", // Border color (if needed)
+                    }}
+                    onClick={handleNaviagteDesign}
+                  >
+                    Continue to Mockups
+                  </Button>}
+                  
+                  {currentStep ===2 &&<Button
+                    variant="primary"
+                    className='fw-bold'
+                    style={{
+                      backgroundColor: "#000088", // Background color
+                      color: "white", // Text color
+                      borderColor: "#000088", // Border color (if needed)
+                    }}
+                    onClick={handleNaviagteDesign}
+                  >
+                    Continue to Details
+                  </Button>}
+                  {currentStep ===3 &&<Button
+                    variant="primary"
+                    className='fw-bold'
+                    style={{
+                      backgroundColor: "#000088", // Background color
+                      color: "white", // Text color
+                      borderColor: "#000088", // Border color (if needed)
+                    }}
+                    onClick={handleNaviagteDesign}
+                  >
+                    Continue to Prices
+                  </Button>}
+                  {currentStep ===4 &&<Button
+                    variant="primary"
+                    className='fw-bold'
+                    style={{
+                      backgroundColor: "#000088", // Background color
+                      color: "white", // Text color
+                      borderColor: "#000088", // Border color (if needed)
+                    }}
+                    onClick={handleNaviagteDesign}
+                  >
+                    Continue to Review
+                  </Button>}
+                  {currentStep ===5 &&<Button
+                    variant="primary"
+                    className='fw-bold'
+                    style={{
+                      backgroundColor: "#000088", // Background color
+                      color: "white", // Text color
+                      borderColor: "#000088", // Border color (if needed)
+                    }}
+                    onClick={handleNaviagteDesign}
+                  >
+                    Publish
+                  </Button>}
+
+                </Nav>
+              </>
               :
               <Nav className="ms-auto align-items-center">
                 <Button
@@ -439,9 +527,13 @@ const DashboardLayout = () => {
         </Navbar>
 
         {currentStep === 1 && <div> <hr /> <ProductDesignCreateProduct /></div>}
+        {currentStep === 2 && <div> <hr /> <Mockups /></div>}
+        {currentStep === 3 && <div> <hr /> <ProductDetails /></div>}
+        {currentStep === 4 && <div> <hr /> <ProductPrices/></div>}
+        {currentStep === 5 && <div> <hr /> <ProductReview /></div>}
 
         {/* Page Content */}
-        {(currentStep == 0) &&
+        {(currentStep === 0) &&
           <Container fluid className="pt-2 ps-5 pe-5 " style={{ backgroundColor: "#F5F6F8" }}>
             <Form>
               <Form.Group controlId="exampleForm.ControlInput1">
