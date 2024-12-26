@@ -588,7 +588,7 @@ const DashboardLayout = () => {
                                   selectedCatalog.map((item, index) => {
 
                                     return <Col key={index} md={4} className='mb-4' >
-                                      <Card onClick={() => handleSelectCatalog(item.id)} style={{ borderRadius: "0px", border: "none" }}>
+                                      <Card  style={{ borderRadius: "0px", border: "none" }}>
                                         <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
                                         <Card.Body>
                                           <Card.Title className='fs-6'>{item.title}</Card.Title>

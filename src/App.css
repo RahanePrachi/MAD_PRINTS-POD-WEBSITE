@@ -6,6 +6,15 @@
   border-right: 1px solid #dee2e6;
 }
 
+.menu-drawer {
+  transition: width 0.3s ease-in-out;
+  border-right: 1px solid #dee2e6;
+ 
+}
+.menu-drawer.collapsed {
+  width: fit-content;
+}
+
 .drawer.expanded {
   width: 250px;
 }
