@@ -8,6 +8,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import SidebarDrawer from "../common_components/SidebarDrawer";
 import { useNavigate } from "react-router-dom";
 import Review from "./Review";
+import Products from "./Products";
 const OrderProducts = () => {
   const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
   const navigate = useNavigate();
@@ -107,7 +108,7 @@ const OrderProducts = () => {
 
         {/* Rendered Components */}
         <div className="bg-[#F5F6F8]">
-          {currentStep === "products" && <div>Product Component</div>}
+          {currentStep === "products" && <div><Products  handleConfirmPayment={handleContinue}/></div>}
           {currentStep === "billing" && (
             <div className="">
               <BillingDetails />
@@ -120,7 +121,7 @@ const OrderProducts = () => {
             <PaymentMode handleConfirmPayment={handleContinue} />
           )}
           {currentStep === "review" && <div><Review/></div>}
-          {currentStep === "home" && <div>Home Page</div>}
+          
         </div>
       </div>
     </div>
