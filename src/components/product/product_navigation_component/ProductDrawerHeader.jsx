@@ -24,6 +24,8 @@ import wallart from '../assets/catalog/wallart.png'
 import womenscloth from '../assets/catalog/womenscloth.png'
 import menscloth from '../assets/catalog/menscloth.png'
 import { MdDone } from "react-icons/md";
+import ProductDesignCreateProduct from '../create_product/ProductDesignCreateProduct';
+import { FaArrowLeft } from "react-icons/fa6";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -36,9 +38,9 @@ const DashboardLayout = () => {
     setExpanded(!expanded);
   }
 
-  const routes=["/","/product","/","/mystores","/","/","/","/","/","/"]
+  const routes = ["/", "/product", "/", "/mystores", "/", "/", "/", "/", "/", "/"]
   const handleItemSelect = (index) => {
-    if(index==0 || index ==1 || index==3)
+    if (index == 0 || index == 1 || index == 3)
       navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };
@@ -51,6 +53,8 @@ const DashboardLayout = () => {
 
   const [isCreateProduct, seIsCreateProduct] = useState(false)
   const [isDrawerActive, setIsDrawerActive] = useState(true)
+  const [createDesigns, setCreateDesign] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
   // create product steps
   const steps = [
     { label: 'Product', isCompleted: true },
@@ -65,6 +69,29 @@ const DashboardLayout = () => {
     seIsCreateProduct(true)
     setIsDrawerActive(false)
     navigate("/product")
+
+  }
+
+  const handleNaviagteDesign = () => {
+    steps[1].isCompleted = true
+    setCreateDesign(true)
+    setCurrentStep(1)
+  }
+
+  const HandleStepBack = () => {
+    setCurrentStep((prev) => {
+      if(prev<0)
+        return 0
+      if (prev == 0) {
+
+        setCreateDesign(false)
+        return 0
+      }
+      return prev - 1
+    })
+    if (currentStep == 0) {
+      setCreateDesign(false)
+    }
 
   }
 
@@ -126,14 +153,23 @@ const DashboardLayout = () => {
         <div className={`drawer bg-light bg-white ${expanded ? isDrawerActive ? 'expanded' : "hide" : isDrawerActive ? 'collapsed' : "hide"}`}>
 
           {/* Drawer Header */}
+
           <div className="drawer-header d-flex align-items-center p-3 border-bottom">
-            <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
-              <FaBars />
-            </Button>
-            <Navbar.Brand onClick={() => navigate('/')}
-              style={{ cursor: 'pointer' }} className="text-start flex-grow-1">
-              {expanded && <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span>}
-            </Navbar.Brand>
+            {createDesigns ?
+              <button onClick={HandleStepBack} className='d-flex align-items-center gap-2 p-4'>
+                <FaArrowLeft size={24} /> back
+              </button> :
+              <>
+                <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
+                  <FaBars />
+                </Button>
+
+                <Navbar.Brand onClick={() => navigate('/')}
+                  style={{ cursor: 'pointer' }} className="text-start flex-grow-1">
+                  {expanded && <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span>}
+                </Navbar.Brand>
+              </>
+            }
           </div>
 
           {/* Drawer Menu */}
@@ -296,15 +332,20 @@ const DashboardLayout = () => {
       {/* Main Content Area */}
       <div className="main-content flex-grow-1">
         {/* Top Navbar */}
-        <Navbar bg="light" variant="light" className="px-3 bg-white" style={{height:"80px"}}>
-          {!isDrawerActive && <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
-            <FaBars />
-          </Button>
-          }
-          <Navbar.Brand onClick={() => navigate('/')} className='align-items-center'
-            style={{ cursor: 'pointer' }}>
+        <Navbar bg="light" variant="light" className="px-3 bg-white" style={{ height: "80px" }}>
+          {currentStep == 0 ? <>
+            {!isDrawerActive && <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
+              <FaBars />
+            </Button>
+            }
+            <Navbar.Brand onClick={() => navigate('/')} className='align-items-center'
+              style={{ cursor: 'pointer' }}>
 
-            {!expanded || !isDrawerActive ? <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span> : ""}</Navbar.Brand>
+              {!expanded || !isDrawerActive ? <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span> : ""}
+            </Navbar.Brand>
+          </> : <button onClick={HandleStepBack} className='d-flex align-items-center gap-2 p-4'>
+            <FaArrowLeft size={24} /> back
+          </button>}
 
           {
             isCreateProduct ?
@@ -312,47 +353,47 @@ const DashboardLayout = () => {
                 className="ms-auto me-auto"
                 style={{
                   gap: '10px',
-               
+
                 }}
               >
                 {steps.map((step, index) => (
                   <div
-                  key={index}
-                  className="d-flex flex-column align-items-center justify-content-center text-center pe-1"
-                  style={{
-                    borderTop: step.isCompleted ? '4px solid black' : '',
-                   
-                  }}
-                >
-                  <div
-                    className="d-flex align-items-center justify-content-center mt-1"
+                    key={index}
+                    className="d-flex flex-column align-items-center justify-content-center text-center pe-1"
                     style={{
-                      width: '35px',
-                      height: '35px',
-                      borderRadius: '50%',
-                      backgroundColor: step.isCompleted ? '#F4F6F8' : 'transparent',
-                      border: step.isCompleted
-                        ? '3px solid #000088'
-                        : '3px solid #8E8E8E',
+                      borderTop: step.isCompleted ? '4px solid black' : '',
+
                     }}
                   >
-                    <MdDone
-                      size="20px"
-                      color={step.isCompleted ? '#000088' : '#8E8E8E'}
-                    />
+                    <div
+                      className="d-flex align-items-center justify-content-center mt-1"
+                      style={{
+                        width: '35px',
+                        height: '35px',
+                        borderRadius: '50%',
+                        backgroundColor: step.isCompleted ? '#F4F6F8' : 'transparent',
+                        border: step.isCompleted
+                          ? '3px solid #000088'
+                          : '3px solid #8E8E8E',
+                      }}
+                    >
+                      <MdDone
+                        size="20px"
+                        color={step.isCompleted ? '#000088' : '#8E8E8E'}
+                      />
+                    </div>
+                    <p
+                      style={{
+                        fontSize: '10px',
+                        color: step.isCompleted ? '#000088' : '#8E8E8E',
+                        paddingTop: '6px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {step.label}
+                    </p>
                   </div>
-                  <p
-                    style={{
-                      fontSize: '10px',
-                      color: step.isCompleted ? '#000088' : '#8E8E8E',
-                      paddingTop: '6px',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {step.label}
-                  </p>
-                </div>
-                
+
                 ))}
               </Nav>
               :
@@ -397,234 +438,239 @@ const DashboardLayout = () => {
 
         </Navbar>
 
+        {currentStep === 1 && <div> <hr /> <ProductDesignCreateProduct /></div>}
+
         {/* Page Content */}
-        <Container fluid className="pt-2 ps-5 pe-5 " style={{ backgroundColor: "#F5F6F8" }}>
-          <Form>
-            <Form.Group controlId="exampleForm.ControlInput1">
+        {(currentStep == 0) &&
+          <Container fluid className="pt-2 ps-5 pe-5 " style={{ backgroundColor: "#F5F6F8" }}>
+            <Form>
+              <Form.Group controlId="exampleForm.ControlInput1">
 
-              <Form.Control type="text" className='ps-5' style={{ color: "#BFBFBFDE", fontSize: "14px" }} placeholder="Search for product" />
-            </Form.Group>
+                <Form.Control type="text" className='ps-5' style={{ color: "#BFBFBFDE", fontSize: "14px" }} placeholder="Search for product" />
+              </Form.Group>
 
-          </Form>
-          <p className='fs-4 fw-bold mb-1 mt-1' style={{ color: "#333333" }}>Choose product</p>
-          <hr />
-
-
-          <Container>
-            <Tab.Container activeKey={activeKey} onSelect={(selectedKey) => setActiveKey(selectedKey)}>
-              <Nav style={{ color: "black" }} className="mb-3">
-                <Nav.Item style={{ borderBottom: activeKey === "/home" ? "2px solid black" : "none" }}>
-                  <Nav.Link style={{ color: "black", fontWeight: activeKey === "/home" ? "bold" : "normal" }} eventKey="/home">Product Catalog</Nav.Link>
-                </Nav.Item>
-                <Nav.Item style={{ borderBottom: activeKey === "/templates" ? "2px solid black" : "none" }}>
-                  <Nav.Link style={{ color: "black", fontWeight: activeKey === "/templates" ? "bold" : "normal" }} eventKey="/templates">My Template</Nav.Link>
-                </Nav.Item>
-              </Nav>
+            </Form>
+            <p className='fs-4 fw-bold mb-1 mt-1' style={{ color: "#333333" }}>Choose product</p>
+            <hr />
 
 
-              <Row>
-                <Col sm={3} md={3}>
-                  <ListGroup variant="flush" style={{ borderBottom: "1px solid #BFBFBFDE", color: "#333333" }}>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>New Lower Prices</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Men's clothing</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Women's clothing</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Kids & baby clothing</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Tote Bags</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Wall art</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Calendars</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Cards</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Photo books</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Hats</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Phone cases</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Mugs & Bottle</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Stationery & Business</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      action
-                      className="d-flex align-items-center fs-6"
-                      style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
-                    >
-                      <span>Brands</span>
-                    </ListGroup.Item>
+            <Container>
+              <Tab.Container activeKey={activeKey} onSelect={(selectedKey) => setActiveKey(selectedKey)}>
+                <Nav style={{ color: "black" }} className="mb-3">
+                  <Nav.Item style={{ borderBottom: activeKey === "/home" ? "2px solid black" : "none" }}>
+                    <Nav.Link style={{ color: "black", fontWeight: activeKey === "/home" ? "bold" : "normal" }} eventKey="/home">Product Catalog</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item style={{ borderBottom: activeKey === "/templates" ? "2px solid black" : "none" }}>
+                    <Nav.Link style={{ color: "black", fontWeight: activeKey === "/templates" ? "bold" : "normal" }} eventKey="/templates">My Template</Nav.Link>
+                  </Nav.Item>
+                </Nav>
 
 
-                  </ListGroup>
+                <Row>
+                  <Col sm={3} md={3}>
+                    <ListGroup variant="flush" style={{ borderBottom: "1px solid #BFBFBFDE", color: "#333333" }}>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>New Lower Prices</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Men's clothing</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Women's clothing</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Kids & baby clothing</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Tote Bags</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Wall art</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Calendars</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Cards</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Photo books</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Hats</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Phone cases</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Mugs & Bottle</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Stationery & Business</span>
+                      </ListGroup.Item>
+                      <ListGroup.Item
+                        action
+                        className="d-flex align-items-center fs-6"
+                        style={{ width: "fit-content", height: "40px", minWidth: "226px", backgroundColor: "transparent", color: "#333333" }}
+                      >
+                        <span>Brands</span>
+                      </ListGroup.Item>
 
-                </Col>
-                <Col >
+
+                    </ListGroup>
+
+                  </Col>
+                  <Col >
 
 
-                  <Tab.Content>
-                    <Tab.Pane eventKey="/home">
-                      <Form className='d-flex '>
-                        <Form.Group controlId="categoryInput1" className='mr-3' >
+                    <Tab.Content>
+                      <Tab.Pane eventKey="/home">
+                        <Form className='d-flex '>
+                          <Form.Group controlId="categoryInput1" className='mr-3' >
 
-                          <Form.Control type="text" style={{ color: "#C8C8C8", fontSize: "14px", borderRadius: "10px" }} placeholder="Category" />
-                        </Form.Group>
-                        <Form.Group controlId="technolInput1" className='mr-3'>
+                            <Form.Control type="text" style={{ color: "#C8C8C8", fontSize: "14px", borderRadius: "10px" }} placeholder="Category" />
+                          </Form.Group>
+                          <Form.Group controlId="technolInput1" className='mr-3'>
 
-                          <Form.Control type="text" style={{ color: "#BFBFBFDE", fontSize: "14px", borderRadius: "10px" }} placeholder="Technol" />
-                        </Form.Group>
-                        <Form.Group controlId="brandInput1" className='mr-3'>
+                            <Form.Control type="text" style={{ color: "#BFBFBFDE", fontSize: "14px", borderRadius: "10px" }} placeholder="Technol" />
+                          </Form.Group>
+                          <Form.Group controlId="brandInput1" className='mr-3'>
 
-                          <Form.Control type="text" style={{ color: "#BFBFBFDE", fontSize: "14px", borderRadius: "10px" }} placeholder="Brand" />
-                        </Form.Group>
-                        <Form.Group controlId="colorInput1" className='mr-3'>
+                            <Form.Control type="text" style={{ color: "#BFBFBFDE", fontSize: "14px", borderRadius: "10px" }} placeholder="Brand" />
+                          </Form.Group>
+                          <Form.Group controlId="colorInput1" className='mr-3'>
 
-                          <Form.Control type="text" style={{ color: "#BFBFBFDE", fontSize: "14px", borderRadius: "10px" }} placeholder="Color" />
-                        </Form.Group>
-                        <Button variant="link" style={{ textDecoration: "none" }}>Reset_filters</Button>
-                      </Form>
-                      <Form.Group controlId="regionSelect" className='d-flex pt-4' style={{ minWidth: 'fit-content', width: "175px", borderRadius: "20px" }}>
-                        <Form.Label className='fs-6 pe-2 d-flex align-items-center'><div style={{ whiteSpace: "nowrap" }}>Shipping region</div></Form.Label>
-                        <Form.Select
-                          value={selectedRegion}
-                          onChange={handleRegionChange}
-                          className="mt-2 mb-2"
-                          style={{ minWidth: 'fit-content', borderRadius: "10px" }}
+                            <Form.Control type="text" style={{ color: "#BFBFBFDE", fontSize: "14px", borderRadius: "10px" }} placeholder="Color" />
+                          </Form.Group>
+                          <Button variant="link" style={{ textDecoration: "none" }}>Reset_filters</Button>
+                        </Form>
+                        <Form.Group controlId="regionSelect" className='d-flex pt-4' style={{ minWidth: 'fit-content', width: "175px", borderRadius: "20px" }}>
+                          <Form.Label className='fs-6 pe-2 d-flex align-items-center'><div style={{ whiteSpace: "nowrap" }}>Shipping region</div></Form.Label>
+                          <Form.Select
+                            value={selectedRegion}
+                            onChange={handleRegionChange}
+                            className="mt-2 mb-2"
+                            style={{ minWidth: 'fit-content', borderRadius: "10px" }}
 
-                        >
+                          >
 
-                          <option selected value="asia">Asia</option>
-                          <option value="north-america">North America</option>
-                          <option value="europe">Europe</option>
-                          <option value="australia">Australia</option>
-                          <option value="africa">Africa</option>
-                          <option value="south-america">South America</option>
-                        </Form.Select>
-                        {/* {selectedRegion && (
+                            <option selected value="asia">Asia</option>
+                            <option value="north-america">North America</option>
+                            <option value="europe">Europe</option>
+                            <option value="australia">Australia</option>
+                            <option value="africa">Africa</option>
+                            <option value="south-america">South America</option>
+                          </Form.Select>
+                          {/* {selectedRegion && (
                           <p className="mt-2 text-success">You selected: {selectedRegion}</p>
                         )} */}
-                      </Form.Group>
+                        </Form.Group>
 
-                      <Row>
-                        {
-                          catalogOpen ?
-                            <div>
-                              <Button onClick={() => handleSelectCatalog(0)} className='d-flex  align-items-center' variant="link" style={{ color: 'black', textDecoration: 'none' }}>
-                                <FaChevronLeft style={{ marginRight: '5px', textDecoration: "none" }} />
-                                Back
-                              </Button>
+                        <Row>
+                          {
+                            catalogOpen ?
+                              <div>
+                                <Button onClick={() => handleSelectCatalog(0)} className='d-flex  align-items-center' variant="link" style={{ color: 'black', textDecoration: 'none' }}>
+                                  <FaChevronLeft style={{ marginRight: '5px', textDecoration: "none" }} />
+                                  Back
+                                </Button>
 
-                              <Row>
-                                {
-                                  selectedCatalog.map((item, index) => {
+                                <Row>
+                                  {
+                                    selectedCatalog.map((item, index) => {
 
-                                    return <Col key={index} md={4} className='mb-4' >
-                                      <Card  style={{ borderRadius: "0px", border: "none" }}>
-                                        <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
-                                        <Card.Body>
-                                          <Card.Title className='fs-6'>{item.title}</Card.Title>
+                                      return <Col key={index} md={4} className='mb-4' >
+                                        <Card onClick={handleNaviagteDesign} style={{ borderRadius: "0px", border: "none" }}>
+                                          <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
+                                          <Card.Body>
+                                            <Card.Title className='fs-6'>{item.title}</Card.Title>
 
-                                        </Card.Body>
-                                      </Card>
-                                    </Col>
+                                          </Card.Body>
+                                        </Card>
+                                      </Col>
 
-                                  })
-                                }
-                              </Row>
-                            </div>
-                            : catalogData.map((item, index) => {
-                              return <Col key={index} md={4} className='mb-4' >
-                                <Card onClick={() => handleSelectCatalog(item.id)} style={{ borderRadius: "0px", border: "none" }}>
-                                  <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
-                                  <Card.Body>
-                                    <Card.Title className='fs-6'>{item.title}</Card.Title>
+                                    })
+                                  }
+                                </Row>
+                              </div>
+                              : catalogData.map((item, index) => {
+                                return <Col key={index} md={4} className='mb-4' >
+                                  <Card onClick={() => handleSelectCatalog(item.id)} style={{ borderRadius: "0px", border: "none" }}>
+                                    <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
+                                    <Card.Body>
+                                      <Card.Title className='fs-6'>{item.title}</Card.Title>
 
-                                  </Card.Body>
-                                </Card>
-                              </Col>
-                            })
-                        }
-                      </Row>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="/templates">
-                      <h4>My Template Content</h4>
-                      <p>Here goes the content for the My Template tab.</p>
-                    </Tab.Pane>
-                  </Tab.Content>
-                </Col>
-              </Row>
-            </Tab.Container>
+                                    </Card.Body>
+                                  </Card>
+                                </Col>
+                              })
+                          }
+                        </Row>
+                      </Tab.Pane>
+                      <Tab.Pane eventKey="/templates">
+                        <h4>My Template Content</h4>
+                        <p>Here goes the content for the My Template tab.</p>
+                      </Tab.Pane>
+                    </Tab.Content>
+                  </Col>
+                </Row>
+              </Tab.Container>
+            </Container>
           </Container>
-        </Container>
+        }
+
       </div>
     </div>
   );
