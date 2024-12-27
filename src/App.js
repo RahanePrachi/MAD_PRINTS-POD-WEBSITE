@@ -3,6 +3,7 @@ import "@fontsource/manrope";
 import "@fontsource/outfit";
 
 import './App.css';
+
 import PStudio from "./components/personalizationStudio/PStudio";
 import Footer from './components/common_components/Footer';
 import Header from './components/common_components/Header';
@@ -12,6 +13,7 @@ import { Route, Routes } from "react-router-dom";
 import OrderProducts from "./components/addToOrder/OrderProducts";
 import MyStores from "./components/mystores/MyStores";
 import MyStoreSettings from "./components/mystores/MyStoreSettings";
+import AddProductProcessFlowBar from "./components/product/create_product/AddProductProcessFlowBar";
 function App() {
   return (
     <div>
@@ -26,7 +28,10 @@ function App() {
         <Route path="/storeSetting" element={<MyStoreSettings/>}/>
         <Route path="/PStudio" element={<PStudio/>}/>
         <Route path="addToOrder" element={<OrderProducts/>}/>
+        <Route path="addProductFlow" element={<AddProductProcessFlowBar/>}/>
       </Routes>
+
+   
 
       {/* Common Footer */}
       <Footer />

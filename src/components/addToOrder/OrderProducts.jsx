@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Review from "./Review";
 import Products from "./Products";
 const OrderProducts = () => {
-  const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
+  const [expanded, setExpanded] = useState(true); 
   const navigate = useNavigate();
 
   const [activeSteps, setActiveSteps] = useState(["products"]);
