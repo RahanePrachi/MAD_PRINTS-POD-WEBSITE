@@ -14,6 +14,7 @@ import OrderProducts from "./components/addToOrder/OrderProducts";
 import MyStores from "./components/mystores/MyStores";
 import MyStoreSettings from "./components/mystores/MyStoreSettings";
 import AddProductProcessFlowBar from "./components/product/create_product/AddProductProcessFlowBar";
+import ViewProductDetails from "./components/product/product_details/ViewProductDetails";
 function App() {
   return (
     <div>
@@ -24,14 +25,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product" element={<ProductDrawerHeader />} />
-        <Route path="/mystores" element={<MyStores/>} />
-        <Route path="/storeSetting" element={<MyStoreSettings/>}/>
-        <Route path="/PStudio" element={<PStudio/>}/>
-        <Route path="addToOrder" element={<OrderProducts/>}/>
-        <Route path="addProductFlow" element={<AddProductProcessFlowBar/>}/>
+        <Route path="/view-product-details" element={<ViewProductDetails />} />
+        <Route path="/mystores" element={<MyStores />} />
+        <Route path="/storeSetting" element={<MyStoreSettings />} />
+        <Route path="/PStudio" element={<PStudio />} />
+        <Route path="addToOrder" element={<OrderProducts />} />
+        <Route path="addProductFlow" element={<AddProductProcessFlowBar />} />
       </Routes>
 
-   
+
 
       {/* Common Footer */}
       <Footer />
