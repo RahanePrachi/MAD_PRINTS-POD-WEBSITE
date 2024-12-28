@@ -3,6 +3,8 @@ import image1 from "../addToOrder/assets/image1.png";
 import image2 from "../addToOrder/assets/image2.png";
 import image3 from "../addToOrder/assets/image3.png";
 import image4 from "../addToOrder/assets/image4.png";
+import { FaChevronDown } from "react-icons/fa";
+import { FaChevronUp } from "react-icons/fa";
 const Products = ({ handleConfirmPayment }) => {
   const [toggleDetails, setToggleDetails] = useState({});
   const [quantities, setQuantities] = useState({});
@@ -124,16 +126,27 @@ const Products = ({ handleConfirmPayment }) => {
                         </div>
 
                         {/* Toggle Button Text */}
-                        <div className="mt-2">
+                        <div className="mt-2 flex gap-3 items-center ">
                           {toggleDetails[product.id]
-                            ? "Hide Print Details"
-                            : "Show Print Details"}
+                            ? ( <>
+                              
+                             
+                              Hide Print Details
+                              <FaChevronUp className="ml-2 transform" />
+                              
+                            </>
+                          ) : (
+                            <>
+                             
+                              Show Print Details
+                              <FaChevronDown className="ml-2" />
+                            </>)}
                           <span
                             className={`ml-2 transform text-[#367BF5] ${
                               toggleDetails[product.id] ? "rotate-180" : ""
                             }`}
                           >
-                            ▼
+                           
                           </span>
                         </div>
                       </button>

@@ -3,7 +3,7 @@ import "@fontsource/manrope";
 import "@fontsource/outfit";
 
 import './App.css';
-
+import AddProduct from "./components/mystores/AddProduct";
 import PStudio from "./components/personalizationStudio/PStudio";
 import Footer from './components/common_components/Footer';
 import Header from './components/common_components/Header';
@@ -14,6 +14,7 @@ import OrderProducts from "./components/addToOrder/OrderProducts";
 import MyStores from "./components/mystores/MyStores";
 import MyStoreSettings from "./components/mystores/MyStoreSettings";
 import AddProductProcessFlowBar from "./components/product/create_product/AddProductProcessFlowBar";
+
 function App() {
   return (
     <div>
@@ -29,8 +30,10 @@ function App() {
         <Route path="/PStudio" element={<PStudio/>}/>
         <Route path="addToOrder" element={<OrderProducts/>}/>
         <Route path="addProductFlow" element={<AddProductProcessFlowBar/>}/>
+        <Route path="storeproducts" element={<AddProduct/>}/>
       </Routes>
 
+        
    
 
       {/* Common Footer */}
