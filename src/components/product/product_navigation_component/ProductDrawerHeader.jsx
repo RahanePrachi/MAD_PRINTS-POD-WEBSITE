@@ -73,6 +73,7 @@ const DashboardLayout = () => {
   const handleCreateProduct = () => {
     seIsCreateProduct(true)
     setIsDrawerActive(false)
+    setCreateDesign(true)
     navigate("/product")
 
   }
@@ -81,12 +82,12 @@ const DashboardLayout = () => {
     // Create a new steps array with updated values
     setStep(prevSteps => {
       const updatedSteps = [...prevSteps];
-      updatedSteps[currentStep+1].isCompleted = true; // Set 'Design' step as completed
+      updatedSteps[currentStep + 1].isCompleted = true; // Set 'Design' step as completed
       return updatedSteps;
     });
 
     setCreateDesign(true)
-    setCurrentStep(currentStep+1)
+    setCurrentStep(currentStep + 1)
   }
 
   const HandleStepBack = () => {
@@ -94,8 +95,6 @@ const DashboardLayout = () => {
       if (prev < 0)
         return 0
       if (prev === 0) {
-
-
         setCreateDesign(false)
         return 0
       }
@@ -104,6 +103,7 @@ const DashboardLayout = () => {
         updatedSteps[prev].isCompleted = false; // Set 'Design' step as completed
         return updatedSteps;
       });
+      setCreateDesign(true)
       return prev - 1
     })
     if (currentStep === 0) {
@@ -116,10 +116,14 @@ const DashboardLayout = () => {
 
   const [selectedCatalog, setSelectedCatalog] = useState([])
   const [catalogOpen, setCatalogOpen] = useState(false)
-  const handleSelectCatalog = (index) => {
-    setCatalogOpen((prev) => !prev);
-    setSelectedCatalog(shoppinItems[index]);
+  const handleSelectCatalog = (index) => { 
+      setCatalogOpen((prev) => !prev);
+      setSelectedCatalog(shoppinItems[index]);
   };
+  const handleNavigate=()=>{
+      navigate('/view-product-details')  
+    
+  }
 
 
 
@@ -420,7 +424,7 @@ const DashboardLayout = () => {
                   }}
                 >
 
-                  {currentStep ===1 &&<Button
+                  {currentStep === 1 && <Button
                     variant="primary"
                     className='fw-bold'
                     style={{
@@ -432,8 +436,8 @@ const DashboardLayout = () => {
                   >
                     Continue to Mockups
                   </Button>}
-                  
-                  {currentStep ===2 &&<Button
+
+                  {currentStep === 2 && <Button
                     variant="primary"
                     className='fw-bold'
                     style={{
@@ -445,7 +449,7 @@ const DashboardLayout = () => {
                   >
                     Continue to Details
                   </Button>}
-                  {currentStep ===3 &&<Button
+                  {currentStep === 3 && <Button
                     variant="primary"
                     className='fw-bold'
                     style={{
@@ -457,7 +461,7 @@ const DashboardLayout = () => {
                   >
                     Continue to Prices
                   </Button>}
-                  {currentStep ===4 &&<Button
+                  {currentStep === 4 && <Button
                     variant="primary"
                     className='fw-bold'
                     style={{
@@ -469,7 +473,7 @@ const DashboardLayout = () => {
                   >
                     Continue to Review
                   </Button>}
-                  {currentStep ===5 &&<Button
+                  {currentStep === 5 && <Button
                     variant="primary"
                     className='fw-bold'
                     style={{
@@ -529,7 +533,7 @@ const DashboardLayout = () => {
         {currentStep === 1 && <div> <hr /> <ProductDesignCreateProduct /></div>}
         {currentStep === 2 && <div> <hr /> <Mockups /></div>}
         {currentStep === 3 && <div> <hr /> <ProductDetails /></div>}
-        {currentStep === 4 && <div> <hr /> <ProductPrices/></div>}
+        {currentStep === 4 && <div> <hr /> <ProductPrices /></div>}
         {currentStep === 5 && <div> <hr /> <ProductReview /></div>}
 
         {/* Page Content */}
@@ -722,28 +726,25 @@ const DashboardLayout = () => {
                                 <Row>
                                   {
                                     selectedCatalog.map((item, index) => {
-
                                       return <Col key={index} md={4} className='mb-4' >
                                         <Card onClick={handleNaviagteDesign} style={{ borderRadius: "0px", border: "none" }}>
                                           <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
                                           <Card.Body>
                                             <Card.Title className='fs-6'>{item.title}</Card.Title>
-
                                           </Card.Body>
                                         </Card>
                                       </Col>
-
                                     })
                                   }
                                 </Row>
                               </div>
                               : catalogData.map((item, index) => {
                                 return <Col key={index} md={4} className='mb-4' >
-                                  <Card onClick={() => handleSelectCatalog(item.id)} style={{ borderRadius: "0px", border: "none" }}>
+                                  <Card onClick={() => (createDesigns ? handleSelectCatalog(item.id): handleNavigate())}
+                                    style={{ borderRadius: "0px", border: "none" }}>
                                     <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
                                     <Card.Body>
                                       <Card.Title className='fs-6'>{item.title}</Card.Title>
-
                                     </Card.Body>
                                   </Card>
                                 </Col>
