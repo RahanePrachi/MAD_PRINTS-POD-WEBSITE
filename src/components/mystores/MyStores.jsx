@@ -17,6 +17,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
+
 const MyStores = () => {
   const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
   const navigate = useNavigate();
@@ -26,61 +27,11 @@ const MyStores = () => {
   };
   return (
     <div className="flex">
-      <SidebarDrawer />
+  
 
       {/* Main Content Area */}
       <div className="main-content flex-grow-1">
-        {/* Top Navbar */}
-        <Navbar bg="light" variant="light" className="px-3 bg-white">
-          <Navbar.Brand>
-            {!expanded ? (
-              <span
-                className="fw-bold"
-                style={{ fontFamily: "Phudu", fontSize: "22px" }}
-              >
-                MAD PRINTS
-              </span>
-            ) : (
-              ""
-            )}
-          </Navbar.Brand>
-          <Nav className="ms-auto align-items-center">
-            <Button
-              variant="outline-dark"
-              className="d-flex align-items-center fw-bold me-4"
-              style={{
-                minHeight: "14px",
-                padding: "8.8px 12.8px",
-                borderRadius: "8px",
-                border: "1px solid #0000004D",
-                opacity: "1",
-                height: "32px",
-              }}
-            >
-              <IoMdAdd /> Create Product
-            </Button>
-            <Nav.Link href="#profile">
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%", // Makes it a circle
-                  backgroundColor: "#000088", // Light background color
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontWeight: "bold",
-                  fontSize: "14px",
-                  color: "white",
-                  border: "1px solid #ccc",
-                }}
-              >
-                JK
-              </div>
-            </Nav.Link>
-          </Nav>
-        </Navbar>
-
+       
         {/* Page Content */}
 
         <div className="m-5 flex flex-col gap-3">

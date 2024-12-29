@@ -411,7 +411,7 @@ const ProductDesignCreateProduct = () => {
 
                         
                         {/* Personalization */}
-                        {activeDiv === 9 && <div className={`border-r  ${activeDiv === 9 ? "d-none" : ""}`}>
+                        {activeDiv === 9 && <div className={`border-r  ${activeDiv === 9 ? "":"d-none" }`}>
                             <div className="d-flex align-items-center border-b">
                                 <div
                                     className="d-flex align-items-center p-2"
