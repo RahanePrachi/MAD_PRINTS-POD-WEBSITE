@@ -26,7 +26,13 @@ const AddProductProcessFlowBar = () => {
   const handleNext = () => {
     if (activeIndex < sections.length - 1) {
       setActiveIndex(activeIndex + 1);
-    } else {
+    }
+    else if(activeIndex === sections.length - 1) {
+      // Navigate to the "storeproducts" page when "Publish" is clicked
+      navigate('/storeproducts');
+    }
+    
+    else {
       navigate("/"); // Navigate to home or a final page after Review
     }
   };
