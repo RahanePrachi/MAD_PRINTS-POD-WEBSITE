@@ -14,14 +14,17 @@ import { FiInfo } from "react-icons/fi";
 import "../../../App.css";
 import { LuUndo2 } from "react-icons/lu";
 import { LuRedo2 } from "react-icons/lu";
-import { MdDoneOutline, MdOutlineRemoveRedEye } from "react-icons/md";
+import { MdDone, MdDoneOutline, MdOutlineRemoveRedEye ,MdOutlineMoreHoriz,MdOutlineRotate90DegreesCw, MdOutlineZoomIn } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+
+
 import { IoMdAdd } from "react-icons/io";
 import rawTshirt from "../assets/tshirt_design/Light.svg"
 import showdow from "../assets/tshirt_design/Shadow.png"
 import shirtColor from "../assets/tshirt_design/tShirtColor.png"
 import designlogo from "../assets/tshirt_design/designlogo.png"
 
-const ProductDesignCreateProduct = () => {
+const ProductDesignCreateProduct = ({ handleImageClickCreateDesignFile, createDesignFile }) => {
     const colors = [
         "#E7CEB5",
         "#E4C6D4",
@@ -53,7 +56,16 @@ const ProductDesignCreateProduct = () => {
     const sizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
     const handleItemSelect = (index) => {
         setActiveDiv(index); // Activate div2 for item 10, else div1
+        // setStickerClicked(false)
     };
+
+    const handleImageClickCreateDesignFile1 = () => {
+        handleImageClickCreateDesignFile()
+        setActiveDiv(activeDiv === 2 ? 0 : 2)
+    }
+
+    const [stickerClicked, setStickerClicked] = useState(true)
+
     const menuItems = [
         { title: "Product", icon: <BsFillTagFill size={24} /> },
         { title: "Layers", icon: <MdOutlineLayers size={24} /> },
@@ -223,6 +235,7 @@ const ProductDesignCreateProduct = () => {
                                 </div>
                             </div>
                         </div>}
+
                         {/* Layers */}
                         {activeDiv === 2 && <div className={`border-r  ${activeDiv === 2 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -246,6 +259,7 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                         {/* Files */}
                         {activeDiv === 1 && <div className={`border-r  ${activeDiv === 1 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -269,6 +283,7 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                         {/* Texts */}
                         {activeDiv === 3 && <div className={`border-r  ${activeDiv === 3 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -292,6 +307,7 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                         {/* Shapes */}
                         {activeDiv === 4 && <div className={`border-r  ${activeDiv === 4 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -315,6 +331,7 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                         {/* Stutterstocks */}
                         {activeDiv === 5 && <div className={`border-r  ${activeDiv === 5 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -338,6 +355,7 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                         {/* Layout */}
                         {activeDiv === 6 && <div className={`border-r  ${activeDiv === 6 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -361,6 +379,7 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                         {/* Settings */}
                         {activeDiv === 7 && <div className={`border-r  ${activeDiv === 7 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -384,6 +403,7 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                         {/* Stickers */}
                         {activeDiv === 8 && <div className={`border-r  ${activeDiv === 8 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
@@ -408,10 +428,8 @@ const ProductDesignCreateProduct = () => {
 
                         </div>}
 
-
-                        
                         {/* Personalization */}
-                        {activeDiv === 9 && <div className={`border-r  ${activeDiv === 9 ? "":"d-none" }`}>
+                        {activeDiv === 9 && <div className={`border-r  ${activeDiv === 9 ? "" : "d-none"}`}>
                             <div className="d-flex align-items-center border-b">
                                 <div
                                     className="d-flex align-items-center p-2"
@@ -502,21 +520,22 @@ const ProductDesignCreateProduct = () => {
 
 
                         </div>}
+
                     </div>
                     <Col md={9} sm={9}>
                         <Row className="g-0 border-l">
                             {/* Toolbar Section */}
                             <Col md={12} sm={12}>
-                                <div className="border-b ">
-                                    <div className="d-flex gap-2 p-2">
+                                <div style={{ width: "100%" }} className="border-b ">
+                                    <div className="d-flex gap-3 p-2">
                                         <button>
                                             <LuUndo2 size={24} />
                                         </button>
                                         <button>
                                             <LuRedo2 size={24} />
                                         </button>
-                                        <div
-                                            className="pl-2 pe-2"
+                                        {(!stickerClicked) && <div
+                                            className="pl-2 pe-2 d-flex gap-3"
                                             style={{
                                                 borderRight: "1px #E9E9E9 solid",
                                                 borderLeft: "1px #E9E9E9 solid",
@@ -527,51 +546,210 @@ const ProductDesignCreateProduct = () => {
                                                 style={{
                                                     height: "30px",
                                                     width: "30px",
-                                                    backgroundColor: "black",
+                                                    backgroundColor: "white",
+                                                    border: "3px black solid"
                                                 }}
                                             >
                                                 <div
-                                                    className="d-flex justify-content-center align-items-center rounded-circle"
+                                                    className="d-flex justify-content-center align-items-center rounded-circle "
                                                     style={{
-                                                        height: "25px",
-                                                        width: "25px",
-                                                        backgroundColor: "#e8eaed",
+                                                        height: "20px",
+                                                        width: "20px",
+                                                        backgroundColor: "white",
+                                                        border: "2px #2121211A solid"
+                                                    }}
+                                                >
+
+                                                    <MdDoneOutline color="#787e87" className="p-1" />
+                                                </div>
+
+                                            </div>
+                                        </div>}
+
+                                        {(activeDiv === 2 && stickerClicked) ?
+                                            <>
+                                                <div className="pl-2 pe-2 d-flex gap-3"
+                                                    style={{
+                                                        borderRight: "1px #E9E9E9 solid",
+                                                        borderLeft: "1px #E9E9E9 solid",
                                                     }}
                                                 >
                                                     <div
-                                                        className="d-flex justify-content-center align-items-center rounded-circle"
+                                                        className="d-flex justify-content-center align-items-center rounded-circle "
                                                         style={{
-                                                            height: "15px",
-                                                            width: "15px",
+                                                            height: "30px",
+                                                            width: "30px",
                                                             backgroundColor: "white",
+                                                            border: "3px black solid"
                                                         }}
                                                     >
-                                                        <MdDoneOutline color="#787e87" className="p-1" />
+                                                        <div
+                                                            className="d-flex justify-content-center align-items-center rounded-circle "
+                                                            style={{
+                                                                height: "20px",
+                                                                width: "20px",
+                                                                backgroundColor: "white",
+                                                                border: "2px #2121211A solid"
+                                                            }}
+                                                        >
+
+                                                            <MdDoneOutline color="#787e87" className="p-1" />
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div
+                                                        className="d-flex justify-content-center align-items-center rounded-circle "
+                                                        style={{
+
+                                                            height: "30px",
+                                                            width: "30px",
+                                                            backgroundColor: "white",
+                                                            border: "3px black solid"
+                                                        }}
+                                                    >
+                                                        <div
+                                                            className="d-flex justify-content-center align-items-center rounded-circle "
+                                                            style={{
+                                                                height: "20px",
+                                                                width: "20px",
+                                                                backgroundColor: "#F4633A",
+                                                                border: "2px #2121211A solid"
+                                                            }}
+                                                        >
+
+                                                            {/* <MdDoneOutline color="#787e87" className="p-1" /> */}
+                                                        </div>
+
+                                                    </div>
+                                                    <div
+                                                        className="d-flex justify-content-center align-items-center rounded-circle "
+                                                        style={{
+                                                            height: "30px",
+                                                            width: "30px",
+                                                            backgroundColor: "white",
+                                                            border: "3px black solid"
+                                                        }}
+                                                    >
+                                                        <div
+                                                            className="d-flex justify-content-center align-items-center rounded-circle "
+                                                            style={{
+                                                                height: "20px",
+                                                                width: "20px",
+                                                                backgroundColor: "#1C78A7",
+                                                                border: "2px #2121211A solid"
+                                                            }}
+                                                        >
+
+                                                            {/* <MdDoneOutline color="#787e87" className="p-1" /> */}
+                                                        </div>
+
+                                                    </div>
+                                                    <div
+                                                        className="d-flex justify-content-center align-items-center rounded-circle "
+                                                        style={{
+                                                            height: "30px",
+                                                            width: "30px",
+                                                            backgroundColor: "white",
+                                                            border: "3px black solid"
+                                                        }}
+                                                    >
+                                                        <div
+                                                            className="d-flex justify-content-center align-items-center rounded-circle "
+                                                            style={{
+                                                                height: "20px",
+                                                                width: "20px",
+                                                                backgroundColor: "#141C26",
+                                                                border: "2px #2121211A solid"
+                                                            }}
+                                                        >
+
+                                                            {/* <MdDoneOutline color="#787e87" className="p-1" /> */}
+                                                        </div>
+
                                                     </div>
                                                 </div>
+
+                                                <div className="d-flex gap-4 align-items-center pe-2" style={{ borderRight: "1px #E9E9E9 solid", }}>
+                                                    <svg width="25" height="25" xmlns="http://www.w3.org/2000/svg">
+
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <rect id="svg_1" height="24" width="24" y="0.75265" x="0.67018" stroke="#000" fill="#fff" />
+                                                            <rect stroke-width="2" id="svg_2" height="23" width="11" y="0.45884" x="7.01035" stroke="#000" fill="#fff" />
+                                                        </g>
+                                                    </svg>
+
+                                                    <svg width="22" height="26" xmlns="http://www.w3.org/2000/svg">
+
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <rect stroke-width="2" id="svg_1" height="24" width="20" y="0.75265" x="0.87637" stroke="#000" fill="#fff" />
+                                                            <rect stroke="#000" id="svg_2" height="9.64961" width="19.17526" y="8.3815" x="1.08255" fill="#fff" />
+                                                        </g>
+                                                    </svg>
+
+                                                    <MdOutlineRotate90DegreesCw size={30} />
+
+                                                    <MdOutlineZoomIn size={30} />
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16" id="flip">
+                                                        <path fill="#444" d="m0 15 6-5-6-4.9zM9 10.1l6 4.9V5l-6 5.1zm5 2.8-3.4-2.8 3.4-3v5.8zM7 5h1v1H7V5zM7 3h1v1H7V3zM7 7h1v1H7V7zM7 9h1v1H7V9zM7 11h1v1H7v-1zM7 13h1v1H7v-1zM7 15h1v1H7v-1z"></path>
+                                                    </svg>
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16" id="flip">
+                                                        <path fill="#444" d="m1 1 5 6 4.94-6H1zM5.94 10 1 16h10zm-2.82 5 2.83-3.44 3 3.44H3.12zM10 8h1v1h-1V8zM12 8h1v1h-1V8zM8 8h1v1H8V8zM6 8h1v1H6V8zM4 8h1v1H4V8zM2 8h1v1H2V8zM0 8h1v1H0V8z"></path>
+                                                    </svg>
+
+                                                </div>
+
+                                                <div className="d-flex gap-4 align-items-center">
+                                                    <button className="">
+                                                        Pattern
+                                                    </button>
+                                                    <button>
+                                                        Crop
+                                                    </button>
+                                                    <button >
+                                                        Position
+                                                    </button>
+                                                    <button style={{ backgroundColor: "#04AA6D", borderRadius: "20px" }} className="d-flex p-1 text-white fw-bold  align-items-center gap-1">
+                                                        <MdDone size={24} stroke={4} color="white" fill="white" />
+                                                        good dpi
+                                                    </button>
+                                                    <button>
+                                                        <MdOutlineMoreHoriz size={24} />
+                                                    </button>
+                                                    <button>
+                                                        <RiDeleteBin6Line size={24} />
+                                                    </button>
+
+
+                                                </div>
+                                            </>
+
+                                            : <div className="ms-auto d-flex gap-3">
+                                                <button className="d-flex align-items-center gap-1">
+                                                    <MdOutlineRemoveRedEye />
+                                                    Preview
+                                                </button>
+                                                <Button
+                                                    style={{ color: "black" }}
+                                                    variant="outline-secondary"
+                                                    className="d-flex  align-items-center gap-1 p-1 ps-2 pe-2 m-0 text-color-black"
+                                                >
+                                                    <IoMdAdd />
+                                                    Add new
+                                                </Button>
                                             </div>
-                                        </div>
-                                        <div className="ms-auto d-flex gap-3">
-                                            <button className="d-flex  align-items-center gap-1">
-                                                <MdOutlineRemoveRedEye />
-                                                Preview
-                                            </button>
-                                            <Button
-                                                style={{ color: "black" }}
-                                                variant="outline-secondary"
-                                                className="d-flex  align-items-center gap-1 p-1 ps-2 pe-2 m-0 text-color-black"
-                                            >
-                                                <IoMdAdd />
-                                                Add new
-                                            </Button>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </Col>
 
                             {/* Main T-Shirt Display Section */}
-                            <Col md={9} sm={9}>
-                                <div style={{ width: "100%", textAlign: "center" }}>
+                            <Col md={createDesignFile ? 12 : 9} sm={createDesignFile ? 12 : 9} >
+                                <div onClick={handleImageClickCreateDesignFile1} style={{ width: "100%", textAlign: "center", cursor: "pointer" }}>
                                     <img
                                         src={showdow}
                                         alt="T-shirt with your design"
@@ -585,7 +763,7 @@ const ProductDesignCreateProduct = () => {
                             </Col>
 
                             {/* Sidebar Section */}
-                            <Col
+                            {!createDesignFile && <Col
                                 md={3}
                                 sm={3}
                                 className="p-4 border-start mt-0"
@@ -627,12 +805,12 @@ const ProductDesignCreateProduct = () => {
                                         />
                                     </Form>
                                 </div>
-                            </Col>
+                            </Col>}
                         </Row>
                     </Col>
                 </Row>
-            </div>
-        </Row>
+            </div >
+        </Row >
     );
 };
 

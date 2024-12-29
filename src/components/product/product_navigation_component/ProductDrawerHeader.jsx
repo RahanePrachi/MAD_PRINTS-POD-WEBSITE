@@ -46,8 +46,8 @@ const DashboardLayout = () => {
 
   const routes = ["/", "/product", "/product", "/product", "/product", "/product", "/product", "/product", "/product", "/product"]
   const handleItemSelect = (index) => {
-   
-      navigate(routes[index])
+
+    navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };
   const [selectedRegion, setSelectedRegion] = useState('');
@@ -72,7 +72,7 @@ const DashboardLayout = () => {
     { label: 'Review', isCompleted: false },
   ]);
 
-  const handlePublish=()=>{
+  const handlePublish = () => {
     navigate('/storeproducts')
   }
 
@@ -82,7 +82,7 @@ const DashboardLayout = () => {
     setIsDrawerActive(false)
     setCreateDesign(true)
     navigate("/product")
-    
+
   }
 
   const handleNaviagteDesign = () => {
@@ -120,16 +120,26 @@ const DashboardLayout = () => {
 
   }
 
+  // when we click on shirt and add stickers by file selecting handle navbar content 
+  const [createDesignFile, setCreateDesignFile] = useState(false)
+  const handleImageClickCreateDesignFile =()=>{
+    setCreateDesignFile(prev=>!prev)
+  }
+
+  const handleAddToOrder=()=>{
+    navigate("/addToOrder")
+    
+  }
 
   const [selectedCatalog, setSelectedCatalog] = useState([])
   const [catalogOpen, setCatalogOpen] = useState(false)
-  const handleSelectCatalog = (index) => { 
-      setCatalogOpen((prev) => !prev);
-      setSelectedCatalog(shoppinItems[index]);
+  const handleSelectCatalog = (index) => {
+    setCatalogOpen((prev) => !prev);
+    setSelectedCatalog(shoppinItems[index]);
   };
-  const handleNavigate=()=>{
-      navigate('/view-product-details')  
-    
+  const handleNavigate = () => {
+    navigate('/view-product-details')
+
   }
 
 
@@ -356,196 +366,226 @@ const DashboardLayout = () => {
       {/* Main Content Area */}
       <div className="main-content flex-grow-1">
         {/* Top Navbar */}
-        <Navbar bg="light" variant="light" className="px-3 bg-white" style={{ height: "80px" }}>
-          {currentStep === 0 ? <>
-            {!isDrawerActive && <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
-              <FaBars />
-            </Button>
-            }
-            <Navbar.Brand onClick={() => navigate('/')} className='align-items-center'
-              style={{ cursor: 'pointer' }}>
+        {createDesignFile ?
+          <Navbar bg="light" variant="light" className="px-3  m-2  bg-white" style={{ height: "60px" }}>
+            <Nav>
+              <span> Back to Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</span>
+            </Nav>
+            <Nav
+              className="ms-auto gap-4 "
+              
+            >
+              <div>
+                <span>Price</span><br/>
+                <span className='fw-bold fs-5'>959.79 INR</span>
+              </div>
+              <Button
+                variant="primary"
+                className='fw-bold'
+                style={{
+                  backgroundColor: "#000088", // Background color
+                  color: "white", // Text color
+                  borderColor: "#000088", // Border color (if needed)
+                }}
+                onClick={handleAddToOrder}
+              >
+                Add to order
+              </Button>
 
-              {!expanded || !isDrawerActive ? <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span> : ""}
-            </Navbar.Brand>
-          </> : <button onClick={HandleStepBack} className='d-flex align-items-center gap-2 p-4'>
-            <FaArrowLeft size={24} /> back
-          </button>}
+            </Nav>
+          </Navbar>
+          :
+          <Navbar bg="light" variant="light" className="px-3 bg-white" style={{ height: "80px" }}>
+            {currentStep === 0 ? <>
+              {!isDrawerActive && <Button variant="outline-dark" className="me-2" style={{ border: 'none' }} onClick={toggleExpand}>
+                <FaBars />
+              </Button>
+              }
+              <Navbar.Brand onClick={() => navigate('/')} className='align-items-center'
+                style={{ cursor: 'pointer' }}>
 
-          {
-            isCreateProduct ?
-              <>
+                {!expanded || !isDrawerActive ? <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span> : ""}
+              </Navbar.Brand>
+            </> : <button onClick={HandleStepBack} className='d-flex align-items-center gap-2 p-4'>
+              <FaArrowLeft size={24} /> back
+            </button>}
 
-                <Nav
-                  className="ms-auto "
-                  style={{
-                    gap: '10px',
+            {
+              isCreateProduct ?
+                <>
 
-                  }}
-                >
-                  {steps.map((step, index) => (
-                    <div
-                      key={index}
-                      className="d-flex flex-column align-items-center  justify-content-center text-center pe-1"
+                  <Nav
+                    className="ms-auto "
+                    style={{
+                      gap: '10px',
+
+                    }}
+                  >
+                    {steps.map((step, index) => (
+                      <div
+                        key={index}
+                        className="d-flex flex-column align-items-center  justify-content-center text-center pe-1"
+                        style={{
+                          borderTop: step.isCompleted ? '4px solid black' : '',
+
+                        }}
+                      >
+                        <div
+                          className="d-flex align-items-center justify-content-center mt-1"
+                          style={{
+                            width: '35px',
+                            height: '35px',
+                            borderRadius: '50%',
+                            backgroundColor: step.isCompleted ? '#F4F6F8' : 'transparent',
+                            border: step.isCompleted
+                              ? '3px solid #000088'
+                              : '3px solid #8E8E8E',
+                          }}
+                        >
+                          <MdDone
+                            size="20px"
+                            color={step.isCompleted ? '#000088' : '#8E8E8E'}
+                          />
+                        </div>
+                        <p
+                          style={{
+                            fontSize: '10px',
+                            color: step.isCompleted ? '#000088' : '#8E8E8E',
+                            paddingTop: '6px',
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          {step.label}
+                        </p>
+                      </div>
+
+                    ))}
+
+                  </Nav>
+                  <Nav
+                    className="ms-auto "
+                    style={{
+                      gap: '10px',
+
+                    }}
+                  >
+
+                    {currentStep === 1 && <Button
+                      variant="primary"
+                      className='fw-bold'
                       style={{
-                        borderTop: step.isCompleted ? '4px solid black' : '',
+                        backgroundColor: "#000088", // Background color
+                        color: "white", // Text color
+                        borderColor: "#000088", // Border color (if needed)
+                      }}
+                      onClick={handleNaviagteDesign}
+                    >
+                      Continue to Mockups
+                    </Button>}
 
+                    {currentStep === 2 && <Button
+                      variant="primary"
+                      className='fw-bold'
+                      style={{
+                        backgroundColor: "#000088", // Background color
+                        color: "white", // Text color
+                        borderColor: "#000088", // Border color (if needed)
+                      }}
+                      onClick={handleNaviagteDesign}
+                    >
+                      Continue to Details
+                    </Button>}
+                    {currentStep === 3 && <Button
+                      variant="primary"
+                      className='fw-bold'
+                      style={{
+                        backgroundColor: "#000088", // Background color
+                        color: "white", // Text color
+                        borderColor: "#000088", // Border color (if needed)
+                      }}
+                      onClick={handleNaviagteDesign}
+                    >
+                      Continue to Prices
+                    </Button>}
+                    {currentStep === 4 && <Button
+                      variant="primary"
+                      className='fw-bold'
+                      style={{
+                        backgroundColor: "#000088", // Background color
+                        color: "white", // Text color
+                        borderColor: "#000088", // Border color (if needed)
+                      }}
+                      onClick={handleNaviagteDesign}
+                    >
+                      Continue to Review
+                    </Button>}
+                    {currentStep === 5 && <Button
+                      variant="primary"
+                      className='fw-bold'
+                      style={{
+                        backgroundColor: "#000088", // Background color
+                        color: "white", // Text color
+                        borderColor: "#000088", // Border color (if needed)
+                      }}
+                      onClick={handlePublish}
+                    >
+                      Publish
+                    </Button>}
+
+                  </Nav>
+                </>
+                :
+                <Nav className="ms-auto align-items-center">
+                  <Button
+                    variant="outline-dark"
+                    className="d-flex align-items-center fw-bold me-4"
+                    onClick={handleCreateProduct}
+                    style={{
+                      minHeight: '14px',
+                      padding: '8.8px 12.8px',
+                      borderRadius: '8px',
+                      border: '1px solid #0000004D',
+                      opacity: '1',
+                      height: "32px"
+                    }}
+                  >
+                    <IoMdAdd /> Create Product
+                  </Button>
+                  <Nav.Link href="#profile">
+                    <div
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%', // Makes it a circle
+                        backgroundColor: '#000088', // Light background color
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontWeight: 'bold',
+                        fontSize: '14px',
+                        color: 'white',
+                        border: '1px solid #ccc'
                       }}
                     >
-                      <div
-                        className="d-flex align-items-center justify-content-center mt-1"
-                        style={{
-                          width: '35px',
-                          height: '35px',
-                          borderRadius: '50%',
-                          backgroundColor: step.isCompleted ? '#F4F6F8' : 'transparent',
-                          border: step.isCompleted
-                            ? '3px solid #000088'
-                            : '3px solid #8E8E8E',
-                        }}
-                      >
-                        <MdDone
-                          size="20px"
-                          color={step.isCompleted ? '#000088' : '#8E8E8E'}
-                        />
-                      </div>
-                      <p
-                        style={{
-                          fontSize: '10px',
-                          color: step.isCompleted ? '#000088' : '#8E8E8E',
-                          paddingTop: '6px',
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {step.label}
-                      </p>
+                      JK
                     </div>
-
-                  ))}
-
+                  </Nav.Link>
                 </Nav>
-                <Nav
-                  className="ms-auto "
-                  style={{
-                    gap: '10px',
-
-                  }}
-                >
-
-                  {currentStep === 1 && <Button
-                    variant="primary"
-                    className='fw-bold'
-                    style={{
-                      backgroundColor: "#000088", // Background color
-                      color: "white", // Text color
-                      borderColor: "#000088", // Border color (if needed)
-                    }}
-                    onClick={handleNaviagteDesign}
-                  >
-                    Continue to Mockups
-                  </Button>}
-
-                  {currentStep === 2 && <Button
-                    variant="primary"
-                    className='fw-bold'
-                    style={{
-                      backgroundColor: "#000088", // Background color
-                      color: "white", // Text color
-                      borderColor: "#000088", // Border color (if needed)
-                    }}
-                    onClick={handleNaviagteDesign}
-                  >
-                    Continue to Details
-                  </Button>}
-                  {currentStep === 3 && <Button
-                    variant="primary"
-                    className='fw-bold'
-                    style={{
-                      backgroundColor: "#000088", // Background color
-                      color: "white", // Text color
-                      borderColor: "#000088", // Border color (if needed)
-                    }}
-                    onClick={handleNaviagteDesign}
-                  >
-                    Continue to Prices
-                  </Button>}
-                  {currentStep === 4 && <Button
-                    variant="primary"
-                    className='fw-bold'
-                    style={{
-                      backgroundColor: "#000088", // Background color
-                      color: "white", // Text color
-                      borderColor: "#000088", // Border color (if needed)
-                    }}
-                    onClick={handleNaviagteDesign}
-                  >
-                    Continue to Review
-                  </Button>}
-                  {currentStep === 5 && <Button
-                    variant="primary"
-                    className='fw-bold'
-                    style={{
-                      backgroundColor: "#000088", // Background color
-                      color: "white", // Text color
-                      borderColor: "#000088", // Border color (if needed)
-                    }}
-                    onClick={handlePublish}
-                  >
-                    Publish
-                  </Button>}
-
-                </Nav>
-              </>
-              :
-              <Nav className="ms-auto align-items-center">
-                <Button
-                  variant="outline-dark"
-                  className="d-flex align-items-center fw-bold me-4"
-                  onClick={handleCreateProduct}
-                  style={{
-                    minHeight: '14px',
-                    padding: '8.8px 12.8px',
-                    borderRadius: '8px',
-                    border: '1px solid #0000004D',
-                    opacity: '1',
-                    height: "32px"
-                  }}
-                >
-                  <IoMdAdd /> Create Product
-                </Button>
-                <Nav.Link href="#profile">
-                  <div
-                    style={{
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%', // Makes it a circle
-                      backgroundColor: '#000088', // Light background color
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      fontWeight: 'bold',
-                      fontSize: '14px',
-                      color: 'white',
-                      border: '1px solid #ccc'
-                    }}
-                  >
-                    JK
-                  </div>
-                </Nav.Link>
-              </Nav>
-          }
+            }
 
 
-        </Navbar>
+          </Navbar>
+        }
 
-        {currentStep === 1 && <div> <hr /> <ProductDesignCreateProduct /></div>}
+        {currentStep === 1 && <div> <hr /> <ProductDesignCreateProduct createDesignFile={createDesignFile} handleImageClickCreateDesignFile={handleImageClickCreateDesignFile} /></div>}
         {currentStep === 2 && <div> <hr /> <Mockups /></div>}
         {currentStep === 3 && <div> <hr /> <ProductDetails /></div>}
         {currentStep === 4 && <div> <hr /> <ProductPrices /></div>}
         {currentStep === 5 && <div> <hr /> <ProductReview /></div>}
 
         {/* Page Content */}
-        
-        {selectedIndex ===1 && ((currentStep === 0) &&
+
+        {selectedIndex === 1 && ((currentStep === 0) &&
           <Container fluid className="pt-2 ps-5 pe-5 " style={{ backgroundColor: "#F5F6F8" }}>
             <Form>
               <Form.Group controlId="exampleForm.ControlInput1">
@@ -748,7 +788,7 @@ const DashboardLayout = () => {
                               </div>
                               : catalogData.map((item, index) => {
                                 return <Col key={index} md={4} className='mb-4' >
-                                  <Card onClick={() => (createDesigns ? handleSelectCatalog(item.id): handleNavigate())}
+                                  <Card onClick={() => (createDesigns ? handleSelectCatalog(item.id) : handleNavigate())}
                                     style={{ borderRadius: "0px", border: "none" }}>
                                     <Card.Img style={{ borderRadius: "0px" }} variant="top" src={item.img} />
                                     <Card.Body>
@@ -772,16 +812,16 @@ const DashboardLayout = () => {
           </Container>)
         }
 
-        {selectedIndex ===2 && <div> 2nd component</div>}
-        {selectedIndex ===3 && <MyStores/>}
-        
-        {selectedIndex === 4 && <PStudio handleCreateProduct={handleCreateProduct}/>}
-        {selectedIndex ===5 && <div> 5nd component</div>}
-        {selectedIndex ===6 && <div> 6nd component</div>}
-        {selectedIndex ===7 && <div> 7nd component</div>}
-        {selectedIndex ===8 && <div> 8 component</div>}
-        {selectedIndex ===9 && <div> 9 component</div>}
-        {selectedIndex ===10 && <div> 10 component</div>}
+        {selectedIndex === 2 && <div> 2nd component</div>}
+        {selectedIndex === 3 && <MyStores />}
+
+        {selectedIndex === 4 && <PStudio handleCreateProduct={handleCreateProduct} />}
+        {selectedIndex === 5 && <div> 5nd component</div>}
+        {selectedIndex === 6 && <div> 6nd component</div>}
+        {selectedIndex === 7 && <div> 7nd component</div>}
+        {selectedIndex === 8 && <div> 8 component</div>}
+        {selectedIndex === 9 && <div> 9 component</div>}
+        {selectedIndex === 10 && <div> 10 component</div>}
 
       </div>
     </div>
