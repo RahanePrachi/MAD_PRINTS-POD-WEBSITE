@@ -368,7 +368,7 @@ const DashboardLayout = () => {
       <div className="main-content flex-grow-1">
         {/* Top Navbar */}
         {createDesignFile ?
-          <Navbar bg="light" variant="light" className="px-3  m-2  bg-white" style={{ height: "60px" }}>
+          <Navbar bg="light" variant="light" className="px-3  m-1  bg-white" style={{ height: "60px" }}>
             <Nav>
               <span> Back to Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</span>
             </Nav>
@@ -407,8 +407,8 @@ const DashboardLayout = () => {
 
                 {!expanded || !isDrawerActive ? <span className="fw-bold" style={{ fontFamily: 'Phudu', fontSize: "22px" }}>MAD PRINTS</span> : ""}
               </Navbar.Brand>
-            </> : <button onClick={HandleStepBack} className='d-flex align-items-center gap-2 p-4'>
-              <FaArrowLeft size={24} /> back
+            </> : <button onClick={HandleStepBack} className='d-flex align-items-center gap-2 py-2 px-4'>
+              <FaArrowLeft size={24} /> Return
             </button>}
 
             {
@@ -429,7 +429,7 @@ const DashboardLayout = () => {
                         style={{
                           borderTop: step.isCompleted ? '4px solid black' : '',
 
-                        }}
+                     }}
                       >
                         <div
                           className="d-flex align-items-center justify-content-center mt-1"
@@ -578,11 +578,11 @@ const DashboardLayout = () => {
           </Navbar>
         }
 
-        {currentStep === 1 && <div> <hr /> <ProductDesignCreateProduct createDesignFile={createDesignFile} handleImageClickCreateDesignFile={handleImageClickCreateDesignFile} /></div>}
-        {currentStep === 2 && <div> <hr /> <Mockups /></div>}
-        {currentStep === 3 && <div> <hr /> <ProductDetails /></div>}
-        {currentStep === 4 && <div> <hr /> <ProductPrices /></div>}
-        {currentStep === 5 && <div> <hr /> <ProductReview /></div>}
+        {currentStep === 1 && <div className='border-t-2'> <ProductDesignCreateProduct createDesignFile={createDesignFile} handleImageClickCreateDesignFile={handleImageClickCreateDesignFile} /></div>}
+        {currentStep === 2 && <div  className='border-t-2'>  <Mockups /></div>}
+        {currentStep === 3 && <div  className='border-t-2'> <ProductDetails /></div>}
+        {currentStep === 4 && <div  className='border-t-2'>  <ProductPrices /></div>}
+        {currentStep === 5 && <div  className='border-t-2'><ProductReview /></div>}
 
         {/* Page Content */}
 
@@ -596,8 +596,8 @@ const DashboardLayout = () => {
 
             </Form>
             <p className='fs-4 fw-bold mb-1 mt-1' style={{ color: "#333333" }}>Choose product</p>
-            <hr />
-
+           
+<hr />
 
             <Container>
               <Tab.Container activeKey={activeKey} onSelect={(selectedKey) => setActiveKey(selectedKey)}>

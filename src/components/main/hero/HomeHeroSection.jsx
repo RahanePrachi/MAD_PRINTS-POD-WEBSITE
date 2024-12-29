@@ -4,6 +4,7 @@ import "@fontsource/manrope";
 import "@fontsource/outfit";
 import { RiStarLine } from "react-icons/ri";
 import svg from "../../../assets/SVG.png";
+import image from "../../../assets/Icon 1 (1).png"
 import { useNavigate } from "react-router-dom";
 import {
   TiStarFullOutline,
@@ -79,10 +80,11 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <svg width="44" height="44">
+            <img src={image} alt="" className="object-contain" />
+            {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
-            </svg>
+            </svg> */}
           </div>
 
           <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
@@ -92,10 +94,11 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <svg width="44" height="44">
+            <img src={image} alt="" className="object-contain" />
+            {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
-            </svg>
+            </svg> */}
           </div>
 
           <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
@@ -105,10 +108,11 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <svg width="44" height="44">
+            <img src={image} alt="" className="object-contain" />
+            {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
-            </svg>
+            </svg> */}
           </div>
           <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
             CUSTOM INVITATION
@@ -117,10 +121,11 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <svg width="44" height="44">
+            <img src={image} alt="" className="object-contain" />
+            {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
-            </svg>
+            </svg> */}
           </div>
           <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
             BROCHURE & FLYER
@@ -129,10 +134,11 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <svg width="44" height="44">
+            <img src={image} alt="" className="object-contain" />
+            {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
-            </svg>
+            </svg> */}
           </div>
           <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
             PACKAGING & BOOKLET
@@ -141,10 +147,11 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <svg width="44" height="44">
+            <img src={image} alt="" className="object-contain" />
+            {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
-            </svg>
+            </svg> */}
           </div>
           <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
             APPAREL PRINTING
@@ -153,10 +160,11 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <svg width="44" height="44">
+            <img src={image} alt="" className="object-contain" />
+            {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
-            </svg>
+            </svg> */}
           </div>
         </div>
       </div>
