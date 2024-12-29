@@ -30,11 +30,13 @@ import Mockups from '../create_product/Mockups';
 import ProductDetails from '../create_product/ProductDetails';
 import ProductReview from '../create_product/ProductReview';
 import ProductPrices from '../create_product/ProductPrices';
+import PStudio from '../../personalizationStudio/PStudio';
+import MyStores from '../../mystores/MyStores';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
-  const [selectedIndex, setSelectedIndex] = useState(null); // To track selected item index
+  const [selectedIndex, setSelectedIndex] = useState(1); // To track selected item index
 
   const [activeKey, setActiveKey] = useState('/home'); // Track the active tab
   const toggleExpand = () => {
@@ -42,9 +44,9 @@ const DashboardLayout = () => {
     setExpanded(!expanded);
   }
 
-  const routes = ["/", "/product", "/", "/mystores", "/PStudio", "/", "/", "/", "/", "/"]
+
+  const routes = ["/", "/product", "/product", "/product", "/product", "/product", "/product", "/product", "/product", "/product"]
   const handleItemSelect = (index) => {
-    if (index === 0 || index === 1 || index === 3 || index==4)
       navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };
@@ -70,12 +72,17 @@ const DashboardLayout = () => {
     { label: 'Review', isCompleted: false },
   ]);
 
+  const handlePublish=()=>{
+    navigate('/storeproducts')
+  }
+
   const handleCreateProduct = () => {
+    setSelectedIndex(1)
     seIsCreateProduct(true)
     setIsDrawerActive(false)
     setCreateDesign(true)
     navigate("/product")
-
+    
   }
 
   const handleNaviagteDesign = () => {
@@ -481,7 +488,7 @@ const DashboardLayout = () => {
                       color: "white", // Text color
                       borderColor: "#000088", // Border color (if needed)
                     }}
-                    onClick={handleNaviagteDesign}
+                    onClick={handlePublish}
                   >
                     Publish
                   </Button>}
@@ -537,7 +544,8 @@ const DashboardLayout = () => {
         {currentStep === 5 && <div> <hr /> <ProductReview /></div>}
 
         {/* Page Content */}
-        {(currentStep === 0) &&
+        
+        {selectedIndex ===1 && ((currentStep === 0) &&
           <Container fluid className="pt-2 ps-5 pe-5 " style={{ backgroundColor: "#F5F6F8" }}>
             <Form>
               <Form.Group controlId="exampleForm.ControlInput1">
@@ -761,8 +769,19 @@ const DashboardLayout = () => {
                 </Row>
               </Tab.Container>
             </Container>
-          </Container>
+          </Container>)
         }
+
+        {selectedIndex ===2 && <div> 2nd component</div>}
+        {selectedIndex ===3 && <MyStores/>}
+        
+        {selectedIndex === 4 && <PStudio handleCreateProduct={handleCreateProduct}/>}
+        {selectedIndex ===5 && <div> 5nd component</div>}
+        {selectedIndex ===6 && <div> 6nd component</div>}
+        {selectedIndex ===7 && <div> 7nd component</div>}
+        {selectedIndex ===8 && <div> 8 component</div>}
+        {selectedIndex ===9 && <div> 9 component</div>}
+        {selectedIndex ===10 && <div> 10 component</div>}
 
       </div>
     </div>
