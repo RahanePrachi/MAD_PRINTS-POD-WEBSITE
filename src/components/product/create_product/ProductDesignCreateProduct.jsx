@@ -17,6 +17,9 @@ import { LuRedo2 } from "react-icons/lu";
 import { MdDoneOutline, MdOutlineRemoveRedEye } from 'react-icons/md';
 import { IoMdAdd } from "react-icons/io";
 import rawTshirt from "../assets/tshirt_design/Light.svg"
+import showdow from "../assets/tshirt_design/Shadow.png"
+import shirtColor from "../assets/tshirt_design/tShirtColor.png"
+import designlogo from "../assets/tshirt_design/designlogo.png"
 
 const ProductDesignCreateProduct = () => {
     const colors = [
@@ -43,6 +46,20 @@ const ProductDesignCreateProduct = () => {
         { title: 'Collections', icon: <HiOutlineSquares2X2 style={{ transform: 'rotate(45deg)' }} size={24} /> },
     ];
 
+    const styles = {
+        container: {
+            position: 'relative',
+            width: '100%',
+            overflow: 'hidden',
+            alignItems: 'center'
+        },
+        image: {
+            position: 'relative',
+
+            objectFit: 'contain',
+        },
+
+    }
     return (
         <Row >
             <div className="d-flex" style={{ fontFamily: 'Roboto' }}>
@@ -212,7 +229,7 @@ const ProductDesignCreateProduct = () => {
 
                             {/* Main T-Shirt Display Section */}
                             <Col md={9} sm={9}>
-                                <div style={{ width: "100%", textAlign: "center" }}>
+                                {/* <div style={{ width: "90%", textAlign: "center" }}>
                                     <img
                                         src={rawTshirt}
                                         alt="T-shirt with your design"
@@ -222,7 +239,11 @@ const ProductDesignCreateProduct = () => {
                                             backgroundColor: selectedColor || 'transparent',
                                         }}
                                     />
-                                </div>
+                                </div> */}
+
+                                
+                                <img src={showdow} height="100%" width="100%" alt="Shadow" style={{ ...styles.image, zIndex: 3 }} />
+                               
                             </Col>
 
                             {/* Sidebar Section */}
@@ -263,8 +284,8 @@ const ProductDesignCreateProduct = () => {
 
                     </Col>
                 </Row>
-            </div>
-        </Row>
+            </div >
+        </Row >
     )
 }
 
