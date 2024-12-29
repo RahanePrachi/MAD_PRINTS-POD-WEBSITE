@@ -5,6 +5,7 @@ import EtsyLogo from "../mystores/assets/logos/EtsyLogo.png"
 import amazonLogo from "../mystores/assets/logos/amazonLogo.png"
 import wixLogo from "../mystores/assets/logos/wixLogo.png"
 import shopify from "../mystores/assets/logos/shopify.png";
+import MyStoreSettings from "./MyStoreSettings";
 import {
   Navbar,
   Nav,
@@ -19,11 +20,14 @@ import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 
 const MyStores = () => {
-  const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
-  const navigate = useNavigate();
+  const [view, setView] = useState("stores"); // "stores" or "settings"
 
-  const handleClick = () => {
-    navigate("/storeSetting");
+  const handleSettingsClick = () => {
+    setView("settings");
+  };
+
+  const handleBackToStores = () => {
+    setView("stores");
   };
   return (
     <div className="flex">
@@ -34,7 +38,9 @@ const MyStores = () => {
        
         {/* Page Content */}
 
-        <div className="m-5 flex flex-col gap-3">
+       {
+        view === "stores" ? (
+          <div className="m-5 flex flex-col gap-3">
           <div className="font-segoe font-semibold text-2xl">My Store</div>
           <div className="flex shadow-[0px_3px_13px_rgba(0,0,0,0.2)] p-3 items-center justify-between flex-wrap md:flex-nowrap h-[120px]">
             <div className="flex gap-4 items-center justify-center">
@@ -46,7 +52,7 @@ const MyStores = () => {
 
             <div className="flex gap-4 items-center font-segoe">
               <button
-                onClick={handleClick}
+                     onClick={handleSettingsClick}
                 className="rounded-md text-center py-[11px] px-[21px]"
               >
                 Settings
@@ -88,6 +94,13 @@ const MyStores = () => {
           </div>
           </div>
         </div>
+        ) : (
+          <div>
+           
+            <MyStoreSettings />
+          </div>
+        )
+       }
       </div>
     </div>
   );
