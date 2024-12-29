@@ -42,9 +42,9 @@ const DashboardLayout = () => {
     setExpanded(!expanded);
   }
 
-  const routes = ["/", "/product", "/", "/mystores", "/", "/", "/", "/", "/", "/"]
+  const routes = ["/", "/product", "/", "/mystores", "/PStudio", "/", "/", "/", "/", "/"]
   const handleItemSelect = (index) => {
-    if (index === 0 || index === 1 || index === 3)
+    if (index === 0 || index === 1 || index === 3 || index==4)
       navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };
