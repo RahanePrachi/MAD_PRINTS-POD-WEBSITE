@@ -110,8 +110,14 @@ const ProductDesignCreateProduct = ({
   const handleImageClickCreateDesignFile1 = () => {
     handleImageClickCreateDesignFile();
     setActiveDiv(activeDiv === 2 ? 0 : 2);
+    // setActiveDiv( 2);
     if (activeDiv === 1) {
       setStickerClicked(false);
+      selectedImage(previewImage[0])
+    }
+    if (activeDiv === 2) {
+      
+      setSelectedImage(previewImage[0])
     }
   };
   const [stickerClicked, setStickerClicked] = useState(false);
