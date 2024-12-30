@@ -18,7 +18,7 @@ import { TfiLayersAlt } from "react-icons/tfi";
 import { TbTriangleOff } from "react-icons/tb";
 import { TbWashTemperature2 } from "react-icons/tb";
 import { TbWashDry1 } from "react-icons/tb";
-
+import { useNavigate } from 'react-router-dom';
 const colors = [
     '#FFFFFF', '#E7CEB5', '#E4C6D4', '#C8C9C7', '#CABFAD', '#A4C8E1', '#EEAD1A',
     '#7BA4DB', '#97999B', '#DD74A1', '#F4633A', '#DB3E79', '#5E7461',
@@ -38,7 +38,7 @@ const ViewProductDetails = () => {
     ]
     const tabs = [{ title: 'Description', content: <DescriptionContent /> }, { title: 'Pricing', content: <RegionalPricingContent /> }, { title: 'Production', content: <ProductionContent /> }, { title: 'Stock Availability', content: <StockAvailabilityContent /> }, { title: 'Size Guide', content: <SizeGuideContent /> }, { title: 'File Specification', content: <FileSpecificationContent /> }, { title: 'FAQ', content: <div>FAQs</div> }]
     const sectionRefs = useRef([]);
-
+    const navigate = useNavigate()
     // Initialize refs for each tab
     useEffect(() => {
         sectionRefs.current = tabs.map((_, i) => sectionRefs.current[i] || React.createRef());
@@ -48,6 +48,7 @@ const ViewProductDetails = () => {
         setSelectedTab(index);
         sectionRefs.current[index]?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
+
 
     const [selectedImage, setSelectedImage] = useState(0)
     const [selectedColor, setSelectedColor] = useState(colors[0])
@@ -141,6 +142,7 @@ const ViewProductDetails = () => {
 
                                     <div className='d-flex pt-3 pb-2 gap-2 align-items-center' style={{ color: "#333333" }}>Print Technology <FiInfo color='#6B6B6B' /></div>
                                     <Button
+
                                         variant="primary"
                                         className=' fs-6 me-2'
                                         style={{
@@ -211,6 +213,7 @@ const ViewProductDetails = () => {
 
                                 <div className='d-flex gap-2 mb-4'>
                                     <Button
+                                        onClick={() => { navigate("/product") }}
                                         variant="primary"
                                         className='fw-bold flex-grow-1'
                                         style={{

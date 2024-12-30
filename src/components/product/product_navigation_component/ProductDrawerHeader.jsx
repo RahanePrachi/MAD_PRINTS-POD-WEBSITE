@@ -47,10 +47,29 @@ const DashboardLayout = () => {
 
   const routes = ["/", "/product", "/product", "/product", "/product", "/product", "/product", "/product", "/product", "/product"]
   const handleItemSelect = (index) => {
-
     navigate(routes[index])
     setSelectedIndex(index); // Set selected item index
   };
+
+  const [isPublish, setIsPublish] = useState(false)
+  const handlePublish = () => {
+    setSelectedIndex(3);
+    setIsPublish(true)
+    seIsCreateProduct(false)
+    setIsDrawerActive(true)
+    setCreateDesign(false)
+    setCurrentStep(0)
+    setStep([
+      { label: 'Product', isCompleted: true },
+      { label: 'Design', isCompleted: false },
+      { label: 'Mockups', isCompleted: false },
+      { label: 'Details', isCompleted: false },
+      { label: 'Prices', isCompleted: false },
+      { label: 'Review', isCompleted: false },
+    ])
+
+  }
+
   const [selectedRegion, setSelectedRegion] = useState('');
 
   const handleRegionChange = (e) => {
@@ -73,9 +92,7 @@ const DashboardLayout = () => {
     { label: 'Review', isCompleted: false },
   ]);
 
-  const handlePublish = () => {
-    navigate('/storeproducts')
-  }
+
 
   const handleCreateProduct = () => {
     setSelectedIndex(1)
@@ -123,13 +140,13 @@ const DashboardLayout = () => {
 
   // when we click on shirt and add stickers by file selecting handle navbar content 
   const [createDesignFile, setCreateDesignFile] = useState(false)
-  const handleImageClickCreateDesignFile =()=>{
-    setCreateDesignFile(prev=>!prev)
+  const handleImageClickCreateDesignFile = () => {
+    setCreateDesignFile(prev => !prev)
   }
 
-  const handleAddToOrder=()=>{
+  const handleAddToOrder = () => {
     navigate("/addToOrder")
-    
+
   }
 
   const [selectedCatalog, setSelectedCatalog] = useState([])
@@ -262,7 +279,7 @@ const DashboardLayout = () => {
                 border: 'none',
                 borderLeft: selectedIndex === 3 ? '4px solid black' : 'none', // Apply border on selected item
               }}
-              onClick={() => handleItemSelect(3)} // Set selected item when clicked
+              onClick={() => { handleItemSelect(3); setIsPublish(false) }} // Set selected item when clicked
             >
               <span className="me-2">
                 <BiStoreAlt size="32px" />
@@ -365,6 +382,7 @@ const DashboardLayout = () => {
       }
 
       {/* Main Content Area */}
+      
       <div className="main-content flex-grow-1">
         {/* Top Navbar */}
         {createDesignFile ?
@@ -374,10 +392,10 @@ const DashboardLayout = () => {
             </Nav>
             <Nav
               className="ms-auto gap-4 "
-              
+
             >
               <div>
-                <span>Price</span><br/>
+                <span>Price</span><br />
                 <span className='fw-bold fs-5'>959.79 INR</span>
               </div>
               <Button
@@ -429,7 +447,7 @@ const DashboardLayout = () => {
                         style={{
                           borderTop: step.isCompleted ? '4px solid black' : '',
 
-                     }}
+                        }}
                       >
                         <div
                           className="d-flex align-items-center justify-content-center mt-1"
@@ -578,11 +596,13 @@ const DashboardLayout = () => {
           </Navbar>
         }
 
+
         {currentStep === 1 && <div className='border-t-2'> <ProductDesignCreateProduct createDesignFile={createDesignFile} handleImageClickCreateDesignFile={handleImageClickCreateDesignFile} /></div>}
-        {currentStep === 2 && <div  className='border-t-2'>  <Mockups /></div>}
-        {currentStep === 3 && <div  className='border-t-2'> <ProductDetails /></div>}
-        {currentStep === 4 && <div  className='border-t-2'>  <ProductPrices /></div>}
-        {currentStep === 5 && <div  className='border-t-2'><ProductReview /></div>}
+        {currentStep === 2 && <div className='border-t-2'>  <Mockups /></div>}
+        {currentStep === 3 && <div className='border-t-2'> <ProductDetails /></div>}
+        {currentStep === 4 && <div className='border-t-2'>  <ProductPrices /></div>}
+        {currentStep === 5 && <div className='border-t-2'><ProductReview /></div>}
+
 
         {/* Page Content */}
 
@@ -596,8 +616,8 @@ const DashboardLayout = () => {
 
             </Form>
             <p className='fs-4 fw-bold mb-1 mt-1' style={{ color: "#333333" }}>Choose product</p>
-           
-<hr />
+
+            <hr />
 
             <Container>
               <Tab.Container activeKey={activeKey} onSelect={(selectedKey) => setActiveKey(selectedKey)}>
@@ -814,7 +834,7 @@ const DashboardLayout = () => {
         }
 
         {selectedIndex === 2 && <div> 2nd component</div>}
-        {selectedIndex === 3 && <MyStores />}
+        {selectedIndex === 3 && <MyStores isPublish={isPublish} />}
 
         {selectedIndex === 4 && <PStudio handleCreateProduct={handleCreateProduct} />}
         {selectedIndex === 5 && <div> 5nd component</div>}
