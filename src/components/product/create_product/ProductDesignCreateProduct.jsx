@@ -285,8 +285,32 @@ const ProductDesignCreateProduct = ({
                 </div>
               </div>
             )}
+           
             {/* Layers */}
-            {activeDiv === 2 && (
+            {activeDiv === 1 && (
+              <div className={`border-r  ${activeDiv === 1 ? "" : "d-none"}`}>
+                <div className="d-flex align-items-center border-b">
+                  <div
+                    className="d-flex align-items-center p-2"
+                    style={{
+                      fontFamily: "Roboto",
+                      fontSize: "21px",
+                      fontWeight: "bold",
+                      lineHeight: "32px",
+                      letterSpacing: "0.25px",
+                      textAlign: "left",
+                      textUnderlinePosition: "from-font",
+                      textDecorationSkipInk: "none",
+                      gap: "5px",
+                    }}
+                  >
+                    Layers <FiInfo />
+                  </div>
+                </div>
+              </div>
+            )}
+             {/* File */}
+             {activeDiv === 2 && (
               <div className={`border-r  ${activeDiv === 2 ? "" : "d-none"}`}>
                 <div className="d-flex align-items-center border-b">
                   <div
@@ -331,29 +355,6 @@ const ProductDesignCreateProduct = ({
                       />
                     </div>
                   ))}
-                </div>
-              </div>
-            )}
-            {/* Layers */}
-            {activeDiv === 1 && (
-              <div className={`border-r  ${activeDiv === 1 ? "" : "d-none"}`}>
-                <div className="d-flex align-items-center border-b">
-                  <div
-                    className="d-flex align-items-center p-2"
-                    style={{
-                      fontFamily: "Roboto",
-                      fontSize: "21px",
-                      fontWeight: "bold",
-                      lineHeight: "32px",
-                      letterSpacing: "0.25px",
-                      textAlign: "left",
-                      textUnderlinePosition: "from-font",
-                      textDecorationSkipInk: "none",
-                      gap: "5px",
-                    }}
-                  >
-                    Layers <FiInfo />
-                  </div>
                 </div>
               </div>
             )}

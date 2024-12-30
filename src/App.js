@@ -5,6 +5,7 @@ import "@fontsource/outfit";
 import './App.css';
 import AddProduct from "./components/mystores/AddProduct";
 import PStudio from "./components/personalizationStudio/PStudio";
+import PSEditorFilePage from "./components/personalizationStudio/PSEditorFilePage";
 import Footer from './components/common_components/Footer';
 import Header from './components/common_components/Header';
 import ProductDrawerHeader from './components/product/product_navigation_component/ProductDrawerHeader';
@@ -39,9 +40,10 @@ function App() {
         <Route path="/PStudio" element={<PStudio />} />
         <Route path="addToOrder" element={<OrderProducts />} />
         <Route path="addProductFlow" element={<AddProductProcessFlowBar />} />
+        <Route path="/PStudioFilePage" element={<PSEditorFilePage/>}/>
       </Routes>
 
-
+        
 
 
       {/* Common Footer */}

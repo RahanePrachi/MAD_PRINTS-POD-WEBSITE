@@ -52,7 +52,7 @@ const MyStoreSettings = () => {
   };
   const [expanded, setExpanded] = useState(true);
   return (
-    <div className="flex">
+    <div className="flex w-full">
      
 
       {/* Main Content Area */}

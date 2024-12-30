@@ -29,11 +29,12 @@ import image12 from "./assets/productImg/image12.png";
 import image13 from "./assets/productImg/image13.png";
 import image14 from "./assets/productImg/image14.png";
 import image15 from "./assets/productImg/image15.png";
+import MyStores from "./MyStores";
 const AddProduct = ({handleSettingClick}) => {
   const [expanded, setExpanded] = useState(true);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
- 
+  const [showStores, setShowStores] = useState(false);
   const productData = [
     {
       id: 1,
@@ -162,11 +163,11 @@ const AddProduct = ({handleSettingClick}) => {
   };
 
  
-  const storedirect = () => {
-    navigate("/mystores");
-  };
+  // const storedirect = () => {
+  //   navigate("/mystores");
+  // };
   return (
-    <div className="flex">
+    <div className="flex w-full">
      
 
       {/* Main Content Area */}
@@ -175,10 +176,12 @@ const AddProduct = ({handleSettingClick}) => {
         
 
         {/* Page Content */}
-
+        {showStores ? (
+        <MyStores isPublish={false} />
+      ) : (
         <div className="bg-[#F5F6F8] px-4 py-4 flex gap-2 flex-col">
           <div className="flex gap-4">
-            <button onClick={storedirect}>Stores</button>
+            <button onClick={() => setShowStores(true)}>Stores</button>
             <div className="font-segoe font-bold ">My Store</div>
           </div>
           <div className="flex items-center justify-between flex-wrap md:flex-nowrap p-y-4">
@@ -325,7 +328,9 @@ const AddProduct = ({handleSettingClick}) => {
             </div>
           </div>
         </div>
+         )}
       </div>
+    
     </div>
   );
 };
