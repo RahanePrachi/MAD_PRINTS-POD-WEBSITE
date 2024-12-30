@@ -25,12 +25,12 @@ import {
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import { IoMdAdd } from "react-icons/io";
-
+import rawTshirt from "../product/assets/tshirt_design/Light.svg";
 import showdow from "../product/assets/tshirt_design/Shadow.png";
-
+import shirtColor from "../product/assets/tshirt_design/tShirtColor.png";
 import designlogo from "../product/assets/tshirt_design/designlogo.png";
 import imageLogo from "../product/create_product/assets/FileImg/SVG (1).png";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import previewImg1 from "../product/create_product/assets/FileImg/preview_thumbnail (2).png";
 import previewImg2 from "../product/create_product/assets/FileImg/preview_thumbnail (3).png";
@@ -47,7 +47,10 @@ import previewImg12 from "../product/create_product/assets/FileImg/preview_thumb
 import previewImg13 from "../product/create_product/assets/FileImg/preview_thumbnail (14).png";
 import previewImg from "../product/create_product/assets/FileImg/preview_thumbnail (15).png";
 
-const PSEditorFilePage = () => {
+const PSEditorFilePage = ({
+    handleImageClickCreateDesignFile,
+    createDesignFile,
+  }) => {
     const previewImage = [
         designlogo,
         previewImg,
@@ -68,6 +71,7 @@ const PSEditorFilePage = () => {
       const navigate = useNavigate();
       const [selectedColor, setSelectedColor] = useState("#FFFFFF"); // Default selected is white
       const [activeDiv, setActiveDiv] = useState(0);
+      const [isSecondSectionActive, setIsSecondSectionActive] = useState(false);
       const [selectedImage, setSelectedImage] = useState(previewImage[0]); // Default image
       const handleImageClick = (img) => {
         setSelectedImage(img); // Update selected image
@@ -78,13 +82,19 @@ const PSEditorFilePage = () => {
     
       }
     
-      
+      const sizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
       const handleItemSelect = (index) => {
         setActiveDiv(index); // Activate div2 for item 10, else div1
         setStickerClicked(false);
       };
     
-    
+      const handleImageClickCreateDesignFile1 = () => {
+        handleImageClickCreateDesignFile();
+        setActiveDiv(activeDiv === 2 ? 0 : 2);
+        if (activeDiv === 1) {
+          setStickerClicked(false);
+        }
+      };
       const [stickerClicked, setStickerClicked] = useState(false);
     
       const menuItems = [
@@ -114,7 +124,7 @@ const PSEditorFilePage = () => {
   return (
     <div>
         <Row>
-            <Navbar bg="light" variant="light" className="px-3 py-2  bg-white border-b-2" style={{ height: "60px" }}>
+            <Navbar bg="light" variant="light" className="px-3   bg-white border-b" style={{ height: "60px" }}>
                         <Nav>
                           <span> Back to Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</span>
                         </Nav>
@@ -272,7 +282,7 @@ const PSEditorFilePage = () => {
                       </div>
                     )}
 
-                    { stickerClicked ? (
+                    {stickerClicked ? (
                       <>
                         <div
                           className="pl-2 pe-2 d-flex gap-3"
@@ -514,7 +524,7 @@ const PSEditorFilePage = () => {
                 sm={12}
               >
                 <div
-                  //onClick={handleImageClickCreateDesignFile1}
+                  onClick={handleImageClickCreateDesignFile1}
                   style={{
                     position: "relative",
                     width: "100%",
@@ -550,7 +560,52 @@ const PSEditorFilePage = () => {
                 </div>
               </Col>
 
-             
+              {/* Sidebar Section */}
+              {!createDesignFile && (
+                <Col
+                  md={3}
+                  sm={3}
+                  className="p-4 border-start mt-0"
+                  style={{ backgroundColor: "#F4F4FA" }}
+                >
+                  <h3 className="fs-6 fw-semibold mb-4">All Variants</h3>
+                  <div style={{ height: "50px", width: "fit-content" }}>
+                    <Form>
+                      <Form.Check
+                        type="radio"
+                        label={
+                          <div
+                            className="d-flex flex-row w-100 p-1 bg-white align-items-center"
+                            style={{
+                              border: "1px solid black",
+                              borderRadius: "10px",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "50px",
+                                height: "35px",
+                              }}
+                            >
+                              <img
+                                src={showdow}
+                                alt="T-shirt variant preview"
+                                style={{ width: "100%", height: "100%" }}
+                              />
+                            </div>
+
+                            <div className="d-flex flex-column w-100 p-1">
+                              <b>White</b>
+                              <div>S, L, XL, 2XL, 3XL</div>
+                            </div>
+                          </div>
+                        }
+                        defaultChecked
+                      />
+                    </Form>
+                  </div>
+                </Col>
+              )}
             </Row>
           </Col>
         </Row>

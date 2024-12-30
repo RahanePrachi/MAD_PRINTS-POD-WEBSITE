@@ -25,7 +25,9 @@ const HomeHeroSection = () => {
         {/* Left Part */}
         <div className="flex flex-col lg:w-1/2 space-y-4 mt-7 lg:px-0">
           {/* Title */}
-          <p className="text-[#0E0E0E] font-outfit font-semibold text-[32px] sm:text-[48px] lg:text-[96px] w-full lg:w-[463px] mb-0">
+          <p className="text-[#0E0E0E] font-semibold text-[96px] w-full lg:w-[463px] mb-0" style={{fontFamily:"Outfit",
+            lineHeight:"115px"
+          }}>
             MAD Printing Solutions
           </p>
 
@@ -45,7 +47,7 @@ const HomeHeroSection = () => {
         </div>
 
         {/* Right Part */}
-        <div className="lg:w-1/2 mt-20 relative">
+        <div className="lg:w-1/2 mt-12 relative">
           <img
             src={svg}
             alt="Illustration"
@@ -67,7 +69,7 @@ const HomeHeroSection = () => {
       </div>
 
       {/* section 2 */}
-      <div className="w-10/12 mx-auto flex flex-col   gap-3 font-manrope py-5">
+      <div className="w-10/12 mx-auto flex flex-col   gap-3 font-manrope p-1">
         <h4 className="text-[#847E8C] font-bold font-manrope text-[32px]">
           Category
         </h4>
