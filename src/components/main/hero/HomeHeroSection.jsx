@@ -21,9 +21,9 @@ const HomeHeroSection = () => {
   return (
     <div className=" bg-[#F1F1FF]">
       {/* section 1 */}
-      <div className="w-10/12 mx-auto flex flex-col lg:flex-row ">
+      <div className="w-10/12 mx-auto py-3 flex flex-col lg:flex-row ">
         {/* Left Part */}
-        <div className="flex flex-col lg:w-1/2 space-y-4 mt-7 lg:px-0">
+        <div className="flex flex-col lg:w-1/2 mt-7 ">
           {/* Title */}
           <p className="text-[#0E0E0E] font-semibold text-[96px] w-full lg:w-[463px] mb-0" style={{fontFamily:"Outfit",
             lineHeight:"115px"
@@ -47,13 +47,13 @@ const HomeHeroSection = () => {
         </div>
 
         {/* Right Part */}
-        <div className="lg:w-1/2 mt-12 relative">
+        <div className="lg:w-1/2 mt-8 relative  h-[500px] ">
           <img
             src={svg}
             alt="Illustration"
-            className="w-full max-h-[500px] object-contain"
+            className="w-full  object-contain  h-[500px]"
           />
-          <div className="absolute bottom-[2%] left-[3%]  sm:bottom-0 sm:left-0 lg:translate-x-1/2 md:translate-x-1/2 rounded-lg flex items-center justify-center w-[130px] flex-col">
+          <div className="absolute bottom-[2%] left-[2%]  sm:bottom-0 sm:left-0 lg:translate-x-1/2 md:translate-x-1/2 rounded-lg flex items-center justify-center w-[130px] flex-col">
             <div className="bg-blue-900 w-full h-3 rounded-t-md"></div>
             <div className="flex flex-col gap-2 w-full bg-white justify-center items-center pt-3">
               <div className="flex gap-2 items-center justify-center">
@@ -69,12 +69,12 @@ const HomeHeroSection = () => {
       </div>
 
       {/* section 2 */}
-      <div className="w-10/12 mx-auto flex flex-col   gap-3 font-manrope p-1">
+      <div className="w-10/12 mx-auto flex flex-col   gap-3 font-manrope  ">
         <h4 className="text-[#847E8C] font-bold font-manrope text-[32px]">
           Category
         </h4>
-        <div className="flex gap-3 flex-wrap justify-start">
-          <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4  px-6">
+        <div className="flex gap-3 flex-wrap justify-start pb-20">
+          <div className="text-[16px] h-[44px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-2  px-6">
             Men’s Clothing
           </div>
 
@@ -82,14 +82,14 @@ const HomeHeroSection = () => {
             className="flex
           items-center justify-center"
           >
-            <img src={image} alt="" className="object-contain" />
+            <img src={image} alt="" className="object-contain" width="44" height="44"/>
             {/* <svg width="44" height="44">
               <circle cx="22" cy="22" r="22" fill="#000088" />
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
             </svg> */}
           </div>
 
-          <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
+          <div className="text-[16px] h-[44px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-2 px-6">
             Women’s Clothing
           </div>
           <div
@@ -103,7 +103,7 @@ const HomeHeroSection = () => {
             </svg> */}
           </div>
 
-          <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
+          <div className="text-[16px] h-[44px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-2 px-6">
             POSTER & BANNER
           </div>
           <div
@@ -116,7 +116,7 @@ const HomeHeroSection = () => {
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
             </svg> */}
           </div>
-          <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
+          <div className="text-[16px]  h-[44px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-2 px-6">
             CUSTOM INVITATION
           </div>
           <div
@@ -129,7 +129,7 @@ const HomeHeroSection = () => {
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
             </svg> */}
           </div>
-          <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
+          <div className="text-[16px] h-[44px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-2 px-6">
             BROCHURE & FLYER
           </div>
           <div
@@ -142,7 +142,7 @@ const HomeHeroSection = () => {
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
             </svg> */}
           </div>
-          <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
+          <div className="text-[16px] h-[44px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-2 px-6">
             PACKAGING & BOOKLET
           </div>
           <div
@@ -155,7 +155,7 @@ const HomeHeroSection = () => {
               <polygon points="9,22 22,9 35,22 22,35" fill="white" />
             </svg> */}
           </div>
-          <div className="text-[16px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-4 px-6">
+          <div className="text-[16px] h-[44px] font-bold font-monrope border border-[#847E8C] rounded-full text-center py-2 px-6">
             APPAREL PRINTING
           </div>
           <div

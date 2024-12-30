@@ -213,7 +213,7 @@ const ViewProductDetails = () => {
 
                                 <div className='d-flex gap-2 mb-4'>
                                     <Button
-                                        onClick={() => { navigate("/product") }}
+                                        onClick={() => { navigate("/PStudioFilePage") }}
                                         variant="primary"
                                         className='fw-bold flex-grow-1'
                                         style={{
