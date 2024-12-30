@@ -45,7 +45,7 @@ const OrderProducts = () => {
 
   return (
     <div className="flex">
-      <SidebarDrawer />
+      {/* <SidebarDrawer /> */}
 
       {/* Main Content Area */}
       <div className="w-full flex flex-col">

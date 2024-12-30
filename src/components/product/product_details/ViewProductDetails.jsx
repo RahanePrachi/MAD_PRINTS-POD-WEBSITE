@@ -62,8 +62,8 @@ const ViewProductDetails = () => {
                         <Col md={12} sm={12} >
                             <div className='d-flex gap-4 h-8 pt-1 pb-1' >
                                 <p>Choose Product</p>
-                                <p>Men's Clothing</p>
-                                <p>T-shirts</p>
+                                <p style={{cursor:"pointer"}} onClick={()=>{navigate("/product")}}>Men's Clothing</p>
+                                <p style={{cursor:"pointer"}} onClick={()=>{navigate("/product")}}>T-shirts</p>
                                 <b>Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</b>
                             </div>
                         </Col>
