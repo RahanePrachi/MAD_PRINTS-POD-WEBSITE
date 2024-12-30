@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Button, ListGroup, Container, Tab, Row, Col, Card } from 'react-bootstrap';
-
-import Dropdown from 'react-bootstrap/Dropdown';
 import { FaBars, FaUser, FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 import { FaChevronDown, FaChevronUp, FaEllipsisV } from 'react-icons/fa';
-import { BiHome, BiPurchaseTag, BiShoppingBag, BiStoreAlt, BiNavigation, BiLayout } from "react-icons/bi";
-import { TbUserScan } from "react-icons/tb";
-import { HiMiniArrowTrendingUp } from "react-icons/hi2";
-import { PiSelectionAllLight } from "react-icons/pi";
-import { FaAward } from "react-icons/fa6";
+
 import { IoMdAdd } from "react-icons/io";
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +21,6 @@ import totebags from '../assets/catalog/totebags.png'
 import wallart from '../assets/catalog/wallart.png'
 import womenscloth from '../assets/catalog/womenscloth.png'
 import menscloth from '../assets/catalog/menscloth.png'
-import { MdDone } from "react-icons/md";
 import ProductDesignCreateProduct from '../create_product/ProductDesignCreateProduct';
 import { FaArrowLeft } from "react-icons/fa6";
 import Mockups from '../create_product/Mockups';
@@ -37,6 +30,8 @@ import ProductPrices from '../create_product/ProductPrices';
 import PStudio from '../../personalizationStudio/PStudio';
 import MyStores from '../../mystores/MyStores';
 import OrderProducts from '../../addToOrder/OrderProducts'
+import DrawerMenuItems from './DrawerMenuItems';
+import CreateProductNavbar from './CreateProductNavbar';
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
@@ -265,158 +260,8 @@ const DashboardLayout = () => {
           </div>
 
           {/* Drawer Menu */}
+          <DrawerMenuItems selectedIndex={selectedIndex} handleItemSelect={handleItemSelect} expanded={expanded} setIsPublish={setIsPublish}/>
 
-          <ListGroup variant="flush" style={{ border: 'none' }}>
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 0 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(0)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <BiHome size="32px" />
-              </span>
-              {expanded && <span>Home</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 1 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(1)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <BiPurchaseTag size="32px" />
-              </span>
-              {expanded && <span>Product Catalog</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 2 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(2)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <BiShoppingBag size="32px" />
-              </span>
-              {expanded && <span>Orders</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 3 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => { handleItemSelect(3); setIsPublish(false) }} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <BiStoreAlt size="32px" />
-              </span>
-              {expanded && <span>Stores</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 4 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(4)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <TbUserScan size="32px" />
-              </span>
-              {expanded && <span>Personalization Studio</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 5 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(5)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <BiLayout size="32px" />
-              </span>
-              {expanded && <span>Templates</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 6 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(6)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <FaAward size="32px" />
-              </span>
-              {expanded && <span>Branded packaging</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 7 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(7)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <HiMiniArrowTrendingUp size="32px" />
-              </span>
-              {expanded && <span>Analytics</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 8 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(8)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <BiNavigation size="32px" />
-              </span>
-              {expanded && <span>Price Navigator</span>}
-            </ListGroup.Item>
-
-            <ListGroup.Item
-              action
-              className="d-flex align-items-center pb-5"
-              style={{
-                border: 'none',
-                borderLeft: selectedIndex === 9 ? '4px solid black' : 'none', // Apply border on selected item
-              }}
-              onClick={() => handleItemSelect(9)} // Set selected item when clicked
-            >
-              <span className="me-2">
-                <PiSelectionAllLight size="32px" />
-              </span>
-              {expanded && <span>Mockup Studio</span>}
-            </ListGroup.Item>
-          </ListGroup>
         </div>
 
       }
@@ -475,128 +320,8 @@ const DashboardLayout = () => {
 
               {
                 isCreateProduct ?
-                  <>
-
-                    <Nav
-                      className="ms-auto "
-                      style={{
-                        gap: '10px',
-
-                      }}
-                    >
-                      {steps.map((step, index) => (
-                        <div
-                          key={index}
-                          className="d-flex flex-column align-items-center  justify-content-center text-center pe-1"
-                          style={{
-                            borderTop: step.isCompleted ? '4px solid black' : '',
-
-                          }}
-                        >
-                          <div
-                            className="d-flex align-items-center justify-content-center mt-1"
-                            style={{
-                              width: '35px',
-                              height: '35px',
-                              borderRadius: '50%',
-                              backgroundColor: step.isCompleted ? '#F4F6F8' : 'transparent',
-                              border: step.isCompleted
-                                ? '3px solid #000088'
-                                : '3px solid #8E8E8E',
-                            }}
-                          >
-                            <MdDone
-                              size="20px"
-                              color={step.isCompleted ? '#000088' : '#8E8E8E'}
-                            />
-                          </div>
-                          <p
-                            style={{
-                              fontSize: '10px',
-                              color: step.isCompleted ? '#000088' : '#8E8E8E',
-                              paddingTop: '6px',
-                              fontWeight: 'bold',
-                            }}
-                          >
-                            {step.label}
-                          </p>
-                        </div>
-
-                      ))}
-
-                    </Nav>
-                    <Nav
-                      className="ms-auto "
-                      style={{
-                        gap: '10px',
-
-                      }}
-                    >
-
-                      {currentStep === 1 && <Button
-                        variant="primary"
-                        className='fw-bold'
-                        style={{
-                          backgroundColor: "#000088", // Background color
-                          color: "white", // Text color
-                          borderColor: "#000088", // Border color (if needed)
-                        }}
-                        onClick={handleNaviagteDesign}
-                      >
-                        Continue to Mockups
-                      </Button>}
-
-                      {currentStep === 2 && <Button
-                        variant="primary"
-                        className='fw-bold'
-                        style={{
-                          backgroundColor: "#000088", // Background color
-                          color: "white", // Text color
-                          borderColor: "#000088", // Border color (if needed)
-                        }}
-                        onClick={handleNaviagteDesign}
-                      >
-                        Continue to Details
-                      </Button>}
-                      {currentStep === 3 && <Button
-                        variant="primary"
-                        className='fw-bold'
-                        style={{
-                          backgroundColor: "#000088", // Background color
-                          color: "white", // Text color
-                          borderColor: "#000088", // Border color (if needed)
-                        }}
-                        onClick={handleNaviagteDesign}
-                      >
-                        Continue to Prices
-                      </Button>}
-                      {currentStep === 4 && <Button
-                        variant="primary"
-                        className='fw-bold'
-                        style={{
-                          backgroundColor: "#000088", // Background color
-                          color: "white", // Text color
-                          borderColor: "#000088", // Border color (if needed)
-                        }}
-                        onClick={handleNaviagteDesign}
-                      >
-                        Continue to Review
-                      </Button>}
-                      {currentStep === 5 && <Button
-                        variant="primary"
-                        className='fw-bold'
-                        style={{
-                          backgroundColor: "#000088", // Background color
-                          color: "white", // Text color
-                          borderColor: "#000088", // Border color (if needed)
-                        }}
-                        onClick={handlePublish}
-                      >
-                        Publish
-                      </Button>}
-
-                    </Nav>
-                  </>
+                <CreateProductNavbar steps={steps} currentStep={currentStep} handleNaviagteDesign={handleNaviagteDesign} handlePublish={handlePublish}/>
+                  
                   :
                   <Nav className="ms-auto align-items-center">
                     <Button
@@ -635,8 +360,6 @@ const DashboardLayout = () => {
                     </Nav.Link>
                   </Nav>
               }
-
-
             </Navbar>
           }
 
