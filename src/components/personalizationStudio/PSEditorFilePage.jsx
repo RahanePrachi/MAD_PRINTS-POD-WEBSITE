@@ -25,13 +25,14 @@ import {
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import { IoMdAdd } from "react-icons/io";
-
+import rawTshirt from "../product/assets/tshirt_design/Light.svg";
 import showdow from "../product/assets/tshirt_design/Shadow.png";
-
+import shirtColor from "../product/assets/tshirt_design/tShirtColor.png";
 import designlogo from "../product/assets/tshirt_design/designlogo.png";
 import imageLogo from "../product/create_product/assets/FileImg/SVG (1).png";
-import { useNavigate } from "react-router-dom";
 import dotImage from "../product/create_product/assets/FileImg/Frame 1597881811.png";
+import { useNavigate } from "react-router-dom";
+
 import previewImg1 from "../product/create_product/assets/FileImg/preview_thumbnail (2).png";
 import previewImg2 from "../product/create_product/assets/FileImg/preview_thumbnail (3).png";
 import previewImg3 from "../product/create_product/assets/FileImg/preview_thumbnail (4).png";
@@ -48,142 +49,141 @@ import previewImg13 from "../product/create_product/assets/FileImg/preview_thumb
 import previewImg from "../product/create_product/assets/FileImg/preview_thumbnail (15).png";
 
 const PSEditorFilePage = () => {
-  const colors = [
-    "#E7CEB5",
-    "#E4C6D4",
-    "#C8C9C7",
-    "#CABFAD",
-    "#A4C8E1",
-    "#EEAD1A",
-    "#7BA4DB",
-    "#97999B",
-    "#DD74A1",
-    "#F4633A",
-    "#DB3E79",
-    "#5E7461",
-    "#00A74A",
-    "#224D8F",
-    "#D50032",
-    "#7D2935",
-    "#8A1538",
-    "#5B2B42",
-    "#273B33",
-    "#263147",
-    "#351F65",
-    "#25282A",
-  ];
-  const sizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
-  
-  const previewImage = [
-    designlogo,
-    previewImg,
-    previewImg1,
-    previewImg2,
-    previewImg3,
-    previewImg4,
-    previewImg5,
-    previewImg6,
-    previewImg7,
-    previewImg8,
-    previewImg9,
-    previewImg10,
-    previewImg11,
-    previewImg12,
-    previewImg13,
-  ];
-  const navigate = useNavigate();
-  const [selectedColor, setSelectedColor] = useState("#FFFFFF"); // Default selected is white
-  const [activeDiv, setActiveDiv] = useState(2);
-  const [selectedImage, setSelectedImage] = useState(previewImage[0]); // Default image
-  const handleImageClick = (img) => {
-    setSelectedImage(img); // Update selected image
-    setStickerClicked(true);
-  };
-  const handleAddToOrder = () => {
-    navigate("/addToOrder")
-
-  }
-
-
-  const handleItemSelect = (index) => {
-    setActiveDiv(index); // Activate div2 for item 10, else div1
-    setStickerClicked(false);
-  };
-
-
-  const [stickerClicked, setStickerClicked] = useState(false);
-
-  const menuItems = [
-    { title: "Product", icon: <BsFillTagFill size={24} /> },
-    { title: "Layers", icon: <MdOutlineLayers size={24} /> },
-    { title: "Files", icon: <BsImages size={24} /> },
-    { title: "Text", icon: <RiText size={24} /> },
-    { title: "Shapes", icon: <RiShapesLine size={24} /> },
-    { title: "Shutterstock", icon: <SiShutterstock size={24} /> },
-    { title: "Layouts", icon: <TbLayoutDashboard size={24} /> },
-    {
-      title: "Settings",
-      icon: (
-        <GiSettingsKnobs style={{ transform: "rotate(90deg)" }} size={24} />
-      ),
-    },
-    { title: "Stickers", icon: <PiStickerDuotone size={24} /> },
-    { title: "Personalize", icon: <TbUserScan size={24} /> },
-    {
-      title: "Collections",
-      icon: (
-        <HiOutlineSquares2X2 style={{ transform: "rotate(45deg)" }} size={24} />
-      ),
-    },
-  ];
-
+    const previewImage = [
+        designlogo,
+        previewImg,
+        previewImg1,
+        previewImg2,
+        previewImg3,
+        previewImg4,
+        previewImg5,
+        previewImg6,
+        previewImg7,
+        previewImg8,
+        previewImg9,
+        previewImg10,
+        previewImg11,
+        previewImg12,
+        previewImg13,
+      ];
+      const colors = [
+        "#E7CEB5",
+        "#E4C6D4",
+        "#C8C9C7",
+        "#CABFAD",
+        "#A4C8E1",
+        "#EEAD1A",
+        "#7BA4DB",
+        "#97999B",
+        "#DD74A1",
+        "#F4633A",
+        "#DB3E79",
+        "#5E7461",
+        "#00A74A",
+        "#224D8F",
+        "#D50032",
+        "#7D2935",
+        "#8A1538",
+        "#5B2B42",
+        "#273B33",
+        "#263147",
+        "#351F65",
+        "#25282A",
+      ];
+      const sizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
+      const navigate = useNavigate();
+      const [selectedColor, setSelectedColor] = useState("#FFFFFF"); // Default selected is white
+      const [activeDiv, setActiveDiv] = useState(0);
+      const [selectedImage, setSelectedImage] = useState(previewImage[0]); // Default image
+      const handleImageClick = (img) => {
+        setSelectedImage(img); // Update selected image
+        setStickerClicked(true);
+      };
+      const handleAddToOrder = () => {
+        navigate("/addToOrder")
+    
+      }
+    
+      
+      const handleItemSelect = (index) => {
+        setActiveDiv(index); // Activate div2 for item 10, else div1
+        setStickerClicked(false);
+      };
+    
+    
+      const [stickerClicked, setStickerClicked] = useState(false);
+    
+      const menuItems = [
+        { title: "Product", icon: <BsFillTagFill size={24} /> },
+        { title: "Layers", icon: <MdOutlineLayers size={24} /> },
+        { title: "Files", icon: <BsImages size={24} /> },
+        { title: "Text", icon: <RiText size={24} /> },
+        { title: "Shapes", icon: <RiShapesLine size={24} /> },
+        { title: "Shutterstock", icon: <SiShutterstock size={24} /> },
+        { title: "Layouts", icon: <TbLayoutDashboard size={24} /> },
+        {
+          title: "Settings",
+          icon: (
+            <GiSettingsKnobs style={{ transform: "rotate(90deg)" }} size={24} />
+          ),
+        },
+        { title: "Stickers", icon: <PiStickerDuotone size={24} /> },
+        { title: "Personalize", icon: <TbUserScan size={24} /> },
+        {
+          title: "Collections",
+          icon: (
+            <HiOutlineSquares2X2 style={{ transform: "rotate(45deg)" }} size={24} />
+          ),
+        },
+      ];
+    
   return (
     <div>
-      <Row>
-        <Navbar bg="light" variant="light" className="px-3 py-2  bg-white border-b-2" style={{ height: "60px" }}>
-          <Nav>
-            <span> Back to Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</span>
-          </Nav>
-          <Nav
-            className="ms-auto gap-4 "
-
-          >
-            <div>
-              <span>Price</span><br />
-              <span className='fw-bold fs-5'>959.79 INR</span>
-            </div>
-            <Button
-              variant="primary"
-              className='fw-bold'
-              style={{
-                backgroundColor: "#000088", // Background color
-                color: "white", // Text color
-                borderColor: "#000088", // Border color (if needed)
-              }}
-              onClick={handleAddToOrder}
-            >
-              Add to order
-            </Button>
-
-          </Nav>
-        </Navbar>
-      </Row>
-      <Row>
-        <div className="d-flex" style={{ fontFamily: "Roboto" }}>
-          <div className={`menu-drawer bg-light bg-white collapsed border-x-2`}>
-            {/* Drawer Menu */}
-            <ListGroup variant="flush" style={{ border: "none" }}>
-              {menuItems.map((item, index) => {
-                return (
-                  <ListGroup.Item
-                    action
-                    className="d-flex flex-col align-items-center"
-                    style={{
-                      border: "none",
-                      borderLeft:
-                        activeDiv === index ? "4px solid black" : "none",
-                    }}
-                    onClick={() => handleItemSelect(index)}
+        <Row>
+            <Navbar bg="light" variant="light" className="px-3 py-2  bg-white border-b-2" style={{ height: "60px" }}>
+                        <Nav>
+                          <span> Back to Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</span>
+                        </Nav>
+                        <Nav
+                          className="ms-auto gap-4 "
+            
+                        >
+                          <div>
+                            <span>Price</span><br />
+                            <span className='fw-bold fs-5'>959.79 INR</span>
+                          </div>
+                          <Button
+                            variant="primary"
+                            className='fw-bold'
+                            style={{
+                              backgroundColor: "#000088", // Background color
+                              color: "white", // Text color
+                              borderColor: "#000088", // Border color (if needed)
+                            }}
+                            onClick={handleAddToOrder}
+                          >
+                            Add to order
+                          </Button>
+            
+                        </Nav>
+                      </Navbar>
+        </Row>
+        <Row>
+      <div className="d-flex" style={{ fontFamily: "Roboto" }}>
+        <div className={`menu-drawer bg-light bg-white collapsed border-x-2`}>
+          {/* Drawer Menu */}
+          <ListGroup variant="flush" style={{ border: "none" }}>
+            {menuItems.map((item, index) => {
+              return (
+                <ListGroup.Item
+                  action
+                  className="d-flex flex-col align-items-center"
+                  style={{
+                    border: "none",
+                    borderLeft:
+                      activeDiv === index ? "4px solid black" : "none",
+                  }}
+                  onClick={() => handleItemSelect(index)}
                   // onClick={() => handleItemSelect(0)} // Set selected item when clicked
                   >
                     <span className="me-2">{item.icon}</span>
@@ -665,36 +665,36 @@ const PSEditorFilePage = () => {
                         </div>
                       )}
 
-                      {stickerClicked ? (
-                        <>
+                    { stickerClicked ? (
+                      <>
+                        <div
+                          className="pl-2 pe-2 d-flex gap-3"
+                          style={{
+                            borderRight: "1px #E9E9E9 solid",
+                            borderLeft: "1px #E9E9E9 solid",
+                          }}
+                        >
                           <div
-                            className="pl-2 pe-2 d-flex gap-3"
+                            className="d-flex justify-content-center align-items-center rounded-circle "
                             style={{
-                              borderRight: "1px #E9E9E9 solid",
-                              borderLeft: "1px #E9E9E9 solid",
+                              height: "30px",
+                              width: "30px",
+                              backgroundColor: "white",
+                              border: "3px black solid",
                             }}
                           >
                             <div
                               className="d-flex justify-content-center align-items-center rounded-circle "
                               style={{
-                                height: "30px",
-                                width: "30px",
+                                height: "20px",
+                                width: "20px",
                                 backgroundColor: "white",
-                                border: "3px black solid",
+                                border: "2px #2121211A solid",
                               }}
                             >
-                              <div
-                                className="d-flex justify-content-center align-items-center rounded-circle "
-                                style={{
-                                  height: "20px",
-                                  width: "20px",
-                                  backgroundColor: "white",
-                                  border: "2px #2121211A solid",
-                                }}
-                              >
-                                <MdDoneOutline color="#787e87" className="p-1" />
-                              </div>
+                              <MdDoneOutline color="#787e87" className="p-1" />
                             </div>
+                          </div>
 
                             <div
                               className="d-flex justify-content-center align-items-center rounded-circle "
@@ -901,30 +901,30 @@ const PSEditorFilePage = () => {
                   </div>
                 </Col>
 
-                {/* Main T-Shirt Display Section */}
-                <Col
-                  md={12}
-                  sm={12}
+              {/* Main T-Shirt Display Section */}
+              <Col
+                md={12}
+                sm={12}
+              >
+                <div
+                  //onClick={handleImageClickCreateDesignFile1}
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    textAlign: "center",
+                    cursor: "pointer",
+                  }}
                 >
-                  <div
-                    //onClick={handleImageClickCreateDesignFile1}
+                  <img
+                    src={showdow}
+                    alt="T-shirt with your design"
                     style={{
-                      position: "relative",
                       width: "100%",
-                      textAlign: "center",
-                      cursor: "pointer",
+                      height: "auto",
+                      backgroundColor: selectedColor || "transparent",
                     }}
-                  >
-                    <img
-                      src={showdow}
-                      alt="T-shirt with your design"
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        backgroundColor: selectedColor || "transparent",
-                      }}
-                    />
-                    {/* Design Logo Positioned at the Center  */}
+                  />
+                  {/* Design Logo Positioned at the Center  */}
 
                     <img
                       src={selectedImage}
@@ -943,13 +943,13 @@ const PSEditorFilePage = () => {
                   </div>
                 </Col>
 
-
-              </Row>
-            </Col>
-          </Row>
-        </div>
-      </Row>
-
+             
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    </Row>
+      
     </div>
   )
 }
