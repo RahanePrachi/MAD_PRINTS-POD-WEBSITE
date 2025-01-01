@@ -19,13 +19,48 @@ import { TbTriangleOff } from "react-icons/tb";
 import { TbWashTemperature2 } from "react-icons/tb";
 import { TbWashDry1 } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
+import { getProductById } from '../../../services/apiService';
 const colors = [
     '#FFFFFF', '#E7CEB5', '#E4C6D4', '#C8C9C7', '#CABFAD', '#A4C8E1', '#EEAD1A',
     '#7BA4DB', '#97999B', '#DD74A1', '#F4633A', '#DB3E79', '#5E7461',
     '#00A74A', '#224D8F', '#D50032', '#7D2935', '#8A1538', '#5B2B42',
     '#273B33', '#263147', '#351F65', '#25282A'
 ];
-const ViewProductDetails = () => {
+const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
+
+    const [colors, setColors] = useState([
+        '#FFFFFF', '#E7CEB5', '#E4C6D4', '#C8C9C7', '#CABFAD', '#A4C8E1', '#EEAD1A',
+        '#7BA4DB', '#97999B', '#DD74A1', '#F4633A', '#DB3E79', '#5E7461',
+        '#00A74A', '#224D8F', '#D50032', '#7D2935', '#8A1538', '#5B2B42',
+        '#273B33', '#263147', '#351F65', '#25282A'
+    ])
+    const [tabs,setTabs]=useState([])
+
+    const [data, setResponseData] = useState({})
+    const [isLoading,setIsLoading]=useState(false)
+    const [isError,setIsError]=useState(null)
+    const setData = async () => {
+        setIsLoading(true)
+        try {
+            const data = await getProductById(product_id)
+            console.log("data:", data);
+
+            data.available_colors ? setColors(data.available_colors) : setColors(colors);
+            setResponseData(data)
+        } catch (e) {
+            console.log("error is product details");
+            setIsError(e.message)
+        }finally{
+            setIsLoading(false)
+        }
+    }
+   
+
+    useEffect(() => {
+        setData()
+    }, [])
+
+    
 
     const sizes = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 
@@ -36,13 +71,35 @@ const ViewProductDetails = () => {
         image4,
         image5
     ]
-    const tabs = [{ title: 'Description', content: <DescriptionContent /> }, { title: 'Pricing', content: <RegionalPricingContent /> }, { title: 'Production', content: <ProductionContent /> }, { title: 'Stock Availability', content: <StockAvailabilityContent /> }, { title: 'Size Guide', content: <SizeGuideContent /> }, { title: 'File Specification', content: <FileSpecificationContent /> }, { title: 'FAQ', content: <div>FAQs</div> }]
+    
+
     const sectionRefs = useRef([]);
     const navigate = useNavigate()
     // Initialize refs for each tab
     useEffect(() => {
         sectionRefs.current = tabs.map((_, i) => sectionRefs.current[i] || React.createRef());
     }, [tabs]);
+    
+    useEffect(()=>{
+        if (data){
+            setTabs([
+                { title: 'Description', content: <DescriptionContent data={data} /> },
+                { title: 'Pricing', content: <RegionalPricingContent /> },
+                { title: 'Production', content: <ProductionContent /> },
+                { title: 'Stock Availability', content: <StockAvailabilityContent available_colors={colors} /> },
+               { title: 'File Specification', content: <FileSpecificationContent /> },
+                { title: 'FAQ', content: <div>FAQs</div> }
+            ])
+
+            if(data.size_table_attached){
+                tabs.splice(4, 0,  { title: 'Size Guide', content: <SizeGuideContent size_table={data.size_table_attached} /> });
+            }
+
+        }
+            
+
+        
+    })
 
     const handleTabClick = (index) => {
         setSelectedTab(index);
@@ -54,7 +111,11 @@ const ViewProductDetails = () => {
     const [selectedColor, setSelectedColor] = useState(colors[0])
     const [selectedSize, setSelectedSize] = useState(sizes[0])
     const [selectedTab, setSelectedTab] = useState(0)
+
+    
     return (
+        isLoading?<div>Loading</div> :
+        isError!=null?<div>{isError}</div>:
         <div >
             <div className=' ps-5 pe-5 ' style={{ backgroundColor: "#F5F6F8" }}>
                 <div className='ms-5  me-5 ps-5 pe-5 ' style={{ backgroundColor: "#F5F6F8" }}>
@@ -62,9 +123,12 @@ const ViewProductDetails = () => {
                         <Col md={12} sm={12} >
                             <div className='d-flex gap-4 h-8 pt-1 pb-1' >
                                 <p>Choose Product</p>
-                                <p style={{cursor:"pointer"}} onClick={()=>{navigate("/product")}}>Men's Clothing</p>
-                                <p style={{cursor:"pointer"}} onClick={()=>{navigate("/product")}}>T-shirts</p>
-                                <b>Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</b>
+                                <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.category}</p>
+                                {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>Men's Clothing</p> */}
+                                <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.sub_category}</p>
+                                {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>T-shirts</p> */}
+                                {/* <b>Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</b> */}
+                                <b>{data.title ? data.title : "Heavyweight Unisex Crewneck T-shirt | Gildan® 5000"}</b>
                             </div>
                         </Col>
                         <Col md={2} sm={2}>
@@ -89,19 +153,23 @@ const ViewProductDetails = () => {
                             </div>
                         </Col>
                         <Col md={4} sm={4} className='pt-2 pb-4'>
-                            <Button
-                                variant="primary"
-                                className=' fs-6'
-                                style={{
-                                    backgroundColor: "#5991FF", // Background color
-                                    color: "#FFFFFF", // Text color
-                                    borderColor: "#5991FF", // Border color (if needed),
-                                    borderRadius: "6px"
-                                }}
-                            // onClick={handleNaviagteDesign}
-                            >
-                                Embroidery available
-                            </Button>
+
+                            {/* {data?.printDetails?.printType?.map((item, index) => {
+                                if (item != "Direct To Garment (DTG)")
+                                    return <Button
+                                        variant="primary"
+                                        className=' fs-6'
+                                        style={{
+                                            backgroundColor: "#5991FF", // Background color
+                                            color: "#FFFFFF", // Text color
+                                            borderColor: "#5991FF", // Border color (if needed),
+                                            borderRadius: "6px"
+                                        }}
+                                    // onClick={handleNaviagteDesign}
+                                    >
+                                        Embroidery available
+                                    </Button>
+                            })} */}
                             <div className='d-flex align-items-center mb-4 mt-4' style={{
                                 width: "100%",
                                 height: "100%",
@@ -115,22 +183,25 @@ const ViewProductDetails = () => {
 
                                 />
                             </div>
-
-
                         </Col>
                         <Col md={6} sm={6}>
                             <div className='pt-2'>
-                                <b className='fs-4 pb-4'>Heavyweight Unisex Crewneck T-shirt | Gildan®
-                                    5000</b>
+                                <b className='fs-4 pb-4'>{data.title ? data.title : "Heavyweight Unisex Crewneck T-shirt | Gildan® 5000"}
+                                </b>
                                 <div className='d-flex gap-4'>
                                     <div className='pb-4' >
                                         <div className='d-flex pt-4 gap-2 align-items-center' style={{ color: "#383838" }}>Product price <FiInfo /></div>
-                                        <div className='d-flex gap-1 align-items-end' ><p className='fw-bold fs-2'>₹ 959.79</p> <p style={{ color: "#383838" }}>excl. VAT</p></div>
+                                        <div className='d-flex gap-1 align-items-end' ><p className='fw-bold fs-2'>{data.currency_type == "INR" ? "₹" : "$"} {data.price}</p> <p style={{ color: "#383838" }}>excl. VAT</p></div>
                                         <div className='d-flex align-items-center gap-1 pb-1' style={{ color: "#542C65" }}><div style={{ backgroundColor: "#9C77AC", borderRadius: "6px" }}><PiCrownSimple size={22} color='#F4E8FA' /> </div> ₹883.01 with Gelato +</div>
                                         <div className='d-flex align-items-center gap-1 pb-0' style={{ color: "#542C65" }}><div style={{ backgroundColor: "#CBA543", borderRadius: "6px" }}><PiCrownSimple size={22} color='#FFF4D7' /> </div> ₹863.81 with Gelato Gold</div>
                                     </div>
                                     <div className='pb-4' >
-                                        <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-2'>₹ 1,677.59</span></div>
+                                        {data.is_freeshiping?
+                                        <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-5' style={{color:"green"}}>Free delivery</span></div>
+                                        :<div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-2'>{data.currency_type == "INR" ? "₹" : "$"} {data.price + 600.3}</span></div>
+                                        }
+
+                                        {/* <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-2'>{data.currency_type == "INR" ? "₹" : "$"} {data.price + 600.3}</span></div> */}
 
                                     </div>
                                 </div>
@@ -140,33 +211,42 @@ const ViewProductDetails = () => {
 
                                 <div className='pb-4'>
 
-                                    <div className='d-flex pt-3 pb-2 gap-2 align-items-center' style={{ color: "#333333" }}>Print Technology <FiInfo color='#6B6B6B' /></div>
-                                    <Button
+                                    <div className='d-flex pt-3 pb-2 gap-3 align-items-center' style={{ color: "#333333" }}>Print Technology <FiInfo color='#6B6B6B' /></div>
+                                    {data?.printDetails?.printType?.map((item, index) => {
+                                        if (item === "Direct To Garment (DTG)")
+                                            return (
+                                                <Button
 
-                                        variant="primary"
-                                        className=' fs-6 me-2'
-                                        style={{
-                                            backgroundColor: "#525252", // Background color
-                                            color: "#FFFFFF", // Text color
-                                            borderColor: "#525252", // Border color (if needed),
-                                            borderRadius: "6px"
-                                        }}
-                                    >
-                                        Direct-to-garment (DTG)
-                                    </Button>
-                                    <Button
-                                        variant="primary"
-                                        className=' fs-6 p-2'
-                                        style={{
-                                            backgroundColor: "#FFFFFF", // Background color
-                                            color: "#333333", // Text color
-                                            borderColor: "#0000001A", // Border color (if needed),
-                                            borderRadius: "6px",
-                                            height: "100%"
-                                        }}
-                                    >
-                                        Embroidery <span style={{ fontSize: "12px", color: "white", backgroundColor: '#189A7B', borderRadius: "10px" }} className='p-1'>New</span>
-                                    </Button>
+                                                    variant="primary"
+                                                    className=' fs-6 me-2'
+                                                    style={{
+                                                        backgroundColor: "#525252", // Background color
+                                                        color: "#FFFFFF", // Text color
+                                                        borderColor: "#525252", // Border color (if needed),
+                                                        borderRadius: "6px"
+                                                    }}
+                                                >
+                                                    Direct-to-garment (DTG)
+                                                </Button>)
+
+                                        return (
+                                            <Button
+                                                variant="primary"
+                                                className=' fs-6 p-2'
+                                                style={{
+                                                    backgroundColor: "#FFFFFF", // Background color
+                                                    color: "#333333", // Text color
+                                                    borderColor: "#0000001A", // Border color (if needed),
+                                                    borderRadius: "6px",
+                                                    height: "100%"
+                                                }}
+                                            >
+                                                Embroidery <span style={{ fontSize: "12px", color: "white", backgroundColor: '#189A7B', borderRadius: "10px" }} className='p-1'>New</span>
+                                            </Button>
+                                        )
+
+                                    })}
+
                                 </div>
 
                                 {/* Colors */}
@@ -209,6 +289,9 @@ const ViewProductDetails = () => {
                                             </Button>
                                         ))}
                                     </div>
+                                </div>
+                                <div>
+                                    {data.stock<5 ? data.stock==0 ?<p style={{color:"red"}}>Out off stock</p>:<p style={{color:"red"}}> Only {data.stock}* left</p>:""}
                                 </div>
 
                                 <div className='d-flex gap-2 mb-4'>
@@ -309,10 +392,11 @@ const ViewProductDetails = () => {
                 ))}
             </div>
         </div >
+
     )
 }
 
-const DescriptionContent = () => {
+const DescriptionContent = ({ data }) => {
     return <div className='mb-4'>
         <div
             className='p-3'
@@ -327,14 +411,20 @@ const DescriptionContent = () => {
 `
             }}>
             <p className='fw-bold  fs-5 ' >Description</p>
-            <p className='fs-6'>This heavyweight cotton t-shirt is a durable staple product with a classic fit. One of the most popular items, it has a relaxed style made for
-                everyday and casual wear</p>
+            {/* <p className='fs-6'>This heavyweight cotton t-shirt is a durable staple product with a classic fit. One of the most popular items, it has a relaxed style made for
+                everyday and casual wear</p> */}
+            <p className='fs-6'>{data.description}</p>
 
             <div className='ms-4'>
-                <span className='fs-6'>Seamless double-needle collar</span><br />
+                {data?.features?.map((item, index) => {
+                    return <>
+                        <span key={index} className='fs-6'>{item}</span><br />
+                    </>
+                })}
+                {/* <span className='fs-6'>Seamless double-needle collar</span><br />
                 <span className='fs-6'>Double-needle sleeve and bottom hems</span><br />
                 <span className='fs-6'>100% cotton</span><br />
-                <span className='fs-6'>Taped neck and shoulders for durability</span><br />
+                <span className='fs-6'>Taped neck and shoulders for durability</span><br /> */}
             </div>
             <hr />
             <span className='fw-bold fs-6 d-flex gap-2 align-items-center'> Product UID <PiCopy size={20} /></span>
@@ -358,7 +448,8 @@ const DescriptionContent = () => {
                     }}
                 >
                     <p className='fw-bold fs-5'>Brands</p>
-                    <p className='fs-6'>Gildan 5000</p>
+                    <p className='fs-6'>{data.brand}</p>
+                    {/* <p className='fs-6'>Gildan 5000</p> */}
                 </div>
             </Col>
 
@@ -379,7 +470,12 @@ const DescriptionContent = () => {
                 >
                     <p className='fw-bold fs-5'>Special Features</p>
                     <p className='fs-6'>
-                        A reliable choice for digital printing and embroidery crafted from heavyweight cotton.
+                        {data?.features?.map((item, index) => {
+                            return <>
+                                <span key={index} className='fs-6'>{item}</span><br />
+                            </>
+                        })}
+                        {/* A reliable choice for digital printing and embroidery crafted from heavyweight cotton. */}
                     </p>
                 </div>
             </Col>
@@ -571,7 +667,22 @@ const ProductionContent = () => {
         </div>
     )
 }
-const StockAvailabilityContent = () => {
+const StockAvailabilityContent = ({ available_colors }) => {
+    // Initialize the status array with default 0s
+    const status = new Array(colors.length).fill(0);
+
+    // Check availability and update status
+    available_colors.forEach((color) => {
+        const index = colors.indexOf(color);
+        if (index !== -1) {
+            // If color exists, mark as available
+            status[index] = 1;
+        } else {
+            // If color doesn't exist, add it to colors and status
+            colors.push(color);
+            status.push(0); // New color marked as unavailable
+        }
+    });
     return (
         <div>
             <div
@@ -644,11 +755,11 @@ const StockAvailabilityContent = () => {
                             <td className='w-25' style={{ borderRight: "1px solid #E7E9EB" }}>S - Direct-to-garment (DTG)</td>
                             <td className='text-center '>
                                 <div className="d-flex flex-wrap gap-2 mt-2 ">
-                                    {colors.map((color, index) => (
+                                    {status.map((color, index) => (
                                         <div
                                             key={index}
                                             style={{
-                                                backgroundColor: "#00A7A33D",
+                                                backgroundColor: color === 1 ? "#00A7A33D" : " #33333333",
                                                 width: '20px',
                                                 height: '20px',
                                                 display: 'flex',
@@ -672,7 +783,10 @@ const StockAvailabilityContent = () => {
         </div>
     )
 }
-const SizeGuideContent = () => {
+
+const SizeGuideContent = ({ size_table=[] }) => {
+    
+
     const sizeChart = [
         { size: "S", length: "71.1 cm", halfChest: "45.7 cm" },
         { size: "M", length: "73.7 cm", halfChest: "50.8 cm" },
@@ -683,6 +797,23 @@ const SizeGuideContent = () => {
         { size: "4XL", length: "86 cm", halfChest: "76 cm" },
         { size: "5XL", length: "89 cm", halfChest: "81 cm" },
     ];
+    const sizeImperialChart = [
+        { size: "S", length: "28 inches", halfChest: "18 inches" },
+        { size: "M", length: "29 inches", halfChest: "20 inches" },
+        { size: "L", length: "30 inches", halfChest: "22 inches" },
+        { size: "XL", length: "31 inches", halfChest: "24 inches" },
+        { size: "2XL", length: "32 inches", halfChest: "26 inches" },
+        { size: "3XL", length: "33 inches", halfChest: "28 inches" },
+        { size: "4XL", length: "33.9 inches", halfChest: "29.9 inches" },
+        { size: "5XL", length: "35 inches", halfChest: "31.9 inches" },
+    ];
+
+    const [isMetric, setIsMetric] = useState(true)
+
+    // Check if size_table is empty
+    if (!size_table || size_table.length === 0) {
+        return <div>No size guide available.</div>;
+    }
     return (<div>
         <div
             className='pt-3 pb-0'
@@ -712,30 +843,33 @@ const SizeGuideContent = () => {
                         difference of +/- 2.5cm (1 in)</p>
                 </Col>
             </Row>
+
             <div className='d-flex gap-2 ps-2 pt-2'>
-                <div className='fw-bold  fs-6 ' style={{ borderBottom: "2px solid black" }}>Metric (cm)</div>
-                <div className='  fs-6 ' >Imperial (inches)</div>
+                {size_table[0]?.metric && <div onClick={() => setIsMetric(true)} className='  fs-6 ' style={{ cursor: "pointer", fontWeight: isMetric ? "bold" : "normal", borderBottom: isMetric ? "2px solid black" : "none" }}>Metric (cm)</div>}
+                {size_table[0]?.imperial && <div onClick={() => setIsMetric(false)} className='  fs-6 ' style={{ cursor: "pointer", fontWeight: isMetric ? "normal" : "bold", borderBottom: isMetric ? "none" : "2px solid black" }} >Imperial (inches)</div>}
 
             </div>
+
             <Table className='' bordered hover responsive>
                 <thead>
                     <tr>
                         <th></th>
-                        {sizeChart.map((size, index) => (
-                            <th key={index} style={{ border: "none" }} className="text-center">{size.size}</th>
-                        ))}
+                        {
+                            sizeImperialChart.map((size, index) => (
+                                <th key={index} style={{ border: "none" }} className="text-center">{size.size}</th>
+                            ))}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td className="text-start fw-bold">A) Length</td>
-                        {sizeChart.map((size, index) => (
+                        {(isMetric ? sizeChart : sizeImperialChart).map((size, index) => (
                             <td key={index} className="text-center" style={{ border: "none" }}>{size.length}</td>
                         ))}
                     </tr>
                     <tr>
                         <td className="text-start fw-bold">B) Half Chest</td>
-                        {sizeChart.map((size, index) => (
+                        {(isMetric ? sizeChart : sizeImperialChart).map((size, index) => (
                             <td key={index} className="text-center" style={{ border: "none" }}>{size.halfChest}</td>
                         ))}
                     </tr>

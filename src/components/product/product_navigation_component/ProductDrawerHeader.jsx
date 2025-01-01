@@ -261,7 +261,6 @@ const DashboardLayout = () => {
 
           {/* Drawer Menu */}
           <DrawerMenuItems selectedIndex={selectedIndex} handleItemSelect={handleItemSelect} expanded={expanded} setIsPublish={setIsPublish}/>
-
         </div>
 
       }
@@ -269,7 +268,6 @@ const DashboardLayout = () => {
       {/* Main Content Area */}
       {isAddToOrder ?
         <div className="main-content flex-grow-1">
-
           <OrderProducts />
         </div>
         : <div className="main-content flex-grow-1">
