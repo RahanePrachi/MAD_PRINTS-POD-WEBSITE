@@ -1,7 +1,6 @@
 import "@fontsource/phudu";
 import "@fontsource/manrope";
 import "@fontsource/outfit";
-
 import './App.css';
 import AddProduct from "./components/mystores/AddProduct";
 import PStudio from "./components/personalizationStudio/PStudio";
@@ -20,6 +19,7 @@ import ViewProductDetails from "./components/product/product_details/ViewProduct
 function App() {
   return (
     <div>
+    
       {/* Common Header */}
       <Header />
 
