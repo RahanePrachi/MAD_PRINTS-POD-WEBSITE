@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Row, Col, Card, Button, Table } from 'react-bootstrap'
+
+import Select from "react-select";
 import { FiInfo } from "react-icons/fi";
 import { PiCrownSimple } from "react-icons/pi";
 import image1 from '../assets/view_product_details/whites1.jpeg'
@@ -9,7 +11,6 @@ import image4 from '../assets/view_product_details/whites4.jpeg'
 import image5 from '../assets/view_product_details/whites5.jpeg'
 import mapimg from '../assets/view_product_details/map1.png'
 import sizeguide from '../assets/view_product_details/sizeguide.png'
-import IN from '../assets/view_product_details/inFlag.png'
 import { PiGlobeSimpleBold } from "react-icons/pi";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { MdOutlineLocalShipping } from "react-icons/md";
@@ -28,17 +29,32 @@ const colors = [
 ];
 const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
 
+
+    const countryOptions = [
+        { value: "INR", label: "India", flag: "in", symbol: "₹" },
+        { value: "USD", label: "United States", flag: "us", symbol: "$" },
+        { value: "GB", label: "United Kingdom", flag: "gb", symbol: "$" },
+        { value: "CA", label: "Canada", flag: "ca", symbol: "$" },
+        { value: "AU", label: "Australia", flag: "au", symbol: "$" },
+        // Add more countries as needed
+    ];
+
+    const [selectedCountry, setSelectedCountry] = useState(countryOptions[0]); // Handle country selection
+    const handleChange = (selectedOption) => {
+        setSelectedCountry(selectedOption);
+    };
+
     const [colors, setColors] = useState([
         '#FFFFFF', '#E7CEB5', '#E4C6D4', '#C8C9C7', '#CABFAD', '#A4C8E1', '#EEAD1A',
         '#7BA4DB', '#97999B', '#DD74A1', '#F4633A', '#DB3E79', '#5E7461',
         '#00A74A', '#224D8F', '#D50032', '#7D2935', '#8A1538', '#5B2B42',
         '#273B33', '#263147', '#351F65', '#25282A'
     ])
-    const [tabs,setTabs]=useState([])
+    const [tabs, setTabs] = useState([])
 
     const [data, setResponseData] = useState({})
-    const [isLoading,setIsLoading]=useState(false)
-    const [isError,setIsError]=useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(null)
     const setData = async () => {
         setIsLoading(true)
         try {
@@ -50,17 +66,14 @@ const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
         } catch (e) {
             console.log("error is product details");
             setIsError(e.message)
-        }finally{
+        } finally {
             setIsLoading(false)
         }
     }
-   
 
     useEffect(() => {
         setData()
     }, [])
-
-    
 
     const sizes = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 
@@ -71,7 +84,7 @@ const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
         image4,
         image5
     ]
-    
+
 
     const sectionRefs = useRef([]);
     const navigate = useNavigate()
@@ -79,27 +92,27 @@ const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
     useEffect(() => {
         sectionRefs.current = tabs.map((_, i) => sectionRefs.current[i] || React.createRef());
     }, [tabs]);
-    
-    useEffect(()=>{
-        if (data){
+
+    useEffect(() => {
+        if (data) {
             setTabs([
                 { title: 'Description', content: <DescriptionContent data={data} /> },
                 { title: 'Pricing', content: <RegionalPricingContent /> },
                 { title: 'Production', content: <ProductionContent /> },
                 { title: 'Stock Availability', content: <StockAvailabilityContent available_colors={colors} /> },
-               { title: 'File Specification', content: <FileSpecificationContent /> },
+                { title: 'File Specification', content: <FileSpecificationContent /> },
                 { title: 'FAQ', content: <div>FAQs</div> }
             ])
 
-            if(data.size_table_attached){
-                tabs.splice(4, 0,  { title: 'Size Guide', content: <SizeGuideContent size_table={data.size_table_attached} /> });
+            if (data.size_table_attached) {
+                tabs.splice(4, 0, { title: 'Size Guide', content: <SizeGuideContent size_table={data.size_table_attached} /> });
             }
 
         }
-            
 
-        
-    })
+
+
+    },[])
 
     const handleTabClick = (index) => {
         setSelectedTab(index);
@@ -112,286 +125,317 @@ const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
     const [selectedSize, setSelectedSize] = useState(sizes[0])
     const [selectedTab, setSelectedTab] = useState(0)
 
-    
+
     return (
-        isLoading?<div>Loading</div> :
-        isError!=null?<div>{isError}</div>:
-        <div >
-            <div className=' ps-5 pe-5 ' style={{ backgroundColor: "#F5F6F8" }}>
-                <div className='ms-5  me-5 ps-5 pe-5 ' style={{ backgroundColor: "#F5F6F8" }}>
-                    <Row>
-                        <Col md={12} sm={12} >
-                            <div className='d-flex gap-4 h-8 pt-1 pb-1' >
-                                <p>Choose Product</p>
-                                <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.category}</p>
-                                {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>Men's Clothing</p> */}
-                                <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.sub_category}</p>
-                                {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>T-shirts</p> */}
-                                {/* <b>Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</b> */}
-                                <b>{data.title ? data.title : "Heavyweight Unisex Crewneck T-shirt | Gildan® 5000"}</b>
-                            </div>
-                        </Col>
-                        <Col md={2} sm={2}>
-                            <div className='m-3'>
-                                {productImages.map((item, index) => {
-                                    return (
-                                        <Card
-                                            onClick={() => setSelectedImage(index)}
-                                            style={{ width: "100px", border: selectedImage === index ? "1px solid #212121" : "1px solid #0000001A", position: "relative", overflow: "hidden", borderRadius: "0px" }}
-                                            className='m-2'
-                                        >
-                                            {/* Card Image */}
-                                            <Card.Img
-                                                variant="top"
-                                                src={item}
-
-                                            />
-                                        </Card>
-                                    )
-                                })}
-
-                            </div>
-                        </Col>
-                        <Col md={4} sm={4} className='pt-2 pb-4'>
-
-                            {/* {data?.printDetails?.printType?.map((item, index) => {
-                                if (item != "Direct To Garment (DTG)")
-                                    return <Button
-                                        variant="primary"
-                                        className=' fs-6'
-                                        style={{
-                                            backgroundColor: "#5991FF", // Background color
-                                            color: "#FFFFFF", // Text color
-                                            borderColor: "#5991FF", // Border color (if needed),
-                                            borderRadius: "6px"
-                                        }}
-                                    // onClick={handleNaviagteDesign}
-                                    >
-                                        Embroidery available
-                                    </Button>
-                            })} */}
-                            <div className='d-flex align-items-center mb-4 mt-4' style={{
-                                width: "100%",
-                                height: "100%",
-                                maxHeight: "450px",
-                                maxWidth: "450px",
-                            }}>
-                                <img
-                                    width="80%"
-                                    height="80%"
-                                    src={productImages[selectedImage]}
-
-                                />
-                            </div>
-                        </Col>
-                        <Col md={6} sm={6}>
-                            <div className='pt-2'>
-                                <b className='fs-4 pb-4'>{data.title ? data.title : "Heavyweight Unisex Crewneck T-shirt | Gildan® 5000"}
-                                </b>
-                                <div className='d-flex gap-4'>
-                                    <div className='pb-4' >
-                                        <div className='d-flex pt-4 gap-2 align-items-center' style={{ color: "#383838" }}>Product price <FiInfo /></div>
-                                        <div className='d-flex gap-1 align-items-end' ><p className='fw-bold fs-2'>{data.currency_type == "INR" ? "₹" : "$"} {data.price}</p> <p style={{ color: "#383838" }}>excl. VAT</p></div>
-                                        <div className='d-flex align-items-center gap-1 pb-1' style={{ color: "#542C65" }}><div style={{ backgroundColor: "#9C77AC", borderRadius: "6px" }}><PiCrownSimple size={22} color='#F4E8FA' /> </div> ₹883.01 with Gelato +</div>
-                                        <div className='d-flex align-items-center gap-1 pb-0' style={{ color: "#542C65" }}><div style={{ backgroundColor: "#CBA543", borderRadius: "6px" }}><PiCrownSimple size={22} color='#FFF4D7' /> </div> ₹863.81 with Gelato Gold</div>
+        isLoading ? <div>Loading</div> :
+            isError != null ? <div>{isError}</div> :
+                <div >
+                    <div className=' ps-5 pe-5 ' style={{ backgroundColor: "#F5F6F8" }}>
+                        <div className='ms-5  me-5 ps-5 pe-5 ' style={{ backgroundColor: "#F5F6F8" }}>
+                            <Row>
+                                <Col md={12} sm={12} >
+                                    <div className='d-flex gap-4 h-8 pt-1 pb-1' >
+                                        <p>Choose Product</p>
+                                        <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.category}</p>
+                                        {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>Men's Clothing</p> */}
+                                        <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.sub_category}</p>
+                                        {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>T-shirts</p> */}
+                                        {/* <b>Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</b> */}
+                                        <b>{data.title ? data.title : "Heavyweight Unisex Crewneck T-shirt | Gildan® 5000"}</b>
                                     </div>
-                                    <div className='pb-4' >
-                                        {data.is_freeshiping?
-                                        <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-5' style={{color:"green"}}>Free delivery</span></div>
-                                        :<div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-2'>{data.currency_type == "INR" ? "₹" : "$"} {data.price + 600.3}</span></div>
-                                        }
-
-                                        {/* <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-2'>{data.currency_type == "INR" ? "₹" : "$"} {data.price + 600.3}</span></div> */}
-
-                                    </div>
-                                </div>
-                                <div className='p-3 mb-4 d-flex flex-row pb-4 align-items-center h-12' style={{ border: "1px solid #3333331A ", borderRadius: "6px", color: "#383838" }}>
-                                    <span className='d-flex flex-row gap-2 align-items-center text-center'><b>Deliver to</b> <img height="30px" width="30px" src={IN} /> India</span>
-                                </div>
-
-                                <div className='pb-4'>
-
-                                    <div className='d-flex pt-3 pb-2 gap-3 align-items-center' style={{ color: "#333333" }}>Print Technology <FiInfo color='#6B6B6B' /></div>
-                                    {data?.printDetails?.printType?.map((item, index) => {
-                                        if (item === "Direct To Garment (DTG)")
+                                </Col>
+                                <Col md={2} sm={2}>
+                                    <div className='m-3'>
+                                        {productImages.map((item, index) => {
                                             return (
-                                                <Button
-
-                                                    variant="primary"
-                                                    className=' fs-6 me-2'
-                                                    style={{
-                                                        backgroundColor: "#525252", // Background color
-                                                        color: "#FFFFFF", // Text color
-                                                        borderColor: "#525252", // Border color (if needed),
-                                                        borderRadius: "6px"
-                                                    }}
+                                                <Card
+                                                    onClick={() => setSelectedImage(index)}
+                                                    style={{ width: "100px", border: selectedImage === index ? "1px solid #212121" : "1px solid #0000001A", position: "relative", overflow: "hidden", borderRadius: "0px" }}
+                                                    className='m-2'
                                                 >
-                                                    Direct-to-garment (DTG)
-                                                </Button>)
+                                                    {/* Card Image */}
+                                                    <Card.Img
+                                                        variant="top"
+                                                        src={item}
 
-                                        return (
-                                            <Button
+                                                    />
+                                                </Card>
+                                            )
+                                        })}
+
+                                    </div>
+                                </Col>
+                                <Col md={4} sm={4} className='pt-2 pb-4'>
+
+                                    {data?.printDetails?.printType?.map((item, index) => {
+                                        if (item !== "Direct To Garment (DTG)")
+                                            return <Button
                                                 variant="primary"
-                                                className=' fs-6 p-2'
+                                                className=' fs-6'
                                                 style={{
-                                                    backgroundColor: "#FFFFFF", // Background color
-                                                    color: "#333333", // Text color
-                                                    borderColor: "#0000001A", // Border color (if needed),
-                                                    borderRadius: "6px",
-                                                    height: "100%"
+                                                    backgroundColor: "#5991FF", // Background color
+                                                    color: "#FFFFFF", // Text color
+                                                    borderColor: "#5991FF", // Border color (if needed),
+                                                    borderRadius: "6px"
                                                 }}
+                                            // onClick={handleNaviagteDesign}
                                             >
-                                                Embroidery <span style={{ fontSize: "12px", color: "white", backgroundColor: '#189A7B', borderRadius: "10px" }} className='p-1'>New</span>
+                                                Embroidery available
                                             </Button>
-                                        )
-
                                     })}
+                                    <div className='d-flex align-items-center mb-4 mt-4' style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        maxHeight: "450px",
+                                        maxWidth: "450px",
+                                    }}>
+                                        <img
+                                            width="80%"
+                                            height="80%"
+                                            alt='Product image'
+                                            src={productImages[selectedImage]}
 
-                                </div>
+                                        />
+                                    </div>
+                                </Col>
+                                <Col md={6} sm={6}>
+                                    <div className='pt-2'>
+                                        <b className='fs-4 pb-4'>{data.title ? data.title : "Heavyweight Unisex Crewneck T-shirt | Gildan® 5000"}
+                                        </b>
+                                        <div className='d-flex gap-4'>
+                                            <div className='pb-4' >
+                                                <div className='d-flex pt-4 gap-2 align-items-center' style={{ color: "#383838" }}>Product price <FiInfo /></div>
+                                                <div className='d-flex gap-1 align-items-end' ><p className='fw-bold fs-2'>{data.currency_type === "INR" ? "₹" : "$"} {data.price}</p> <p style={{ color: "#383838" }}>excl. VAT</p></div>
+                                                <div className='d-flex align-items-center gap-1 pb-1' style={{ color: "#542C65" }}><div style={{ backgroundColor: "#9C77AC", borderRadius: "6px" }}><PiCrownSimple size={22} color='#F4E8FA' /> </div> ₹883.01 with Gelato +</div>
+                                                <div className='d-flex align-items-center gap-1 pb-0' style={{ color: "#542C65" }}><div style={{ backgroundColor: "#CBA543", borderRadius: "6px" }}><PiCrownSimple size={22} color='#FFF4D7' /> </div> ₹863.81 with Gelato Gold</div>
+                                            </div>
+                                            <div className='pb-4' >
+                                                {data.is_freeshiping ?
+                                                    <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-5' style={{ color: "green" }}>Free delivery</span></div>
+                                                    : <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-2'>{data.currency_type === "INR" ? "₹" : "$"} {data.price + 600.3}</span></div>
+                                                }
 
-                                {/* Colors */}
-                                <div className="mb-2 mt-4 pb-4">
-                                    <p className="fs-6 fw-semibold">Color:<b className='fw-semibold'> {selectedColor}</b></p>
-                                    <div className="d-flex flex-wrap gap-2 mt-2 ">
-                                        {colors.map((color, index) => (
-                                            <div
-                                                key={index}
-                                                onClick={() => setSelectedColor(color)}
-                                                style={{
-                                                    backgroundColor: color,
-                                                    width: '20px',
-                                                    height: '20px',
-                                                    border: selectedColor === color ? '1px solid black ' : '1px solid #ccc',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    borderRadius: "5px",
-                                                    justifyContent: 'center',
-                                                    cursor: 'pointer',
-                                                    position: 'relative'
-                                                }}
-                                            >
+                                                {/* <div className='pt-4' style={{ color: "#383838" }}>Standard shipping <br /> <span className='fw-bold fs-2'>{data.currency_type == "INR" ? "₹" : "$"} {data.price + 600.3}</span></div> */}
 
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
+                                        </div>
+                                        <div className='p-3 mb-4 d-flex flex-row pb-4 align-items-center h-12' 
+                                        // style={{ border: "1px solid #3333331A ", borderRadius: "6px", color: "#383838" }}
+                                        >
+                                            <span className='d-flex flex-row gap-2 align-items-center text-center'><b>Deliver to</b>
+                                                {/* <img height="30px" width="30px" src={IN} /> India */}
 
-                                {/* Sizes */}
-                                <div className="mt-4 mb-4">
-                                    <div className="d-flex">
-                                        <h3 className="fs-6 fw-semibold">Size: <b className=''> {selectedSize}</b></h3>
-                                        <h3 className="fs-6 fw-semibold ms-auto" style={{ color: "#367BF5" }}>Size guide</h3>
-                                    </div>
-                                    <div className="d-flex flex-wrap gap-2 mt-2">
-                                        {sizes.map((size, index) => (
-                                            <Button onClick={() => setSelectedSize(size)} key={index} style={{ color: selectedSize === size ? '#FFFFFF' : "#212121", backgroundColor: selectedSize === size ? '#525252' : '#FFFFFF', borderColor: "#BDBDBD" }} variant="outline-secondary" className="px-3 py-2">
-                                                {size}
+                                                <Select
+                                                    options={countryOptions}
+                                                    value={selectedCountry}
+                                                    onChange={handleChange}
+                                                    className="w-40"
+                                                    getOptionLabel={(e) => (
+                                                        <div className="flex items-center">
+                                                            {/* Displaying flag images */}
+                                                            <img
+                                                                src={`https://flagcdn.com/${e.flag}.svg`} // Image path based on the country code
+                                                                alt={e.label}
+                                                                className="w-6 h-6 mr-2"
+                                                            />
+                                                            {e.label}
+                                                        </div>
+                                                    )}
+                                                    styles={{
+                                                        border: 'none', // Remove the border
+                                                        boxShadow: 'none', // Remove box shadow on focus
+                                                        '&:hover': {
+                                                            border: 'none', // Prevent border on hover
+                                                        },
+                                                    }}
+                                                />
+                                                
+                                            </span>
+                                        </div>
+
+                                        <div className='pb-4'>
+
+                                            <div className='d-flex pt-3 pb-2 gap-3 align-items-center' style={{ color: "#333333" }}>Print Technology <FiInfo color='#6B6B6B' /></div>
+                                            {data?.printDetails?.printType?.map((item, index) => {
+                                                if (item === "Direct To Garment (DTG)")
+                                                    return (
+                                                        <Button
+
+                                                            variant="primary"
+                                                            className=' fs-6 me-2'
+                                                            style={{
+                                                                backgroundColor: "#525252", // Background color
+                                                                color: "#FFFFFF", // Text color
+                                                                borderColor: "#525252", // Border color (if needed),
+                                                                borderRadius: "6px"
+                                                            }}
+                                                        >
+                                                            Direct-to-garment (DTG)
+                                                        </Button>)
+
+                                                return (
+                                                    <Button
+                                                        variant="primary"
+                                                        className=' fs-6 p-2'
+                                                        style={{
+                                                            backgroundColor: "#FFFFFF", // Background color
+                                                            color: "#333333", // Text color
+                                                            borderColor: "#0000001A", // Border color (if needed),
+                                                            borderRadius: "6px",
+                                                            height: "100%"
+                                                        }}
+                                                    >
+                                                        Embroidery <span style={{ fontSize: "12px", color: "white", backgroundColor: '#189A7B', borderRadius: "10px" }} className='p-1'>New</span>
+                                                    </Button>
+                                                )
+
+                                            })}
+
+                                        </div>
+
+                                        {/* Colors */}
+                                        <div className="mb-2 mt-4 pb-4">
+                                            <p className="fs-6 fw-semibold">Color:<b className='fw-semibold'> {selectedColor}</b></p>
+                                            <div className="d-flex flex-wrap gap-2 mt-2 ">
+                                                {colors.map((color, index) => (
+                                                    <div
+                                                        key={index}
+                                                        onClick={() => setSelectedColor(color)}
+                                                        style={{
+                                                            backgroundColor: color,
+                                                            width: '20px',
+                                                            height: '20px',
+                                                            border: selectedColor === color ? '1px solid black ' : '1px solid #ccc',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            borderRadius: "5px",
+                                                            justifyContent: 'center',
+                                                            cursor: 'pointer',
+                                                            position: 'relative'
+                                                        }}
+                                                    >
+
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Sizes */}
+                                        <div className="mt-4 mb-4">
+                                            <div className="d-flex">
+                                                <h3 className="fs-6 fw-semibold">Size: <b className=''> {selectedSize}</b></h3>
+                                                <h3 className="fs-6 fw-semibold ms-auto" style={{ color: "#367BF5" }}>Size guide</h3>
+                                            </div>
+                                            <div className="d-flex flex-wrap gap-2 mt-2">
+                                                {sizes.map((size, index) => (
+                                                    <Button onClick={() => setSelectedSize(size)} key={index} style={{ color: selectedSize === size ? '#FFFFFF' : "#212121", backgroundColor: selectedSize === size ? '#525252' : '#FFFFFF', borderColor: "#BDBDBD" }} variant="outline-secondary" className="px-3 py-2">
+                                                        {size}
+                                                    </Button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {data.stock < 5 ? data.stock === 0 ? <p style={{ color: "red" }}>Out off stock</p> : <p style={{ color: "red" }}> Only {data.stock}* left</p> : ""}
+                                        </div>
+
+                                        <div className='d-flex gap-2 mb-4'>
+                                            <Button
+                                                onClick={() => { navigate("/PStudioFilePage") }}
+                                                variant="primary"
+                                                className='fw-bold flex-grow-1'
+                                                style={{
+                                                    backgroundColor: "#000088",
+                                                    color: "white",
+                                                    borderColor: "#000080",
+                                                }}
+                                            >
+                                                Start designing
                                             </Button>
-                                        ))}
+                                            <Button
+                                                variant="primary"
+                                                className='fs-6 flex-grow-1'
+                                                style={{
+                                                    backgroundColor: "#525252",
+                                                    color: "#FFFFFF",
+                                                    borderColor: "#0000004D",
+                                                    borderRadius: "6px"
+                                                }}
+                                            >
+                                                Add to store
+                                            </Button>
+                                        </div>
+                                        <div className='mb-4'>
+                                            <div className='d-flex gap-2 pb-1  align-items-center'><PiGlobeSimpleBold size={20} color='#333333' /> Fulfilled in <b>14</b> countries</div>
+                                            <div className='d-flex gap-2 pb-1 align-items-center'><MdOutlineLocalShipping size={20} color='#333333' />Standard shipping: estimated delivery in <b> 11-13 business days </b> <FiInfo color='#6B6B6B' /></div>
+                                            <div className='d-flex gap-2 pb-1 align-items-center'><LiaShippingFastSolid size={20} color='#333333' />Express shipping: estimated delivery in <b> 10 business days </b> <FiInfo color='#6B6B6B' /></div>
+                                        </div>
+
                                     </div>
-                                </div>
-                                <div>
-                                    {data.stock<5 ? data.stock==0 ?<p style={{color:"red"}}>Out off stock</p>:<p style={{color:"red"}}> Only {data.stock}* left</p>:""}
-                                </div>
-
-                                <div className='d-flex gap-2 mb-4'>
-                                    <Button
-                                        onClick={() => { navigate("/PStudioFilePage") }}
-                                        variant="primary"
-                                        className='fw-bold flex-grow-1'
-                                        style={{
-                                            backgroundColor: "#000088",
-                                            color: "white",
-                                            borderColor: "#000080",
-                                        }}
-                                    >
-                                        Start designing
-                                    </Button>
-                                    <Button
-                                        variant="primary"
-                                        className='fs-6 flex-grow-1'
-                                        style={{
-                                            backgroundColor: "#525252",
-                                            color: "#FFFFFF",
-                                            borderColor: "#0000004D",
-                                            borderRadius: "6px"
-                                        }}
-                                    >
-                                        Add to store
-                                    </Button>
-                                </div>
-                                <div className='mb-4'>
-                                    <div className='d-flex gap-2 pb-1  align-items-center'><PiGlobeSimpleBold size={20} color='#333333' /> Fulfilled in <b>14</b> countries</div>
-                                    <div className='d-flex gap-2 pb-1 align-items-center'><MdOutlineLocalShipping size={20} color='#333333' />Standard shipping: estimated delivery in <b> 11-13 business days </b> <FiInfo color='#6B6B6B' /></div>
-                                    <div className='d-flex gap-2 pb-1 align-items-center'><LiaShippingFastSolid size={20} color='#333333' />Express shipping: estimated delivery in <b> 10 business days </b> <FiInfo color='#6B6B6B' /></div>
-                                </div>
-
-                            </div>
-                        </Col>
-                    </Row>
+                                </Col>
+                            </Row>
 
 
 
-                </div>
-            </div>
-            <div className='ps-5 pe-5 me-5 ms-5'>
-                {/* Tabs */}
-                <div
-                    className='p-2 text-center pt-4'
-                    style={{
-                        height: "70px",
-                        color: "#212121",
-                        border: "1px solid #0000000F",
-                        borderRadius: "6px",
-                        backgroundColor: "white",
-                        boxShadow: `
+                        </div>
+                    </div>
+                    <div className='ps-5 pe-5 me-5 ms-5'>
+                        {/* Tabs */}
+                        <div
+                            className='p-2 text-center pt-4'
+                            style={{
+                                height: "70px",
+                                color: "#212121",
+                                border: "1px solid #0000000F",
+                                borderRadius: "6px",
+                                backgroundColor: "white",
+                                boxShadow: `
             0 2px 8px 0 rgba(0, 0, 0, 0.04),
             0 2px 2px 0 rgba(0, 0, 0, 0.06)
           `,
-                        alignItems: "center"
-                    }}
-                >
-                    <Row>
+                                alignItems: "center"
+                            }}
+                        >
+                            <Row>
+                                {tabs.map((tab, index) => (
+                                    <Col
+                                        key={index}
+                                        onClick={() => handleTabClick(index)}
+                                        style={{
+                                            fontWeight: selectedTab === index ? "bold" : "normal",
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            textAlign: 'center',
+                                            cursor: "pointer"
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                borderBottom: selectedTab === index ? "2px solid #212121" : "none"
+                                            }}
+                                        >
+                                            {tab.title}
+                                        </div>
+                                    </Col>
+                                ))}
+                            </Row>
+                        </div>
+
+                        {/* Sections */}
                         {tabs.map((tab, index) => (
-                            <Col
+                            <div
                                 key={index}
-                                onClick={() => handleTabClick(index)}
-                                style={{
-                                    fontWeight: selectedTab === index ? "bold" : "normal",
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    textAlign: 'center',
-                                    cursor: "pointer"
-                                }}
+                                ref={sectionRefs.current[index]}
+                                className='mt-2'
+
                             >
-                                <div
-                                    style={{
-                                        borderBottom: selectedTab === index ? "2px solid #212121" : "none"
-                                    }}
-                                >
-                                    {tab.title}
-                                </div>
-                            </Col>
+                                {tab.content}
+
+
+                            </div>
                         ))}
-                    </Row>
-                </div>
-
-                {/* Sections */}
-                {tabs.map((tab, index) => (
-                    <div
-                        key={index}
-                        ref={sectionRefs.current[index]}
-                        className='mt-2'
-
-                    >
-                        {tab.content}
-
-
                     </div>
-                ))}
-            </div>
-        </div >
+                </div >
 
     )
 }
@@ -784,8 +828,8 @@ const StockAvailabilityContent = ({ available_colors }) => {
     )
 }
 
-const SizeGuideContent = ({ size_table=[] }) => {
-    
+const SizeGuideContent = ({ size_table = [] }) => {
+
 
     const sizeChart = [
         { size: "S", length: "71.1 cm", halfChest: "45.7 cm" },
@@ -830,7 +874,7 @@ const SizeGuideContent = ({ size_table=[] }) => {
             <p className='fw-bold  fs-5 ps-3 pe-3 ' >Size guide</p>
             <Row className='ps-3 pe-3'>
                 <Col md={4} sm={4}>
-                    <img src={sizeguide} alt='size guide image' />
+                    <img src={sizeguide} alt='sizeguideimage' />
                 </Col>
                 <Col md={8} sm={8}>
                     <p className='fw-bold  ' > A) Length</p>
