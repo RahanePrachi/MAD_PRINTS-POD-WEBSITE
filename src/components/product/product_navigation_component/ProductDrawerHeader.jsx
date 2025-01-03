@@ -202,6 +202,7 @@ const DashboardLayout = () => {
         : `http://localhost:5000/api/v1/product/getproducts?categoryId=${id}`;
 
       const response = await axios.get(url);
+      console.log("Printing id : ", id);
       console.log("Products Response: ", response);
       // Check if response contains data and if data is not empty
       const products = response.data?.data || []; // Default to an empty array if data is undefined
@@ -272,33 +273,33 @@ const DashboardLayout = () => {
     }));
   };
 
-  // Sample Data
-  const listItems = [
-    { id: 1, title: "New Lower Prices", type: "item" },
-    {
-      id: 2,
-      title: "Men's clothing",
-      type: "dropdown",
-      subItems: ["T-Shirts", "Hoodies", "Sweatshitrs"],
-    },
-    {
-      id: 3,
-      title: "Women's clothing",
-      type: "dropdown",
-      subItems: ["Shirts", "Pants", "Accessories"],
-    },
-    { id: 4, title: "Kids & baby clothing", type: "item" },
-    { id: 5, title: "Tote Bags", type: "item" },
-    { id: 6, title: "Wall art", type: "dropdown", subItems: [] },
-    { id: 7, title: "Calendars", type: "item" },
-    { id: 8, title: "Cards", type: "item" },
-    { id: 9, title: "Photo books", type: "dropdown", subItems: [] },
-    { id: 10, title: "Hats", type: "item" },
-    { id: 11, title: "Phone cases", type: "item" },
-    { id: 12, title: "Mugs & Bottle", type: "item" },
-    { id: 13, title: "Stationery & Business", type: "item" },
-    { id: 14, title: "Brands", type: "item" },
-  ];
+  // // Sample Data
+  // const listItems = [
+  //   { id: 1, title: "New Lower Prices", type: "item" },
+  //   {
+  //     id: 2,
+  //     title: "Men's clothing",
+  //     type: "dropdown",
+  //     subItems: ["T-Shirts", "Hoodies", "Sweatshitrs"],
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Women's clothing",
+  //     type: "dropdown",
+  //     subItems: ["Shirts", "Pants", "Accessories"],
+  //   },
+  //   { id: 4, title: "Kids & baby clothing", type: "item" },
+  //   { id: 5, title: "Tote Bags", type: "item" },
+  //   { id: 6, title: "Wall art", type: "dropdown", subItems: [] },
+  //   { id: 7, title: "Calendars", type: "item" },
+  //   { id: 8, title: "Cards", type: "item" },
+  //   { id: 9, title: "Photo books", type: "dropdown", subItems: [] },
+  //   { id: 10, title: "Hats", type: "item" },
+  //   { id: 11, title: "Phone cases", type: "item" },
+  //   { id: 12, title: "Mugs & Bottle", type: "item" },
+  //   { id: 13, title: "Stationery & Business", type: "item" },
+  //   { id: 14, title: "Brands", type: "item" },
+  // ];
 
   return (
     <div className="d-flex">
