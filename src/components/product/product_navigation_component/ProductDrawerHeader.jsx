@@ -177,35 +177,34 @@ const DashboardLayout = () => {
   };
 
   const [categories, setCategories] = useState([]);
-
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/category/showAllCategories"
+      );
+      console.log("Printing response of showAllCategories: ", response);
+      setCategories(response.data.data); // Assuming the data is in `data.data`
+    } catch (error) {
+      console.error("Error fetching categories:", error.message);
+    }
+  };
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/category/showAllCategories"
-        );
-        console.log("Printing response of showAllCategories: ", response);
-        setCategories(response.data.data); // Assuming the data is in `data.data`
-      } catch (error) {
-        console.error("Error fetching categories:", error.message);
-      }
-    };
+
 
     fetchCategories();
   }, []);
 
-  const handleSelectCatalog = async (id, isSubcategory = false) => {
+  const handleSelectCatalog = async (id, index, isSubcategory = false) => {
     try {
       setLoading(true);
-      const url = isSubcategory
-        ? `http://localhost:5000/api/v1/product/getproducts?subcategoryId=${id}`
-        : `http://localhost:5000/api/v1/product/getproducts?categoryId=${id}`;
+      // const url = isSubcategory
+      //   ? `http://localhost:5000/api/v1/product/getproducts?subcategoryId=${id}`
+      //   : `http://localhost:5000/api/v1/product/getproducts?categoryId=${id}`;
 
       const response = await axios.get(url);
-      console.log("Printing id : ", id);
       console.log("Products Response: ", response);
       // Check if response contains data and if data is not empty
-      const products = response.data?.data || []; // Default to an empty array if data is undefined
+      const products = categories[index]?.subcategories || []; // Default to an empty array if data is undefined
       if (products.length > 0) {
         setSelectedCatalog(products); // If products are found, set them
       } else {
@@ -306,15 +305,14 @@ const DashboardLayout = () => {
       {/* Sidebar Drawer */}
       {isDrawerActive && (
         <div
-          className={`drawer bg-light bg-white ${
-            expanded
+          className={`drawer bg-light bg-white ${expanded
               ? isDrawerActive
                 ? "expanded"
                 : "hide"
               : isDrawerActive
-              ? "collapsed"
-              : "hide"
-          }`}
+                ? "collapsed"
+                : "hide"
+            }`}
         >
           {/* Drawer Header */}
 
@@ -837,21 +835,22 @@ const DashboardLayout = () => {
                                                 style={{ borderRadius: "0px" }}
                                                 variant="top"
                                                 src={item.image}
-                                               
+
                                               />
                                               <Card.Body>
                                                 <Card.Title className="fs-6">
-                                                  {item.title}
+                                                  {item.subCategoryName}
                                                 </Card.Title>
                                               </Card.Body>
                                             </Card>
                                           </Col>
                                         ))
-                                      ) : (
-                                        <p>
-                                          No products available for this
-                                          category or subcategory.
-                                        </p>
+                                      ) : (handleNavigate()
+                                        // <p>
+
+                                        //   No products available for this
+                                        //   category or subcategory.
+                                        // </p>
                                       )}
                                     </Row>
                                   </div>
@@ -860,8 +859,8 @@ const DashboardLayout = () => {
                                   categories.map((item, index) => (
                                     <Col key={index} md={4} className="mb-4">
                                       <Card
-                                      onClick={() => (createDesigns ?  handleSelectCatalog(item._id) : handleNavigate())}
-                                       
+                                        onClick={() => (createDesigns ? handleSelectCatalog(item._id, index) : handleNavigate())}
+
                                         style={{
                                           borderRadius: "0px",
                                           border: "none",
