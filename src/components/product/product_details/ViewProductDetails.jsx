@@ -20,14 +20,14 @@ import { TbTriangleOff } from "react-icons/tb";
 import { TbWashTemperature2 } from "react-icons/tb";
 import { TbWashDry1 } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
-import { getProductById } from '../../../services/apiService';
+import { getCategoryAndSubcategoryById, getProductById } from '../../../services/apiService';
 const colors = [
     '#FFFFFF', '#E7CEB5', '#E4C6D4', '#C8C9C7', '#CABFAD', '#A4C8E1', '#EEAD1A',
     '#7BA4DB', '#97999B', '#DD74A1', '#F4633A', '#DB3E79', '#5E7461',
     '#00A74A', '#224D8F', '#D50032', '#7D2935', '#8A1538', '#5B2B42',
     '#273B33', '#263147', '#351F65', '#25282A'
 ];
-const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
+const ViewProductDetails = ({ product_id = "6777b51dfe6b82b664407a58" }) => {
 
 
     const countryOptions = [
@@ -60,7 +60,18 @@ const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
         try {
             const data = await getProductById(product_id)
             console.log("data:", data);
+            const category=await getCategoryAndSubcategoryById(data?.category,"")?.data
 
+            data["categoryName"]=category;
+            if (category?.subcategories?.length !==0){
+                const subcategory=category?.subcategories?.find((subcategory)=>{
+                    if (subcategory._id===data?.sub_category){
+                        return subcategory
+                    }})
+                data.sub_category=subcategory?.subCategoryName || "";
+            }
+            console.log(category);
+            
             data.available_colors ? setColors(data.available_colors) : setColors(colors);
             setResponseData(data)
         } catch (e) {
@@ -136,9 +147,9 @@ const ViewProductDetails = ({ product_id = "6774d45bc37653da487d35e6" }) => {
                                 <Col md={12} sm={12} >
                                     <div className='d-flex gap-4 h-8 pt-1 pb-1' >
                                         <p>Choose Product</p>
-                                        <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.category}</p>
+                                        <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data?.categoryName?.name}</p>
                                         {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>Men's Clothing</p> */}
-                                        <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.sub_category}</p>
+                                        {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>{data.category.sub_category}</p> */}
                                         {/* <p style={{ cursor: "pointer" }} onClick={() => { navigate("/product") }}>T-shirts</p> */}
                                         {/* <b>Heavyweight Unisex Crewneck T-shirt | Gildan® 5000</b> */}
                                         <b>{data.title ? data.title : "Heavyweight Unisex Crewneck T-shirt | Gildan® 5000"}</b>
@@ -827,6 +838,7 @@ const StockAvailabilityContent = ({ available_colors }) => {
         </div>
     )
 }
+
 
 const SizeGuideContent = ({ size_table = [] }) => {
 

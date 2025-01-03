@@ -11,3 +11,15 @@ export const getProductById = async (id) => {
 
     }
 }
+
+export const getCategoryAndSubcategoryById = async ({category_id="6777b51dfe6b82b664407a58",subcategory_id}) => {
+    console.log("base url", base_url);
+    try {
+        const category = await axios.get(`${base_url}/category/categorydetails/${category_id}`)
+        // const subcategory = await axios.get(`${base_url}/category/categorydetails/${category_id}`)
+        return category.data
+    } catch (e) {
+        console.log("category error:", e);
+
+    }
+}
