@@ -830,11 +830,13 @@ const DashboardLayout = () => {
                                                 borderRadius: "0px",
                                                 border: "none",
                                               }}
+                                              onClick={handleNaviagteDesign}
                                             >
                                               <Card.Img
                                                 style={{ borderRadius: "0px" }}
                                                 variant="top"
                                                 src={item.image}
+                                               
                                               />
                                               <Card.Body>
                                                 <Card.Title className="fs-6">
@@ -857,9 +859,8 @@ const DashboardLayout = () => {
                                   categories.map((item, index) => (
                                     <Col key={index} md={4} className="mb-4">
                                       <Card
-                                        onClick={() =>
-                                          handleSelectCatalog(item._id)
-                                        }
+                                      onClick={() => (createDesigns ?  handleSelectCatalog(item._id) : handleNavigate())}
+                                       
                                         style={{
                                           borderRadius: "0px",
                                           border: "none",
