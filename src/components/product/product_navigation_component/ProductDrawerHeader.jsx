@@ -13,7 +13,7 @@ import {
 import { FaBars, FaUser, FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import axios from "axios";
 import { FaChevronDown, FaChevronUp, FaEllipsisV } from "react-icons/fa";
-
+import { getAllCategories } from "../../../services/apiService";
 import { IoMdAdd } from "react-icons/io";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ import wallart from "../assets/catalog/wallart.png";
 import womenscloth from "../assets/catalog/womenscloth.png";
 import menscloth from "../assets/catalog/menscloth.png";
 import ProductDesignCreateProduct from "../create_product/ProductDesignCreateProduct";
+import { getProducts } from "../../../services/apiService";
 import { FaArrowLeft } from "react-icons/fa6";
 import Mockups from "../create_product/Mockups";
 import ProductDetails from "../create_product/ProductDetails";
@@ -47,6 +48,7 @@ const DashboardLayout = () => {
   const [expanded, setExpanded] = useState(true); // Drawer expanded/collapsed state
   const [selectedIndex, setSelectedIndex] = useState(1); // To track selected item index
   const [loading, setLoading] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const [activeKey, setActiveKey] = useState("/home"); // Track the active tab
   const toggleExpand = () => {
     setIsDrawerActive(true);
@@ -128,7 +130,22 @@ const DashboardLayout = () => {
     navigate("/product");
   };
 
-  const handleNaviagteDesign = () => {
+  // const handleNaviagteDesign = () => {
+  //   // Create a new steps array with updated values
+  //   setStep((prevSteps) => {
+  //     const updatedSteps = [...prevSteps];
+  //     updatedSteps[currentStep + 1].isCompleted = true; // Set 'Design' step as completed
+  //     return updatedSteps;
+  //   });
+
+  //   setCreateDesign(true);
+  //   setCurrentStep(currentStep + 1);
+  // };
+
+
+  const handleNaviagteDesign = (productId) => {
+
+    setSelectedProductId(productId); // Update the selected product ID
     // Create a new steps array with updated values
     setStep((prevSteps) => {
       const updatedSteps = [...prevSteps];
@@ -139,7 +156,6 @@ const DashboardLayout = () => {
     setCreateDesign(true);
     setCurrentStep(currentStep + 1);
   };
-
   const HandleStepBack = () => {
     setCurrentStep((prev) => {
       if (prev < 0) return 0;
@@ -177,47 +193,67 @@ const DashboardLayout = () => {
   };
 
   const [categories, setCategories] = useState([]);
-  const fetchCategories = async () => {
+  const fetchAndSetCategories = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/v1/category/showAllCategories"
-      );
-      console.log("Printing response of showAllCategories: ", response);
-      setCategories(response.data.data); // Assuming the data is in `data.data`
+      const fetchedCategories = await getAllCategories(); // Fetch categories using the service function
+      setCategories(fetchedCategories); // Set categories in state
     } catch (error) {
-      console.error("Error fetching categories:", error.message);
-    }
-  };
-  useEffect(() => {
-
-
-    fetchCategories();
-  }, []);
-
-  const handleSelectCatalog = async (id, index, isSubcategory = false) => {
-    try {
-      setLoading(true);
-      // const url = isSubcategory
-      //   ? `http://localhost:5000/api/v1/product/getproducts?subcategoryId=${id}`
-      //   : `http://localhost:5000/api/v1/product/getproducts?categoryId=${id}`;
-
-      const response = await axios.get(url);
-      console.log("Products Response: ", response);
-      // Check if response contains data and if data is not empty
-      const products = categories[index]?.subcategories || []; // Default to an empty array if data is undefined
-      if (products.length > 0) {
-        setSelectedCatalog(products); // If products are found, set them
-      } else {
-        setSelectedCatalog([]); // If no products are found, set selectedCatalog to an empty array
-      }
-      setCatalogOpen(true);
-    } catch (error) {
-      console.error("Error fetching products:", error.message);
+      console.error("Failed to fetch categories:", error.message);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchAndSetCategories(); // Call fetchAndSetCategories inside useEffect
+  }, []);
+  // const handleSelectCatalog = async (id, index, isSubcategory = false) => {
+  //   try {
+  //     setLoading(true);
+  //     // const url = isSubcategory
+  //     //   ? `http://localhost:5000/api/v1/product/getproducts?subcategoryId=${id}`
+  //     //   : `http://localhost:5000/api/v1/product/getproducts?categoryId=${id}`;
+
+  //     // const response = await axios.get(url);
+  //     // console.log("Products Response: ", response);
+  //     // Check if response contains data and if data is not empty
+     
+  //     const products = categories[index]?.products || []; // Default to an empty array if data is undefined
+  //     if (products.length > 0 ) {
+  //       setSelectedCatalog(products); // If products are found, set them
+  //       console.log("selectedCatelog data: ", products)
+  //     } else {
+  //       setSelectedCatalog([]); // If no products are found, set selectedCatalog to an empty array
+  //     }
+  //     setCatalogOpen(true);
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
+  const handleSelectCatalog = async (id, isSubcategory = false) => {
+    try {
+      setLoading(true);
+      const products = await getProducts(id, isSubcategory);
+      console.log("Products:", products);
+  
+      if (products && products.length > 0) {
+        setSelectedCatalog(products); // Set products if found
+      } else {
+        setSelectedCatalog([]); // Empty array if no products
+      }
+  
+      setCatalogOpen(true);
+    } catch (error) {
+      console.error("Error in handleSelectCatalog:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleBack = () => {
     setCatalogOpen(false);
     setSelectedCatalog([]);
@@ -442,8 +478,10 @@ const DashboardLayout = () => {
                 <CreateProductNavbar
                   steps={steps}
                   currentStep={currentStep}
-                  handleNaviagteDesign={handleNaviagteDesign}
+                  // handleNaviagteDesign={handleNaviagteDesign}
+                  handleNaviagteDesign={() => handleNaviagteDesign(selectedProductId)}
                   handlePublish={handlePublish}
+                  productId={selectedProductId} // Pass the selected product ID
                 />
               ) : (
                 <Nav className="ms-auto align-items-center">
@@ -494,6 +532,7 @@ const DashboardLayout = () => {
                 handleImageClickCreateDesignFile={
                   handleImageClickCreateDesignFile
                 }
+                productId={selectedProductId} // Pass the selected product ID
               />
             </div>
           )}
@@ -664,7 +703,8 @@ const DashboardLayout = () => {
                                           <a
                                             onClick={() =>
                                               handleSelectCatalog(sub._id, true)
-                                            }
+                                            } 
+                                            
                                             style={{
                                               textDecoration: "none",
                                               cursor: "pointer",
@@ -829,17 +869,18 @@ const DashboardLayout = () => {
                                                 borderRadius: "0px",
                                                 border: "none",
                                               }}
-                                              onClick={handleNaviagteDesign}
+                                              // onClick={handleNaviagteDesign}
+                                              onClick={() => handleNaviagteDesign(item._id)} // Pass the productId
                                             >
                                               <Card.Img
                                                 style={{ borderRadius: "0px" }}
                                                 variant="top"
-                                                src={item.image}
+                                                src={item.thumbnail}
 
                                               />
                                               <Card.Body>
                                                 <Card.Title className="fs-6">
-                                                  {item.subCategoryName}
+                                                  {item.title}
                                                 </Card.Title>
                                               </Card.Body>
                                             </Card>
@@ -859,7 +900,7 @@ const DashboardLayout = () => {
                                   categories.map((item, index) => (
                                     <Col key={index} md={4} className="mb-4">
                                       <Card
-                                        onClick={() => (createDesigns ? handleSelectCatalog(item._id, index) : handleNavigate())}
+                                        onClick={() => (createDesigns ? handleSelectCatalog(item._id) : handleNavigate())}
 
                                         style={{
                                           borderRadius: "0px",

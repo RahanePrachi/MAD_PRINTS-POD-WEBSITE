@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getProductById } from "../../../services/apiService";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { Navbar, Nav, ListGroup, Tab, Card } from "react-bootstrap";
 import { MdOutlineLayers } from "react-icons/md";
@@ -50,8 +51,10 @@ import previewImg from "./assets/FileImg/preview_thumbnail (15).png";
 const ProductDesignCreateProduct = ({
   handleImageClickCreateDesignFile,
   createDesignFile,
+  productId,
 }) => {
   const colors = [
+    '#FFFFFF', '#1E90FF','#000000',
     "#E7CEB5",
     "#E4C6D4",
     "#C8C9C7",
@@ -92,6 +95,9 @@ const ProductDesignCreateProduct = ({
     previewImg12,
     previewImg13,
   ];
+  const [productData, setProductData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedColor, setSelectedColor] = useState("#FFFFFF"); // Default selected is white
   const [activeDiv, setActiveDiv] = useState(0);
   const [isSecondSectionActive, setIsSecondSectionActive] = useState(false);
@@ -146,6 +152,48 @@ const ProductDesignCreateProduct = ({
     },
   ];
 
+  useEffect(() => {
+    if (!productId) return;
+
+    const fetchProductData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await getProductById(productId); // Using the API function
+        console.log("Fetched product data:", data);
+        setProductData(data); // Set the fetched data
+      } catch (err) {
+        console.error("Error fetching product:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductData();
+  }, [productId]);
+
+  useEffect(() => {
+    if (productData) {
+      console.log("Updated product data:", productData);
+    }
+  }, [productData]);
+
+
+   // Conditional rendering to avoid destructuring if productData is null or undefined
+   if (!productData) return <div>Loading product data...</div>;
+
+   const {
+     title,
+     description,
+     available_colors = [],
+     size_table_attached = [],
+     printDetails = {},
+   } = productData;
+   const { printType = [] } = printDetails; // Safely destructure printType from printDetails
+
+   
   return (
     <Row>
       <div className="d-flex" style={{ fontFamily: "Roboto" }}>
@@ -205,7 +253,8 @@ const ProductDesignCreateProduct = ({
                 
                 <div style={{ color: "#212121" }} className="p-2 m-2">
                   <h2 style={{ color: "#212121" }} className="fs-5 fw-bold">
-                    Heavyweight Unisex Crewneck T-shirt | Gildan® 5000
+                    {/* Heavyweight Unisex Crewneck T-shirt | Gildan® 5000 */}
+                    {title}
                   </h2>
                   <div style={{ color: "#212121" }} className="text-muted">
                     Top selling Embroidery Product
@@ -224,14 +273,16 @@ const ProductDesignCreateProduct = ({
                     style={{ backgroundColor: "#F2F2F2", color: "#212121" }}
                     className="w-100 mb-2"
                   >
-                    Direct-to-garment (DTG)
+                    {/* Direct-to-garment (DTG) */}
+                    {printType[1]}
                   </Button>
                   <Button
                     variant="outline-secondary"
                     style={{ color: "#212121" }}
                     className="w-100"
                   >
-                    Embroidery
+                    {/* Embroidery */}
+                    {printType[0]}
                   </Button>
                 </div>
                 <div
@@ -241,32 +292,36 @@ const ProductDesignCreateProduct = ({
                 {/* Colors */}
                 <div className="mb-2 mt-4 p-2">
                   <h3 className="fs-6 fw-semibold">Color</h3>
-                  <div className="d-flex flex-wrap gap-2 mt-2 ">
-                    {colors.map((color, index) => (
-                      <div
-                        key={index}
-                        onClick={() => setSelectedColor(color)}
-                        style={{
-                          backgroundColor: color,
-                          width: "32px",
-                          height: "32px",
-                          border:
-                            selectedColor === color
-                              ? "2px solid black "
-                              : "1px solid #ccc",
-                          display: "flex",
-                          alignItems: "center",
-                          borderRadius: "2px",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                          position: "relative",
-                        }}
-                      >
-                        {selectedColor === color && (
-                          <MdDoneOutline size="18px" color="#909090" />
-                        )}
-                      </div>
-                    ))}
+                  <div className="d-flex flex-wrap gap-2 mt-2">
+                    {colors.map((color, index) => {
+                      const isAvailable = available_colors.includes(color);
+                      return (
+                        <div
+                          key={index}
+                          onClick={() => isAvailable && setSelectedColor(color)} // Only allow click if available
+                          style={{
+                            backgroundColor: color,
+                            width: "32px",
+                            height: "32px",
+                            border:
+                              selectedColor === color
+                                ? "2px solid black"
+                                : "1px solid #ccc",
+                            display: "flex",
+                            alignItems: "center",
+                            borderRadius: "2px",
+                            justifyContent: "center",
+                            cursor: isAvailable ? "pointer" : "not-allowed", // Change cursor based on availability
+                            position: "relative",
+                            opacity: isAvailable ? 1 : 0.5, // Dim inactive colors
+                          }}
+                        >
+                          {selectedColor === color && isAvailable && (
+                            <MdDoneOutline size="18px" color="#909090" />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
                 <div

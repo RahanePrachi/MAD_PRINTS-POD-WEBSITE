@@ -15,14 +15,23 @@ const OrderProducts = () => {
 
   const [activeSteps, setActiveSteps] = useState(["products"]);
   const [currentStep, setCurrentStep] = useState("products");
-
+  const [billingData, setBillingData] = useState(null);
   const handleContinue = () => {
     if (currentStep === "products") {
       setActiveSteps((prev) => [...prev, "shipping"]);
       setCurrentStep("billing");
-    } else if (currentStep === "billing") {
-      setActiveSteps((prev) => [...prev, "shippingMode"]);
-      setCurrentStep("shippingMode");
+    } else if (currentStep === "billing" ) {
+      // console.log("Form data: ", billingData); // Print form data here
+      // setActiveSteps((prev) => [...prev, "shippingMode"]);
+      // setCurrentStep("shippingMode");
+
+      console.log("Form data:", billingData); // Log the billing data
+      if (billingData) {
+        setActiveSteps((prev) => [...prev, "shippingMode"]);
+        setCurrentStep("shippingMode");
+      } else {
+        alert("Please fill out the billing details before continuing.");
+      }
     } else if (currentStep === "shippingMode") {
       setActiveSteps((prev) => [...prev, "payment"]);
       setCurrentStep("payment");
@@ -34,6 +43,11 @@ const OrderProducts = () => {
     }
   };
 
+  const handleBillingSubmit = (formData) => {
+    setBillingData(formData);
+    console.log("Printing billing data : ", billingData)
+    // handleContinue();
+  };
   const getButtonText = () => {
     if (currentStep === "billing") return "Continue to shipping";
     if (currentStep === "shippingMode") return "Continue to payment";
@@ -97,6 +111,7 @@ const OrderProducts = () => {
           <div className="flex px-4 lg:mx-9">
             {currentStep !== "home"  && (
               <button
+               
                 className="font-segoe text-white bg-[#000088] py-2 px-4 lg:py-3 lg:px-6 rounded-lg"
                 onClick={handleContinue}
               >
@@ -111,7 +126,7 @@ const OrderProducts = () => {
           {currentStep === "products" && <div><Products  handleConfirmPayment={handleContinue}/></div>}
           {currentStep === "billing" && (
             <div className="">
-              <BillingDetails />
+              <BillingDetails  onChange={handleBillingSubmit}/>
             </div>
           )}
           {currentStep === "shippingMode" && (

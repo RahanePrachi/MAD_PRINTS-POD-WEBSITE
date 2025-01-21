@@ -251,7 +251,7 @@ const ProductDetails = () => {
                 {/* Checkbox */}
                 <input
                   type="checkbox"
-                  id="checkbox"
+                  id="checkbox" checked
                   className="w-6 h-6 bg-transparent border-2 border-[#333333] rounded-lg focus:ring-0 checked:bg-[#333333] checked:border-[#333333] checked:ring-0"
                 />
                 {/* Label */}
@@ -269,7 +269,7 @@ const ProductDetails = () => {
               {/* Checkbox */}
               <input
                 type="checkbox"
-                id="checkbox"
+                id="checkbox" checked
                 className="w-6 h-6 bg-transparent border-2 border-[#333333] rounded-lg focus:ring-0 checked:bg-[#333333] checked:border-[#333333] checked:ring-0"
               />
               {/* Label */}
@@ -317,7 +317,7 @@ const ProductDetails = () => {
               {/* Checkbox */}
               <input
                 type="checkbox"
-                id="checkbox"
+                id="checkbox" checked
                 className="w-6 h-6 bg-transparent border-2 border-[#333333] rounded-lg focus:ring-0 checked:bg-[#333333] checked:border-[#333333] checked:ring-0"
               />
               {/* Label */}
@@ -370,7 +370,7 @@ const ProductDetails = () => {
                 {/* Checkbox */}
                 <input
                   type="checkbox"
-                  id="checkbox"
+                  id="checkbox" checked
                   className="w-6 h-6 bg-transparent border-2 border-[#333333] rounded-lg focus:ring-0 checked:bg-[#333333] checked:border-[#333333] checked:ring-0"
                 />
                 {/* Label */}
@@ -497,7 +497,7 @@ const ProductDetails = () => {
               {/* Checkbox */}
               <input
                 type="checkbox"
-                id="checkbox"
+                id="checkbox" checked
                 className="w-6 h-6 bg-transparent border-2 border-[#333333] rounded-lg focus:ring-0 checked:bg-[#333333] checked:border-[#333333] checked:ring-0"
               />
               {/* Label */}
@@ -520,7 +520,7 @@ const ProductDetails = () => {
               {/* Checkbox */}
               <input
                 type="checkbox"
-                id="checkbox"
+                id="checkbox" 
                 className="w-6 h-6  bg-transparent border-2 border-[#333333] rounded-lg focus:ring-0 checked:bg-[#333333] checked:border-[#333333] checked:ring-0"
               />
               {/* Label */}

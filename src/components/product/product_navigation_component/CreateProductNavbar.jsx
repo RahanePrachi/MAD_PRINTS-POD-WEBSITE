@@ -1,8 +1,33 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Nav, Button } from 'react-bootstrap';
 import { MdDone } from "react-icons/md";
+import { getProductById } from '../../../services/apiService';
+const CreateProductNavbar = ({steps, currentStep,handleNaviagteDesign, handlePublish , productId}) => {
 
-const CreateProductNavbar = ({steps, currentStep,handleNaviagteDesign, handlePublish}) => {
+    const [productData, setProductData] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+    useEffect(() => {
+        if (!productId) return;
+    
+        const fetchProductData = async () => {
+          setLoading(true);
+          setError(null);
+    
+          try {
+            const data = await getProductById(productId);
+            console.log("Fetched product data:", data);
+            setProductData(data); // Set the fetched data
+          } catch (err) {
+            console.error("Error fetching product:", err);
+            setError(err.message);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchProductData();
+      }, [productId]);
     return (
         <>
 

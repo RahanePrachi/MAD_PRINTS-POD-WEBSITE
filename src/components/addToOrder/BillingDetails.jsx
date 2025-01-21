@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const BillingDetails = () => {
+const BillingDetails = ({ onChange = () => {} }) => {
   const [formData, setFormData] = useState({
     FistName: "",
     LastName: "",
@@ -26,6 +26,12 @@ const BillingDetails = () => {
     state,
   } = formData;
 
+  useEffect(() => {
+    onChange(formData); // Pass the form data to the parent whenever it changes
+    console.log("printing form data : ", formData)
+  }, [formData, onChange]);
+
+
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -39,6 +45,7 @@ const BillingDetails = () => {
     const FormData = {
       ...formData,
     };
+    // onSubmit(formData); // Pass the form data to the parent component
     console.log("Form data: ", FormData);
 
     // Reset
@@ -208,6 +215,7 @@ const BillingDetails = () => {
               </select>
             </label>
           </div>
+
         </form>
       </div>
     </div>

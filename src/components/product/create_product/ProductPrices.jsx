@@ -14,9 +14,9 @@ const countryOptions = [
 ];
 
 const ProductPrices = () => {
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(countryOptions[0]);
   const [costInINR, setCostInINR] = useState(1000); // Example cost in INR
-  const [selectedCurrency, setSelectedCurrency] = useState(null);
+  const [selectedCurrency, setSelectedCurrency] = useState(countryOptions[1]);
 
   const headers = [
     {
